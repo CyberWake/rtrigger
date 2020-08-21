@@ -17,7 +17,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 60),
+      color: Colors.transparent,
+      margin: EdgeInsets.only(top: 60,left: 5,right: 5),
       child: GridView.builder(
         itemCount: 6,
           gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(

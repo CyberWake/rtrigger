@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user/screens/homescreen.dart';
+import 'package:user/screens/home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 import 'package:user/widgets/search.dart';
 
@@ -7,6 +7,9 @@ import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
+  final DrawerIndex screen;
+  final Widget viewScreen;
+  NavigationHomeScreen(this.screen,this.viewScreen);
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -18,7 +21,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   String UserName = " Aditya";
   String greeting = "Hello,";
   getCurrentDate(){
-
     var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
@@ -26,8 +28,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   }
   @override
   void initState() {
-    drawerIndex = DrawerIndex.HOME;
-    screenView = Home();
     getCurrentDate();
     super.initState();
   }
@@ -35,6 +35,8 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   Widget build(BuildContext context) {
     String appTitle = greeting+UserName;
+    screenView = widget.viewScreen;
+    drawerIndex = widget.screen;
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -42,12 +44,12 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         bottom: false,
         child: Scaffold(
           backgroundColor: AppTheme.nearlyWhite,
-          appBar: AppBar(
-            toolbarHeight: 65,
-            title: _getTitle(drawerIndex),
-            backgroundColor: AppTheme.grey,
-          ),
           body: DrawerUserController(
+            appBar: AppBar(
+              toolbarHeight: 50,
+              title: _getTitle(drawerIndex),
+              backgroundColor: AppTheme.grey,
+            ),
             screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width * 0.75,
             onDrawerCall: (DrawerIndex drawerIndexdata) {
@@ -70,19 +72,19 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                               children: [
                                 Column(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(finalDate,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.grey),),
-                                    Text("Hello, Aditya",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w900,color: Colors.black),),
+                                    Text(finalDate,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.grey),),
+                                    Text("Hello, Aditya",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
                                   ],
                                 ),
-                                Search(),
-                                IconButton(
+                                //Search(),
+                                /*IconButton(
                                   onPressed: (){
                                     print("cart button pressed");
                                   },
                                     icon:Icon(Icons.add_shopping_cart)
-                                )
+                                )*/
                               ]
                             );
                             break;
@@ -92,6 +94,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       case DrawerIndex.PROFILE: return Text("Profile");break;
       case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
       case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
+      case DrawerIndex.SANITIZERANDSPRAY: return Text("Sanitizer and Spray");break;
     }
   }
 

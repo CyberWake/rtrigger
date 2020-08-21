@@ -6,6 +6,7 @@ import 'homedrawer.dart';
 class DrawerUserController extends StatefulWidget {
   const DrawerUserController({
     Key key,
+    this.appBar,
     this.drawerWidth = 250,
     this.onDrawerCall,
     this.screenView,
@@ -14,7 +15,7 @@ class DrawerUserController extends StatefulWidget {
     this.drawerIsOpen,
     this.screenIndex,
   }) : super(key: key);
-
+  final Widget appBar;
   final double drawerWidth;
   final Function(DrawerIndex) onDrawerCall;
   final Widget screenView;
@@ -82,6 +83,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,
+      appBar: widget.appBar,
       body: SingleChildScrollView(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
@@ -143,7 +145,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
                         ),
                       // this just menu and arrow icon animation
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 8, left: 8),
+                        padding: EdgeInsets.only( left: 8),
                         child: SizedBox(
                           width: AppBar().preferredSize.height - 8,
                           height: AppBar().preferredSize.height - 8,

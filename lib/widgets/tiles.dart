@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/Models/categorytitle.dart';
+import 'package:user/screens/navigating_home_screen.dart';
+import 'package:user/screens/sanitizer_spray_screen.dart';
+import 'package:user/widgets/custom_page_transition.dart';
+import 'homedrawer.dart';
 
 class Tiles extends StatelessWidget {
   final int index;
@@ -17,6 +21,51 @@ class Tiles extends StatelessWidget {
       return MainAxisAlignment.center;
     }
   }
+  _getNextScreen(int page,BuildContext context){
+    switch(page){
+      case 0:Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              )
+            );break;
+
+      case 1:Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              )
+            );break;
+
+      case 2:Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              )
+            );break;
+
+      case 3:Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              )
+            );break;
+
+      case 4:Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              )
+            );break;
+
+      case 5:
+        print('hi');
+        Navigator.push(
+              context,
+              SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen()))
+            );break;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     bool isMedicine = categoryItems[index].title=="Medicine"?true:false;
@@ -27,9 +76,11 @@ class Tiles extends StatelessWidget {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            print('Card tapped.');
+            _getNextScreen(index,context);
           },
           child: Container(
+            height: MediaQuery.of(context).size.width/2-10,
+            width: MediaQuery.of(context).size.width/2-10,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20)

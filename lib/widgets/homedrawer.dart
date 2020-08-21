@@ -272,6 +272,7 @@ enum DrawerIndex {
   PROFILE,
   NOTIFICATIONS,
   CONTACTUS,
+  SANITIZERANDSPRAY
 }
 
 class DrawerList {
