@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:user/screens/homescreen.dart';
 import 'package:user/screens/landingscreen.dart';
 
 import 'screens/sanitizer_and_spray_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SanitizerAndSprayScreen(),
+      home: Home(),
     );
   }
 }
