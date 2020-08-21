@@ -8,19 +8,32 @@ class CustomDrawer extends StatelessWidget {
   CustomDrawer(this.currentPage);
 
   Widget _tile(int num,BuildContext context){
-    return ListTile(
-      title: Text(navigationItems[num].title,
-        style: TextStyle(
-            fontSize:page==num?22:20,
-            color:page==num?Colors.black:Colors.black45,
-            fontWeight: page==num?FontWeight.bold:FontWeight.normal
-        ),
+    return Container(
+      margin: EdgeInsets.only(top: 2.5,bottom: 2.5,right: 50),
+      decoration: BoxDecoration(
+        color: page==num?Colors.orangeAccent:Colors.transparent,
+        borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
       ),
-      trailing: Icon(navigationItems[num].icon),
-      onTap: (){
-        page=num;
-        Navigator.pop(context);
-      },
+      child:ListTile(
+        title: Text(navigationItems[num].title,
+          style: TextStyle(
+              fontSize:page==num?22:20,
+              color:page==num?Colors.black:Colors.black45,
+              fontWeight: page==num?FontWeight.bold:FontWeight.normal
+          ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(navigationItems[num].icon,size: page==num?35:25,),
+            SizedBox(width: MediaQuery.of(context).size.width/4,)
+          ],
+        ),
+        onTap: (){
+          page=num;
+          Navigator.pop(context);
+        },
+      ),
     );
   }
   @override
