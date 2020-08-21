@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:user/Models/category%20title.dart';
+import 'package:user/Models/categorytitle.dart';
 
 class Tiles extends StatelessWidget {
   final int index;

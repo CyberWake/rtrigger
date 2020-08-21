@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/widgets/tiles.dart';
 
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 60),
       child: GridView.builder(
         itemCount: 6,
           gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
