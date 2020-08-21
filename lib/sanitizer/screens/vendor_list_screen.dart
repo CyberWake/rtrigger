@@ -32,12 +32,12 @@ class VendorListScreen extends StatelessWidget {
                     : snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return VendorListItem(
-                      vendorName:
-                          snapshot.data.docs[index].data()['vendorName'],
-                      location: snapshot.data.docs[index].data()[''],
+                      vendorName: snapshot.data.docs[index].data()['name'],
+                      location: snapshot.data.docs[index].data()['location'],
                       pricePerFeet:
-                          snapshot.data.docs[index].data()['pricePerFeet'],
-                      category: category);
+                          snapshot.data.docs[index].data()['pricePerFeet'].toString(),
+                      category: category,
+                      uid: snapshot.data.docs[index].data()['uid']);
                 });
           }
         },

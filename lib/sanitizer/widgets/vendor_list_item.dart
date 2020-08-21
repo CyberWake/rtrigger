@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:user/sanitizer/utilities/categories.dart';
 
+import '../screens/area_screen.dart';
+import '../screens/area_screen.dart';
+
 class VendorListItem extends StatelessWidget {
   final String vendorName;
   final String location;
   final String pricePerFeet;
   final Category category;
+  final String uid;
   VendorListItem(
       {@required this.vendorName,
       @required this.location,
       @required this.pricePerFeet,
-      @required this.category});
+      @required this.category,
+      @required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +35,21 @@ class VendorListItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Text(
-                'Keshav Rathore',
+                vendorName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Text(
-                'Delhi,trinagar',
+                '$location',
                 style: TextStyle(color: Colors.black54),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Text(
-                'Price Per Sq. Foot : ',
+                'Price Per Sq. Foot : ${pricePerFeet.toString()} Rs',
                 style: TextStyle(color: Colors.black54),
               ),
             ),
@@ -59,7 +64,15 @@ class VendorListItem extends StatelessWidget {
               textColor: Colors.white,
               height: screenHeight / 22,
               minWidth: screenWidth,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AreaScreen(
+                        uid: uid,
+                        vendorName: vendorName,
+                        pricePerFeet: pricePerFeet,
+                        location: location,
+                        category: category)));
+              },
               child: Text('ORDER NOW'),
             )
           ]),

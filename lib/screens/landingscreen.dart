@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/widgets/custom%20drawer.dart';
 import '../Models/appbar title.dart';
-import '../Models/navigation titles.dart';
 import '../widgets/search.dart';
 import '../screens/homescreen.dart';
 import 'package:user/global variables.dart';

@@ -1,9 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:user/sanitizer/utilities/categories.dart';
 import 'package:user/sanitizer/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
 import 'package:user/sanitizer/widgets/sanitize_gridtile.dart';
-import 'package:user/widgets/custom%20drawer.dart';
 
 class SanitizerAndSprayScreen extends StatefulWidget {
   @override

@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:user/sanitizer/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
 
+import '../utilities/categories.dart';
+
 class AreaScreen extends StatefulWidget {
+  final String uid, vendorName;
+  final String pricePerFeet;
+  final String location;
+  final Category category;
+
+  AreaScreen(
+      {@required this.uid,
+      @required this.vendorName,
+      @required this.pricePerFeet,
+      @required this.location,
+      @required this.category});
+
   @override
   _AreaScreenState createState() => _AreaScreenState();
 }
 
 class _AreaScreenState extends State<AreaScreen> {
-  final areaController = TextEditingController();
+  String areaText;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
+    final pricePerFeet = double.parse(widget.pricePerFeet);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -23,7 +39,7 @@ class _AreaScreenState extends State<AreaScreen> {
           Positioned(
             bottom: MediaQuery.of(context).size.width / 2.5,
             child: Image.asset(
-              'images/rtigger47.png',
+              'assets/img/rtigger47.png',
               fit: BoxFit.fill,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -59,12 +75,16 @@ class _AreaScreenState extends State<AreaScreen> {
                 ],
               ),
               child: TextField(
-                controller: areaController,
+                onChanged: (value) {
+                  setState(() {
+                    areaText = value;
+                  });
+                },
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.height * 0.02,
                     color: Color.fromRGBO(0, 44, 64, 1)),
                 //textAlign: TextAlign.center,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: 'Enter the Area in Sq.Ft.',
                   hintStyle: TextStyle(
@@ -108,6 +128,18 @@ class _AreaScreenState extends State<AreaScreen> {
               ),
             ),
           ),
+          Positioned(
+              top: screenHeight * 0.3,
+              left: screenWidth * 0.1,
+              right: screenWidth * 0.1,
+              child: Text(
+                'Your Total Will Be Rs.' +
+                    (areaText == null || areaText.isEmpty
+                            ? 0
+                            : pricePerFeet * double.tryParse(areaText))
+                        .toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              )),
         ],
       ),
     );
