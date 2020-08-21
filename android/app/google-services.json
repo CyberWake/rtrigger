@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "444741965628",
+    "firebase_url": "https://rtigger-user.firebaseio.com",
+    "project_id": "rtigger-user",
+    "storage_bucket": "rtigger-user.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444741965628:android:60536e5ad0532c66a73039",
+        "android_client_info": {
+          "package_name": "com.rtrigger.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444741965628-vb4mu8geihu8n4i0dk9q5b1fifmp52ph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxf9eTyySqxcDzNH8iu4Hl2o5E4rjLwjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444741965628-vb4mu8geihu8n4i0dk9q5b1fifmp52ph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
