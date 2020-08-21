@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:user/sanitizer/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
 
-import '../utilities/categories.dart';
+import '../Models/categories.dart';
 
 class AreaScreen extends StatefulWidget {
   final String uid, vendorName;

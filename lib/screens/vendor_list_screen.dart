@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import
+'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:user/sanitizer/utilities/categories.dart';
-import 'package:user/sanitizer/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
-import 'package:user/sanitizer/widgets/loading_bar.dart';
-import 'package:user/sanitizer/widgets/vendor_list_item.dart';
+import 'package:user/Models/categories.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/loading_bar.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/vendor_list_item.dart';
 
 class VendorListScreen extends StatelessWidget {
   final Category category;

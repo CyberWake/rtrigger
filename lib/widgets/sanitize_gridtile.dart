@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:user/sanitizer/screens/vendor_list_screen.dart';
-import 'package:user/sanitizer/utilities/categories.dart';
+import
+'package:flutter/material.dart';
+import 'package:user/Models/categories.dart';
+import 'package:user/screens/vendor_list_screen.dart';
 
 class SanitizeGridTile extends StatelessWidget {
   final String title;

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:user/sanitizer/utilities/categories.dart';
-
+import
+'package:flutter/material.dart';
+import 'package:user/Models/categories.dart';
 import '../screens/area_screen.dart';
 import '../screens/area_screen.dart';
 

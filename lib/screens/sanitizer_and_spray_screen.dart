@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:user/sanitizer/utilities/categories.dart';
-import 'package:user/sanitizer/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
-import 'package:user/sanitizer/widgets/sanitize_gridtile.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
+import 'file:///C:/Users/lenovo/Desktop/AndroidStudioProjects/rtrigger/lib/widgets/sanitize_gridtile.dart';
+import 'package:user/Models/categories.dart';
 
 class SanitizerAndSprayScreen extends StatefulWidget {
   @override
-  _SanitizerAndSprayScreenState createState() => _SanitizerAndSprayScreenState();
+  _SanitizerAndSprayScreenState createState() =>
+      _SanitizerAndSprayScreenState();
 }
 
 class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -33,18 +33,18 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
             Row(
               children: [
                 Expanded(
-                    child: SanitizeGridTile(
-                        'Sanitize', 'assets/img/sanitize.png', Category.sanitize)),
+                    child: SanitizeGridTile('Sanitize',
+                        'assets/img/sanitize.png', Category.sanitize)),
                 Expanded(
-                    child: SanitizeGridTile(
-                        'Mosquito', 'assets/img/mosquito.jpg', Category.mosquito)),
+                    child: SanitizeGridTile('Mosquito',
+                        'assets/img/mosquito.jpg', Category.mosquito)),
               ],
             ),
             Row(
               children: [
                 Expanded(
-                    child: SanitizeGridTile('Cockroach', 'assets/img/cockroch.jpg',
-                        Category.cockroach)),
+                    child: SanitizeGridTile('Cockroach',
+                        'assets/img/cockroch.jpg', Category.cockroach)),
                 Expanded(
                     child: Opacity(
                         opacity: 0,
