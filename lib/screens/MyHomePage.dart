@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/Models/appbar%20title.dart';
-import 'package:user_app/Models/navigation%20titles.dart';
-import 'package:user_app/screens/home.dart';
-import 'package:user_app/widgets/search.dart';
-
+import 'package:user/widgets/custom%20drawer.dart';
+import '../Models/appbar title.dart';
+import '../Models/navigation titles.dart';
+import '../widgets/search.dart';
+import '../screens/Home.dart';
+import 'package:user/global variables.dart';
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int page=0;
+
   String finalDate = '';
   String UserName = " Aditya";
   String greeting = "Hello,";
@@ -23,7 +24,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     getCurrentDate();
     super.initState();
   }
@@ -45,21 +45,16 @@ class _MyHomePageState extends State<MyHomePage> {
         toolbarHeight: MediaQuery.of(context).size.height/11,
         actions: [
           Search(),
+          IconButton(
+            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () {
+              //Navigator.of(context).push(MaterialPageRoute(builder: (_) => Cart()));
+            },
+            color: Colors.black,
+          )
         ],
       ),
-      drawer: Drawer(
-        child: ListView.builder(
-          itemCount: 6,
-          itemBuilder: (context, i) {
-            return  ListTile(
-              title: Text(navigationItems[i].title),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            );
-          },
-        ),
-      ),
+      drawer: CustomDrawer(page),
       body: Home(),
     );
   }

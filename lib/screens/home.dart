@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../colors.dart';
+import 'package:user/widgets/tiles.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +16,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:Colors.red,
+      child: GridView.builder(
+        itemCount: 6,
+          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,),
+          itemBuilder: (BuildContext context,int i)=>Tiles(i)
+      )
     );
   }
 }

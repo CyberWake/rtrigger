@@ -1,16 +1,18 @@
+import 'package:flutter/material.dart';
+
 class NavigationModel {
   String title;
-
-  NavigationModel({this.title});
+  IconData icon;
+  NavigationModel({this.title,this.icon});
 }
 
 List<NavigationModel> navigationItems = [
-  NavigationModel(title: "Home"),
-  NavigationModel(title: "Favourites"),
-  NavigationModel(title: "Orders"),
-  NavigationModel(title: "My Cart"),
-  NavigationModel(title: "Profile"),
-  NavigationModel(title: "Notifications"),
-  NavigationModel(title: "Contact Us"),
-  NavigationModel(title: "Logout"),
+  NavigationModel(title: "Home" ,icon: Icons.home),
+  NavigationModel(title: "Favourites" ,icon: Icons.favorite),
+  NavigationModel(title: "Orders" ,icon: Icons.notes),
+  NavigationModel(title: "My Cart" ,icon: Icons.shopping_cart),
+  NavigationModel(title: "Profile" ,icon: Icons.account_circle),
+  NavigationModel(title: "Notifications" ,icon: Icons.notifications),
+  NavigationModel(title: "Contact Us" ,icon: Icons.contact_mail),
+  NavigationModel(title: "Logout" ,icon: Icons.logout),
 ];

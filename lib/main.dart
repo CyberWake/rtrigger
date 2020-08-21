@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user_app/Models/appbar%20title.dart';
-import 'package:user_app/Models/navigation%20titles.dart';
-import 'package:user_app/screens/home.dart';
-import 'package:user_app/widgets/search.dart';
+import 'package:user/screens/MyHomePage.dart';
 
 void main() {
   runApp(MyApp());
