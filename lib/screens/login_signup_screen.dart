@@ -256,9 +256,9 @@
 //   }
 // }
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../auth/auth.dart';
@@ -294,11 +294,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Stream<User> user; // firebase user
   Stream<Map<String, dynamic>> profile; // custom user data in Firestore
-
 
   String _email;
   String _password;
@@ -326,6 +325,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         } else {
           final String userId =
           await auth.createUserWithEmailAndPassword(_email, _password);
+          await Auth().addUserDetails(_email,_name,userId);
 
           print('Registered user: $userId');
         }

@@ -42,7 +42,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
-import 'file:///C:/Users/VK/AndroidStudioProjects/user/lib/models/varialbes.dart';
+import 'package:user/models/varialbes.dart';
 import 'package:user/widgets/homedrawer.dart';
 import '../auth/auth.dart';
 import '../auth/authorizationProvider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/Models/apptheme.dart';
 import 'package:user/Models/navigation%20titles.dart';
-import 'file:///C:/Users/VK/AndroidStudioProjects/user/lib/models/varialbes.dart';
+import 'package:user/models/varialbes.dart';
 
 import '../screens/root_screen.dart';
 
