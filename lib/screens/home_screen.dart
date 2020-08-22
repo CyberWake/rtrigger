@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/widgets/tiles.dart';
@@ -11,6 +12,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   TabController tabController;
   @override
   void initState() {
+    Firebase.initializeApp();
     tabController=TabController(length: 4,vsync: this);
     super.initState();
   }
