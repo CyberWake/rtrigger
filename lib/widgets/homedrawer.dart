@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/Models/apptheme.dart';
 import 'package:user/Models/navigation%20titles.dart';
+import 'package:user/auth/auth.dart';
 import 'package:user/models/varialbes.dart';
 
 import '../screens/root_screen.dart';
@@ -162,9 +163,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
-                onTap: () {
+                onTap: () async{
                   authStatus = AuthStatus.notDetermined;
                   print(authStatus);
+                  print("Signing out");
+                  await Auth().signOut();
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RootPage()));
                 },
               ),
