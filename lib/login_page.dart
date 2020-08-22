@@ -256,6 +256,9 @@
 //   }
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import './auth.dart';
 import 'authorizationProvider.dart';
@@ -288,6 +291,13 @@ enum FormType {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Stream<User> user; // firebase user
+  Stream<Map<String, dynamic>> profile; // custom user data in Firestore
+
+
   String _email;
   String _password;
   FormType _formType = FormType.login;
@@ -308,10 +318,12 @@ class _LoginPageState extends State<LoginPage> {
         if (_formType == FormType.login) {
           final String userId =
               await auth.signInWithEmailAndPassword(_email, _password);
+
           print('Signed in: $userId');
         } else {
           final String userId =
               await auth.createUserWithEmailAndPassword(_email, _password);
+          
           print('Registered user: $userId');
         }
         widget.onSignedIn();
