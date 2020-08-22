@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:user/widgets/Food/food_item_card.dart';
 import 'package:user/services/Food/food_fetching.dart';
 
+import 'food_cart.dart';
+
 class FoodItems extends StatefulWidget {
 
   FoodItems({this.title, this.index});
@@ -16,22 +18,21 @@ class FoodItems extends StatefulWidget {
 class _FoodItemsState extends State<FoodItems> {
 
   FoodFetching foodFetching = FoodFetching();
-  List<dynamic> items;
+  List<dynamic> items = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-//    print(widget.index);
     getFoodItems();
-//    print("*******************");
-//    print(items);
-//    print("*******************");
   }
 
 
   void getFoodItems() async{
-    items = await foodFetching.getFood(widget.index);
+    var fetchedData = await foodFetching.getFood(widget.index);
+    setState(() {
+      items = fetchedData;
+    });
   }
 
   @override

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:user/widgets/Food/food_category_card.dart';
 import 'package:user/models/food_category_list.dart';
 
+import 'food_cart.dart';
+
 class FoodCategory extends StatefulWidget {
   @override
   _FoodCategoryState createState() => _FoodCategoryState();
@@ -41,6 +43,13 @@ class _FoodCategoryState extends State<FoodCategory> {
                           SizedBox(width: MediaQuery.of(context).size.width*0.7),
                           IconButton(
                             icon: Icon(Icons.add_shopping_cart),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context){
+                                    return FoodCart();
+                                  }
+                              ));
+                            },
                           ),
                         ],
                       ),

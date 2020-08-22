@@ -21,7 +21,7 @@ class Cart{
   }
 
 
-  void deleteFromCart({String userID, String productID}) async{
+  Future<bool> deleteFromCart({String userID, String productID}) async{
     try{
       var products = await _firestore.collection("cart").doc(userID).get();
       List<dynamic> productItems = products.get("products");
@@ -34,13 +34,34 @@ class Cart{
           }
         }
       }
-      _firestore.collection("cart").doc(userID).set({
+      await _firestore.collection("cart").doc(userID).set({
         "products": productItems,
       });
+      print("product removed");
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+  Future<List<dynamic>> getCartItems(String userID) async{
+
+    try{
+      var cartItems = await _firestore.collection("cart").doc(userID).get();
+      List<dynamic> products = cartItems.get("products");
+      if(products!=null){
+        return products;
+      }
+      else{
+        return [];
+      }
     }
     catch(e){
       print(e);
     }
+
   }
 
 }

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../models/apptheme.dart';
 
-class AddToCartButton extends StatelessWidget {
+class CartButton extends StatelessWidget {
+
+  CartButton({this.title});
+
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +18,7 @@ class AddToCartButton extends StatelessWidget {
         color: AppTheme.dark_grey,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Text("Add to Cart", style: TextStyle(color: Colors.white),),
+      child: Text("$title", style: TextStyle(color: Colors.white),),
     );
   }
 }
