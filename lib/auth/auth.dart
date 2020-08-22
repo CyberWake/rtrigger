@@ -49,6 +49,7 @@ abstract class BaseAuth {
 
 class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  var profile;
 
   @override
   Future<String> signInWithEmailAndPassword(
@@ -88,11 +89,13 @@ class Auth implements BaseAuth {
 
   Future<void> getProfile() async {
     final User user = _firebaseAuth.currentUser;
-    var auth1 = FirebaseFirestore.instance;
-    var profile = auth1.collection('users').doc(user.uid).get().then((value) {
+    var auth = FirebaseFirestore.instance;
+    print(user.email);
+     profile = auth.collection('users').doc(user.uid).get().then((value) {
       return value.data();
     });
-    return profile;
+     print("Profile");
+     print(profile);
   }
 
   Future<void> updateProfile(

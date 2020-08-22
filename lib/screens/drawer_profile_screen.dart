@@ -14,7 +14,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Map<String, dynamic> _profile;
+  var _profile;
+  Auth _auth=Auth();
   File file;
   String url = "";
   String fileName = '';
@@ -66,7 +67,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -74,11 +74,11 @@ class _ProfileState extends State<Profile> {
   void didChangeDependencies() {
     if(init){
       init=false;
-    _profile = Auth().getProfile() as Map<String, dynamic>;
-    setState(() {
-    });
+    _auth.getProfile();
+    _profile=_auth.profile;
+    print(_profile['username']);
+    setState(() {});
 
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();}
   }
 
