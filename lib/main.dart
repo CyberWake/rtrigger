@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:user/screens/Food/food_categories.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 
 import 'auth.dart';
 import 'authorizationProvider.dart';
+import 'homepage.dart';
 import 'mainPage.dart';
 
 void main() async {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: RootPage(),
+          home: FoodCategory(),
         ));
   }
 }
