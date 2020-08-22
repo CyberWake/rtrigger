@@ -22,6 +22,7 @@ class _ProfileState extends State<Profile> {
   String address = "";
   int phoneno = 0;
   bool isLoaded = true;
+  bool init=true;
 
   void validateAndSave() async {
     final FormState form = _formKey.currentState;
@@ -71,11 +72,14 @@ class _ProfileState extends State<Profile> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
+    if(init){
+      init=false;
+    _profile = Auth().getProfile() as Map<String, dynamic>;
     setState(() {
-      _profile = Auth().getProfile() as Map<String, dynamic>;
     });
+
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();}
   }
 
   //name,email,image,address, phone
