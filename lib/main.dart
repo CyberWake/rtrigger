@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AuthProvider(
         auth: Auth(),
-    child: MaterialApp(
-    theme: ThemeData(
-    primarySwatch: Colors.blue,
-    ),
-    home: RootPage(),
-    ),
+        child: MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: RootPage(),
+        ));
   }
 }
