@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
-import '../Models/sanitizer_screen_categories.dart';
+import 'package:user/models/categories_enum.dart';
 
 class AreaScreen extends StatefulWidget {
   final String uid, vendorName;
   final String pricePerFeet;
   final String location;
-  final Category category;
+  final SanitizeCategory category;
 
   AreaScreen(
       {@required this.uid,

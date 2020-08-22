@@ -1,12 +1,11 @@
-import
-'package:flutter/material.dart';
-import 'package:user/Models/sanitizer_screen_categories.dart';
-import 'package:user/screens/vendor_list_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:user/models/categories_enum.dart';
+import 'package:user/screens/sanitize_vendor_list_screen.dart';
 
 class SanitizeGridTile extends StatelessWidget {
   final String title;
   final String loc;
-  final Category category;
+  final SanitizeCategory category;
   SanitizeGridTile(this.title, this.loc, this.category);
 
   @override
@@ -17,8 +16,8 @@ class SanitizeGridTile extends StatelessWidget {
       elevation: 20,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => VendorListScreen(category)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => SanitizeVendorListScreen(category)));
         },
         child: Container(
           padding: EdgeInsets.all(7),

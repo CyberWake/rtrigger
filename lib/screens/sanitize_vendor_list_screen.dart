@@ -3,50 +3,49 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
 import 'package:user/widgets/loading_bar.dart';
-import 'package:user/widgets/vendor_list_item.dart';
-import 'package:user/models/sanitizer_screen_categories.dart';
+import 'package:user/widgets/sanitize_vendor_list_item.dart';
+import 'package:user/models/categories_enum.dart';
 
-class VendorListScreen extends StatelessWidget {
-  final Category category;
-  VendorListScreen(this.category);
-  String collectionName = '';
+class SanitizeVendorListScreen extends StatelessWidget {
+  final SanitizeCategory category;
+  SanitizeVendorListScreen(this.category);
+  String collectionName;
 
   @override
   Widget build(BuildContext context) {
-    if (category == Category.sanitize)
+    if (category == SanitizeCategory.sanitize) {
       collectionName = 'vendorSanitize';
-    else if (category == Category.cockroach)
+    } else if (category == SanitizeCategory.cockroach) {
       collectionName = 'vendorCockroach';
-    else if (category == Category.mosquito) collectionName = 'vendorMosquito';
-
-    listOfVendors();
+    } else {
+      collectionName = 'vendorMosquito';
+    }
 
     return Scaffold(
       appBar: AppBarForSanitizerAndParlourScreen(context),
-      body: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection(collectionName).get(),
+      body: FutureBuilder<List<Map>>(
+        future: listOfVendors(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return LoadingBar();
           else {
             return ListView.builder(
-                itemCount: snapshot.data.docs.length == 0
-                    ? 0
-                    : snapshot.data.docs.length,
+                itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  if (snapshot.data.docs.length == 0) {
+                  if (snapshot.data.length == 0) {
                     return Center(
                       child: Text('Sorry But There is No Vendor Near You'),
                     );
                   }
-                  return VendorListItem(
-                      vendorName: snapshot.data.docs[index].data()['name'],
-                      location: snapshot.data.docs[index].data()['location'],
-                      pricePerFeet: snapshot.data.docs[index]
-                          .data()['pricePerFeet']
-                          .toString(),
-                      category: category,
-                      uid: snapshot.data.docs[index].data()['uid']);
+                  return SanitizeVendorListItem(
+                    vendorName: snapshot.data[index]['name'],
+                    location: snapshot.data[index]['location'],
+                    pricePerFeet:
+                        snapshot.data[index]['pricePerFeet'].toString(),
+                    category: category,
+                    uid: snapshot.data[index]['uid'],
+                    kmFar: snapshot.data[index]['distance'],
+                  );
                 });
           }
         },
@@ -54,17 +53,40 @@ class VendorListScreen extends StatelessWidget {
     );
   }
 
-  Future<QuerySnapshot> listOfVendors() async {
+  Future<List<Map>> listOfVendors() async {
     final myLocation = await Geolocator().getCurrentPosition();
+    final myLatitude = myLocation.latitude;
+    final myLongitude = myLocation.longitude;
+    List<Map> list = [];
+
     final snapshot =
         await FirebaseFirestore.instance.collection(collectionName).get();
-    snapshot.docs.forEach((element) {
-      final latitude = element.data()['latitude'];
-      final longitude = element.data()['longitude'];
-      final distanceInMeters = Geolocator().distanceBetween(
-          latitude, longitude, myLocation.latitude, myLocation.longitude);
-      print(distanceInMeters);
-    });
-    return snapshot;
+
+    for (var sanitizeVendor in snapshot.docs) {
+      final latitude = sanitizeVendor.data()['latitude'] as double;
+      final longitude = sanitizeVendor.data()['longitude'] as double;
+
+      final distanceInMeter =
+          await getDistance(myLatitude, myLongitude, latitude, longitude);
+      final distance = distanceInMeter / 1000;
+      final item = {
+        'uid': sanitizeVendor.data()['uid'],
+        'latitude': sanitizeVendor.data()['latitude'],
+        'longitude': sanitizeVendor.data()['longitude'],
+        'distance': distance,
+        'name': sanitizeVendor.data()['name'],
+        'location': sanitizeVendor.data()['location'],
+        'pricePerFeet': sanitizeVendor.data()['pricePerFeet'],
+      };
+      list.add(item);
+    }
+    return list;
+  }
+
+  Future<double> getDistance(
+      myLatitude, myLongitude, latitude, longitude) async {
+    final distance = await Geolocator()
+        .distanceBetween(myLatitude, myLongitude, latitude, longitude);
+    return distance;
   }
 }

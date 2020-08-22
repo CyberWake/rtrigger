@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import '../screens/area_screen.dart';
@@ -8,12 +9,14 @@ class SanitizeVendorListItem extends StatelessWidget {
   final String pricePerFeet;
   final SanitizeCategory category;
   final String uid;
+  final double kmFar;
   SanitizeVendorListItem(
       {@required this.vendorName,
       @required this.location,
       @required this.pricePerFeet,
       @required this.category,
-      @required this.uid});
+      @required this.uid,
+      @required this.kmFar});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +35,18 @@ class SanitizeVendorListItem extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Text(
-                vendorName,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    vendorName,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    kmFar.toStringAsFixed(1) + ' Km Far',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
             ),
             Padding(
