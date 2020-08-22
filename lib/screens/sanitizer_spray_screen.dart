@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:user/Models/sanitizer_screen_categories.dart';
-import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
 import 'package:user/widgets/sanitize_gridtile.dart';
 
-class SanitizerAndSprayScreen extends StatefulWidget {
-  @override
-  _SanitizerAndSprayScreenState createState() =>
-      _SanitizerAndSprayScreenState();
-}
-
-class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class SanitizerAndSprayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

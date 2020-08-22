@@ -1,7 +1,9 @@
-import
-'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:user/Models/sanitizer_screen_categories.dart';
-import 'package:user/screens/vendor_list_screen.dart';
+import 'package:user/screens/navigating_home_screen.dart';
+import 'package:user/screens/sanitizer_vendor_list_screen.dart';
+import 'homedrawer.dart';
 
 class SanitizeGridTile extends StatelessWidget {
   final String title;
@@ -17,8 +19,13 @@ class SanitizeGridTile extends StatelessWidget {
       elevation: 20,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => VendorListScreen(category)));
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,VendorListScreen(category))
+              )
+          );
+          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => VendorListScreen(category)));
         },
         child: Container(
           padding: EdgeInsets.all(7),
