@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/Models/categorytitle.dart';
+import 'package:user/screens/medicine_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
+import 'package:user/screens/saloon_screen.dart';
 import 'package:user/screens/sanitizer_spray_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
 import 'homedrawer.dart';
@@ -25,36 +27,36 @@ class Tiles extends StatelessWidget {
     switch(page){
       case 0:Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              CupertinoPageRoute(
+                  builder: (context) => NavigationHomeScreen(DrawerIndex.MEDICINE,MedicineScreen())
               )
             );break;
 
       case 1:Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              CupertinoPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,SanitizerAndSprayScreen())
               )
             );break;
 
       case 2:Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen())
               )
             );break;
 
       case 3:Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SaloonScreen())
               )
             );break;
 
       case 4:Navigator.push(
               context,
-              CupertinoPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              SlideLeftRoute(
+                page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
               )
             );break;
 
@@ -62,7 +64,7 @@ class Tiles extends StatelessWidget {
         print('hi');
         Navigator.push(
               context,
-              SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen()))
+              SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.VIEWALL,SanitizerAndSprayScreen()))
             );break;
     }
   }

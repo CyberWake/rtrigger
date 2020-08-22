@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
-import '../Models/sanitizer_screen_categories.dart';
+import 'package:user/models/categories_enum.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class AreaScreen extends StatefulWidget {
   final String uid, vendorName;

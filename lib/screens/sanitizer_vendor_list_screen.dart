@@ -1,13 +1,13 @@
 import'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:user/Models/sanitizer_screen_categories.dart';
-import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
+import 'package:user/models/categories_enum.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/loading_bar.dart';
 import 'package:user/widgets/vendor_list_item.dart';
 
-class VendorListScreen extends StatelessWidget {
+class SanitizeVendorListScreen extends StatelessWidget {
   final Category category;
-  VendorListScreen(this.category);
+  SanitizeVendorListScreen(this.category);
   String collectionName = '';
 
   @override

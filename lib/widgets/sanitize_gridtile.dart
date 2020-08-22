@@ -1,7 +1,6 @@
-import
-'package:flutter/material.dart';
-import 'package:user/Models/sanitizer_screen_categories.dart';
-import 'package:user/screens/vendor_list_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:user/models/categories_enum.dart';
+import 'package:user/screens/sanitizer_vendor_list_screen.dart';
 
 class SanitizeGridTile extends StatelessWidget {
   final String title;
@@ -12,13 +11,12 @@ class SanitizeGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Card(
       elevation: 20,
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => VendorListScreen(category)));
+              MaterialPageRoute(builder: (_) => SanitizeVendorListScreen(category)));
         },
         child: Container(
           padding: EdgeInsets.all(7),

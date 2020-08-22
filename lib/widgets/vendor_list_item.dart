@@ -1,6 +1,5 @@
-import
-'package:flutter/material.dart';
-import 'package:user/Models/sanitizer_screen_categories.dart';
+import'package:flutter/material.dart';
+import 'package:user/models/categories_enum.dart';
 import '../screens/area_screen.dart';
 import '../screens/area_screen.dart';
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:user/screens/drawer_contact_screen.dart';
+import 'package:user/screens/drawer_profile_screen.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 import 'package:user/widgets/search.dart';
@@ -7,9 +9,9 @@ import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
-  final DrawerIndex screen;
+  final DrawerIndex index;
   final Widget viewScreen;
-  NavigationHomeScreen(this.screen,this.viewScreen);
+  NavigationHomeScreen(this.index,this.viewScreen);
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -28,15 +30,14 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   }
   @override
   void initState() {
+    drawerIndex = widget.index;
+    screenView = widget.viewScreen;
     getCurrentDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String appTitle = greeting+UserName;
-    screenView = widget.viewScreen;
-    drawerIndex = widget.screen;
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -94,7 +95,12 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       case DrawerIndex.PROFILE: return Text("Profile");break;
       case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
       case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
+      case DrawerIndex.MEDICINE: return Text("Medicine");break;
+      case DrawerIndex.FOOD: return Text("Food");break;
+      case DrawerIndex.LIQUOR: return Text("Liquor");break;
+      case DrawerIndex.SALON: return Text("Salon and Beauty Parlour");break;
       case DrawerIndex.SANITIZERANDSPRAY: return Text("Sanitizer and Spray");break;
+      case DrawerIndex.VIEWALL: return Text("View All");break;
     }
   }
 
@@ -104,30 +110,37 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       if (drawerIndex == DrawerIndex.HOME) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.HOME;
         });
       } else if (drawerIndex == DrawerIndex.FAVOURITE) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.FAVOURITE;
         });
       } else if (drawerIndex == DrawerIndex.ORDERS) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.ORDERS;
         });
       } else if (drawerIndex == DrawerIndex.MYCART) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.MYCART;
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {
         setState(() {
-          screenView = Home();
+          screenView = Profile();
+          drawerIndex = DrawerIndex.PROFILE;
         });
       } else if (drawerIndex == DrawerIndex.NOTIFICATIONS) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.NOTIFICATIONS;
         });
       } else if (drawerIndex == DrawerIndex.CONTACTUS) {
         setState(() {
-          screenView = Home();
+          screenView = Contact();
+          drawerIndex = DrawerIndex.CONTACTUS;
         });
       }
       else {
