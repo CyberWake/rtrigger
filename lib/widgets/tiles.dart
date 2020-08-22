@@ -26,7 +26,7 @@ class Tiles extends StatelessWidget {
       case 0:Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+                  builder: (context) => NavigationHomeScreen(DrawerIndex.HOME,SanitizerAndSprayScreen())
               )
             );break;
 

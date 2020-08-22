@@ -260,8 +260,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import './auth.dart';
-import 'authorizationProvider.dart';
+
+import '../auth/auth.dart';
+import '../auth/authorizationProvider.dart';
 
 class EmailFieldValidator {
   static String validate(String value) {
@@ -275,20 +276,21 @@ class PasswordFieldValidator {
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({this.onSignedIn});
+class LoginSignupPage extends StatefulWidget {
+  const LoginSignupPage({this.onSignedIn});
   final VoidCallback onSignedIn;
 
   @override
-  State<StatefulWidget> createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _LoginSignupPageState();
 }
 
 enum FormType {
   login,
+
   register,
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginSignupPageState extends State<LoginSignupPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 
@@ -317,13 +319,13 @@ class _LoginPageState extends State<LoginPage> {
         final BaseAuth auth = AuthProvider.of(context).auth;
         if (_formType == FormType.login) {
           final String userId =
-              await auth.signInWithEmailAndPassword(_email, _password);
+          await auth.signInWithEmailAndPassword(_email, _password);
 
           print('Signed in: $userId');
         } else {
           final String userId =
-              await auth.createUserWithEmailAndPassword(_email, _password);
-          
+          await auth.createUserWithEmailAndPassword(_email, _password);
+
           print('Registered user: $userId');
         }
         widget.onSignedIn();
@@ -356,7 +358,7 @@ class _LoginPageState extends State<LoginPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'assets/background1.png',
+                  'assets/img/background1.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -370,7 +372,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 10.0),
                     child: Image.asset(
-                      'assets/logo.png',
+                      'assets/img/logo.png',
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width / 2.5,
                       height: MediaQuery.of(context).size.width / 2.5,
@@ -381,13 +383,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   _formType == FormType.login
                       ? Text(
-                          'Login',
-                          style: TextStyle(fontSize: 38.0, color: Colors.white),
-                        )
+                    'Login',
+                    style: TextStyle(fontSize: 38.0, color: Colors.white),
+                  )
                       : Text(
-                          'Register',
-                          style: TextStyle(fontSize: 38.0, color: Colors.white),
-                        ),
+                    'Register',
+                    style: TextStyle(fontSize: 38.0, color: Colors.white),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
@@ -450,47 +452,47 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   _formType == FormType.login
                       ? Container(
-                          width: 0.8 * MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // color: Colors.lime[800],
-                            color: Color.fromRGBO(173, 173, 117, 1),
-                          ),
-                          child: FlatButton(
-                            key: Key('signIn'),
-                            child:
-                                Text('Login', style: TextStyle(fontSize: 20.0)),
-                            onPressed: validateAndSubmit,
-                          ),
-                        )
+                    width: 0.8 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Colors.lime[800],
+                      color: Color.fromRGBO(173, 173, 117, 1),
+                    ),
+                    child: FlatButton(
+                      key: Key('signIn'),
+                      child:
+                      Text('Login', style: TextStyle(fontSize: 20.0)),
+                      onPressed: validateAndSubmit,
+                    ),
+                  )
                       : Container(
-                          width: 0.8 * MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // color: Colors.lime[800],
-                            color: Color.fromRGBO(173, 173, 117, 1),
-                          ),
-                          child: FlatButton(
-                            child: Text('Create an account',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                )),
-                            onPressed: validateAndSubmit,
-                          ),
-                        ),
+                    width: 0.8 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Colors.lime[800],
+                      color: Color.fromRGBO(173, 173, 117, 1),
+                    ),
+                    child: FlatButton(
+                      child: Text('Create an account',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          )),
+                      onPressed: validateAndSubmit,
+                    ),
+                  ),
                   _formType == FormType.login
                       ? FlatButton(
-                          child: Text('Create an account',
-                              style: TextStyle(
-                                  fontSize: 20.0, color: Colors.white)),
-                          onPressed: moveToRegister,
-                        )
+                    child: Text('Create an account',
+                        style: TextStyle(
+                            fontSize: 20.0, color: Colors.white)),
+                    onPressed: moveToRegister,
+                  )
                       : FlatButton(
-                          child: Text('Have an account? Login',
-                              style: TextStyle(
-                                  fontSize: 20.0, color: Colors.white)),
-                          onPressed: moveToLogin,
-                        ),
+                    child: Text('Have an account? Login',
+                        style: TextStyle(
+                            fontSize: 20.0, color: Colors.white)),
+                    onPressed: moveToLogin,
+                  ),
                 ],
               ),
             ),
@@ -540,7 +542,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         FlatButton(
           child:
-              Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
+          Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
           onPressed: moveToLogin,
         ),
       ];

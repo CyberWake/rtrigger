@@ -4,9 +4,9 @@ import 'package:user/screens/home_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 
-import 'auth.dart';
-import 'authorizationProvider.dart';
-import 'mainPage.dart';
+import 'auth/auth.dart';
+import 'auth/authorizationProvider.dart';
+import 'screens/root_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

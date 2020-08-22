@@ -28,15 +28,14 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   }
   @override
   void initState() {
+    drawerIndex = DrawerIndex.HOME;
+    screenView = Home();
     getCurrentDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String appTitle = greeting+UserName;
-    screenView = widget.viewScreen;
-    drawerIndex = widget.screen;
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
@@ -88,13 +87,12 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                               ]
                             );
                             break;
-      case DrawerIndex.FAVOURITE: return Text("Favourites");break;
-      case DrawerIndex.ORDERS: return Text("Orders");break;
-      case DrawerIndex.MYCART: return Text("My Cart");break;
-      case DrawerIndex.PROFILE: return Text("Profile");break;
-      case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
-      case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
-      case DrawerIndex.SANITIZERANDSPRAY: return Text("Sanitizer and Spray");break;
+      case DrawerIndex.FAVOURITE: return Center(child: Text("Favourites"));break;
+      case DrawerIndex.ORDERS: return Center(child: Text("Orders"));break;
+      case DrawerIndex.MYCART: return Center(child: Text("My Cart"));break;
+      case DrawerIndex.PROFILE: return Center(child: Text("Profile"));break;
+      case DrawerIndex.NOTIFICATIONS: return Center(child: Text("Notifications"));break;
+      case DrawerIndex.CONTACTUS: return Center(child: Text("Contatct Us"));break;
     }
   }
 
@@ -104,30 +102,37 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       if (drawerIndex == DrawerIndex.HOME) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.HOME;
         });
       } else if (drawerIndex == DrawerIndex.FAVOURITE) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.FAVOURITE;
         });
       } else if (drawerIndex == DrawerIndex.ORDERS) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.ORDERS;
         });
       } else if (drawerIndex == DrawerIndex.MYCART) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.MYCART;
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.PROFILE;
         });
       } else if (drawerIndex == DrawerIndex.NOTIFICATIONS) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.NOTIFICATIONS;
         });
       } else if (drawerIndex == DrawerIndex.CONTACTUS) {
         setState(() {
           screenView = Home();
+          drawerIndex = DrawerIndex.CONTACTUS;
         });
       }
       else {

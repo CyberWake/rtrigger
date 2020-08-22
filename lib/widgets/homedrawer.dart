@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:user/Models/apptheme.dart';
 import 'package:user/Models/navigation%20titles.dart';
+import 'file:///C:/Users/VK/AndroidStudioProjects/user/lib/models/varialbes.dart';
+
+import '../screens/root_screen.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer({Key key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
@@ -159,7 +162,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
-                onTap: () {},
+                onTap: () {
+                  authStatus = AuthStatus.notDetermined;
+                  print(authStatus);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RootPage()));
+                },
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
@@ -272,7 +279,8 @@ enum DrawerIndex {
   PROFILE,
   NOTIFICATIONS,
   CONTACTUS,
-  SANITIZERANDSPRAY
+  SANITIZERANDSPRAY,
+  LOGOUT
 }
 
 class DrawerList {

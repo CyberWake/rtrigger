@@ -40,25 +40,20 @@
 
 
 import 'package:flutter/material.dart';
-import './auth.dart';
-import './homePage.dart';
-import './login_page.dart';
-import 'authorizationProvider.dart';
+import 'package:user/screens/home_screen.dart';
+import 'package:user/screens/navigating_home_screen.dart';
+import 'file:///C:/Users/VK/AndroidStudioProjects/user/lib/models/varialbes.dart';
+import 'package:user/widgets/homedrawer.dart';
+import '../auth/auth.dart';
+import '../auth/authorizationProvider.dart';
+import 'login_signup_screen.dart';
 
 class RootPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _RootPageState();
 }
 
-enum AuthStatus {
-  notDetermined,
-  notSignedIn,
-  signedIn,
-}
-
 class _RootPageState extends State<RootPage> {
-  AuthStatus authStatus = AuthStatus.notDetermined;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -76,11 +71,11 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
-  void _signedOut() {
+  /*void _signedOut() {
     setState(() {
       authStatus = AuthStatus.notSignedIn;
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -88,23 +83,21 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.notDetermined:
         return _buildWaitingScreen();
       case AuthStatus.notSignedIn:
-        return LoginPage(
+        return LoginSignupPage(
           onSignedIn: _signedIn,
         );
       case AuthStatus.signedIn:
-        return HomePage(
-          onSignedOut: _signedOut,
-        );
+        return NavigationHomeScreen(DrawerIndex.HOME, Home());
     }
-    return null;
+    return _buildWaitingScreen();
   }
 
   Widget _buildWaitingScreen() {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ),
-    );
+        body: Container(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(),
+        ),
+      );
   }
 }
