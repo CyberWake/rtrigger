@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/screens/drawer_contact_screen.dart';
+import 'package:user/screens/drawer_profile_screen.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 import 'package:user/widgets/search.dart';
@@ -128,7 +129,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {
         setState(() {
-          screenView = Home();
+          screenView = Profile();
           drawerIndex = DrawerIndex.PROFILE;
         });
       } else if (drawerIndex == DrawerIndex.NOTIFICATIONS) {
