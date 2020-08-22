@@ -37,8 +37,10 @@ dependencies:
   uuid: ^2.2.0
   material_design_icons_flutter: ^4.0.5345
   url_launcher: ^5.5.0
+  image_picker: ^0.6.7+6
   flutter_email_sender: ^3.0.1
   flutter_open_whatsapp: ^0.1.2
+  geolocator: ^5.3.2+2
 
 dev_dependencies:
   flutter_test:

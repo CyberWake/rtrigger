@@ -1,20 +1,24 @@
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
-import '../screens/area_screen.dart';
-import '../screens/area_screen.dart';
+import 'package:user/screens/area_screen.dart';
+import 'package:user/screens/saloon_services_screen.dart';
+import 'package:user/screens/saloon_vendor_list_screen.dart';
 
-class VendorListItem extends StatelessWidget {
+class SaloonVendorListTile extends StatelessWidget {
   final String vendorName;
+  final double kmFar;
   final String location;
-  final String pricePerFeet;
-  final Category category;
   final String uid;
-  VendorListItem(
+  final List servicesList;
+  final SaloonCategory category;
+
+  SaloonVendorListTile(
       {@required this.vendorName,
+      @required this.kmFar,
       @required this.location,
-      @required this.pricePerFeet,
-      @required this.category,
-      @required this.uid});
+      @required this.uid,
+      @required this.servicesList,
+      @required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,6 @@ class VendorListItem extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.all(4),
       child: Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -33,22 +36,24 @@ class VendorListItem extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Text(
-                vendorName,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    vendorName,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    kmFar.toStringAsFixed(1) + ' Km Far',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Text(
                 '$location',
-                style: TextStyle(color: Colors.black54),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: Text(
-                'Price Per Sq. Foot : ${pricePerFeet.toString()} Rs',
                 style: TextStyle(color: Colors.black54),
               ),
             ),
@@ -61,18 +66,14 @@ class VendorListItem extends StatelessWidget {
               elevation: 4,
               color: Color.fromRGBO(00, 44, 64, 1.0),
               textColor: Colors.white,
-              height: screenHeight / 22,
+              height: screenHeight / 24,
               minWidth: screenWidth,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AreaScreen(
-                        uid: uid,
-                        vendorName: vendorName,
-                        pricePerFeet: pricePerFeet,
-                        location: location,
-                        category: category)));
+                    builder: (context) =>
+                        SaloonServicesScreen(servicesList, category)));
               },
-              child: Text('ORDER NOW'),
+              child: Text('Tap To See Services'),
             )
           ]),
         ),

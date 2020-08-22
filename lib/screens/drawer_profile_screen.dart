@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _ProfileState extends State<Profile> {
   String address = "";
   int phoneno = 0;
   bool isLoaded = true;
+  bool init=true;
 
   void validateAndSave() async {
     final FormState form = _formKey.currentState;
@@ -63,115 +65,129 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
+    if(init){
+      init=false;
     _profile = Auth().getProfile() as Map<String, dynamic>;
     setState(() {
-
     });
-    super.didChangeDependencies();
+
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();}
   }
 
   //name,email,image,address, phone
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            child: Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Image.network(
-                url,
-                fit: BoxFit.fill,
-              ),
-            ),
-            onTap: () async {
-              file = await FilePicker.getFile(type: FileType.any);
-              fileName = path.basename(file.path);
-              StorageReference storageReference = FirebaseStorage.instance
-                  .ref()
-                  .child("images/$fileName");
-              StorageUploadTask uploadTask =
-              storageReference.putFile(file);
-
-              final StorageTaskSnapshot downloadUrl =
-              (await uploadTask.onComplete);
-              url = (await downloadUrl.ref.getDownloadURL());
-            }, // <-- user image
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-              padding: EdgeInsets.all(15),
-              child: Form(
-                  key: _formKey,
-                  child: ListView(children: <Widget>[
-                    Text(
-                      "Email id: " + _profile['email'],
-                      style: TextStyle(fontSize: 30),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                     ),
-                    TextFormField(
-                        decoration:
-                        InputDecoration(labelText: 'Username'),
-                        initialValue: _profile['username'],
-                        textInputAction: TextInputAction.next,
-                        onSaved: (value) {
-                          newName = value;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter a username';
-                          }
-                          return null;
-                        }),
-                    TextFormField(
-                        decoration: InputDecoration(labelText: 'Phone'),
-                        initialValue: _profile['phone'],
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        onSaved: (value) {
-                          phoneno = int.parse(value);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty ||
-                              int.parse(value) < 6000000000 ||
-                              int.parse(value) > 9999999999) {
-                            return 'Please enter valid phone number';
-                          }
-                          return null;
-                        }),
-                    TextFormField(
-                        decoration: InputDecoration(labelText: 'Address'),
-                        initialValue: _profile['address'],
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.multiline,
-                        onSaved: (value) {
-                          address = value;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter a valid address.';
-                          }
-                          return null;
-                        }),
-                  ]))),
-          isLoaded == true
-              ? RaisedButton(
-            child: Text("Update info"),
-            onPressed: validateAndSave,
-          )
-              : CircularProgressIndicator()
-        ],
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  onTap: () async {
+                    file = await FilePicker.getFile(type: FileType.any);
+                    fileName = path.basename(file.path);
+                    StorageReference storageReference = FirebaseStorage.instance
+                        .ref()
+                        .child("images/$fileName");
+                    StorageUploadTask uploadTask =
+                        storageReference.putFile(file);
+
+                    final StorageTaskSnapshot downloadUrl =
+                        (await uploadTask.onComplete);
+                    url = (await downloadUrl.ref.getDownloadURL());
+                  }, // <-- user image
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Form(
+                        key: _formKey,
+                        child: ListView(children: <Widget>[
+                          Text(
+                            "Email id: " + _profile['email'],
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          TextFormField(
+                              decoration:
+                                  InputDecoration(labelText: 'Username'),
+                              initialValue: _profile['username'],
+                              textInputAction: TextInputAction.next,
+                              onSaved: (value) {
+                                newName = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter a username';
+                                }
+                                return null;
+                              }),
+                          TextFormField(
+                              decoration: InputDecoration(labelText: 'Phone'),
+                              initialValue: _profile['phone'],
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
+                              onSaved: (value) {
+                                phoneno = int.parse(value);
+                              },
+                              validator: (value) {
+                                if (value.isEmpty ||
+                                    int.parse(value) < 6000000000 ||
+                                    int.parse(value) > 9999999999) {
+                                  return 'Please enter valid phone number';
+                                }
+                                return null;
+                              }),
+                          TextFormField(
+                              decoration: InputDecoration(labelText: 'Address'),
+                              initialValue: _profile['address'],
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.multiline,
+                              onSaved: (value) {
+                                address = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter a valid address.';
+                                }
+                                return null;
+                              }),
+                        ]))),
+                isLoaded == true
+                    ? RaisedButton(
+                        child: Text("Update info"),
+                        onPressed: validateAndSave,
+                      )
+                    : CircularProgressIndicator()
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
