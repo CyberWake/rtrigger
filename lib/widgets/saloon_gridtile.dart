@@ -5,8 +5,8 @@ import 'package:user/screens/saloon_vendor_list_screen.dart';
 class SaloonGridTile extends StatelessWidget {
   final String loc;
   final String title;
-  final SaloonCategory category;
-  SaloonGridTile(this.title, this.loc, this.category);
+  final SaloonCategory saloonCategory;
+  SaloonGridTile(this.title, this.loc, this.saloonCategory);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SaloonGridTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => SaloonVendorListScreen(category)));
+              builder: (_) => SaloonVendorListScreen(saloonCategory)));
         },
         child: Container(
           padding: EdgeInsets.all(7),

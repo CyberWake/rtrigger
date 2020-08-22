@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:user/Models/categorytitle.dart';
 import 'package:user/screens/medicine_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
+import 'package:user/screens/saloon_screen.dart';
 import 'package:user/screens/sanitizer_spray_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
 import 'homedrawer.dart';
@@ -48,7 +49,7 @@ class Tiles extends StatelessWidget {
       case 3:Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SanitizerAndSprayScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SaloonScreen())
               )
             );break;
 

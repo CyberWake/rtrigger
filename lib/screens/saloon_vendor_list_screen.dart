@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/loading_bar.dart';
-import 'package:user/widgets/saloon_gridtile.dart';
 import 'package:user/widgets/saloon_vendor_listtile.dart';
 
 class SaloonVendorListScreen extends StatelessWidget {

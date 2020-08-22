@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
-import 'package:user/screens/area_screen.dart';
 import 'package:user/screens/saloon_services_screen.dart';
-import 'package:user/screens/saloon_vendor_list_screen.dart';
 
 class SaloonVendorListTile extends StatelessWidget {
   final String vendorName;
