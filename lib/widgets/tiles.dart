@@ -25,36 +25,36 @@ class Tiles extends StatelessWidget {
     switch(page){
       case 0:Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => NavigationHomeScreen(DrawerIndex.HOME,SanitizerAndSprayScreen())
+              CupertinoPageRoute(
+                  builder: (context) => NavigationHomeScreen(DrawerIndex.MEDICINE,SanitizerAndSprayScreen())
               )
             );break;
 
       case 1:Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              CupertinoPageRoute(
+                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,SanitizerAndSprayScreen())
               )
             );break;
 
       case 2:Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen())
               )
             );break;
 
       case 3:Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SanitizerAndSprayScreen())
               )
             );break;
 
       case 4:Navigator.push(
               context,
-              CupertinoPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
+              SlideLeftRoute(
+                page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
               )
             );break;
 
@@ -62,7 +62,7 @@ class Tiles extends StatelessWidget {
         print('hi');
         Navigator.push(
               context,
-              SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen()))
+              SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.VIEWALL,SanitizerAndSprayScreen()))
             );break;
     }
   }

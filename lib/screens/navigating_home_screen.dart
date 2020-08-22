@@ -7,9 +7,9 @@ import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
-  final DrawerIndex screen;
+  final DrawerIndex index;
   final Widget viewScreen;
-  NavigationHomeScreen(this.screen,this.viewScreen);
+  NavigationHomeScreen(this.index,this.viewScreen);
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -28,8 +28,8 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   }
   @override
   void initState() {
-    drawerIndex = DrawerIndex.HOME;
-    screenView = Home();
+    drawerIndex = widget.index;
+    screenView = widget.viewScreen;
     getCurrentDate();
     super.initState();
   }
@@ -87,12 +87,18 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                               ]
                             );
                             break;
-      case DrawerIndex.FAVOURITE: return Center(child: Text("Favourites"));break;
-      case DrawerIndex.ORDERS: return Center(child: Text("Orders"));break;
-      case DrawerIndex.MYCART: return Center(child: Text("My Cart"));break;
-      case DrawerIndex.PROFILE: return Center(child: Text("Profile"));break;
-      case DrawerIndex.NOTIFICATIONS: return Center(child: Text("Notifications"));break;
-      case DrawerIndex.CONTACTUS: return Center(child: Text("Contatct Us"));break;
+      case DrawerIndex.FAVOURITE: return Text("Favourites");break;
+      case DrawerIndex.ORDERS: return Text("Orders");break;
+      case DrawerIndex.MYCART: return Text("My Cart");break;
+      case DrawerIndex.PROFILE: return Text("Profile");break;
+      case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
+      case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
+      case DrawerIndex.MEDICINE: return Text("Medicine");break;
+      case DrawerIndex.FOOD: return Text("Food");break;
+      case DrawerIndex.LIQUOR: return Text("Liquor");break;
+      case DrawerIndex.SALON: return Text("Salon and Beauty Parlour");break;
+      case DrawerIndex.SANITIZERANDSPRAY: return Text("Sanitizer and Spray");break;
+      case DrawerIndex.VIEWALL: return Text("View All");break;
     }
   }
 

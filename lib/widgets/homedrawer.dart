@@ -279,8 +279,13 @@ enum DrawerIndex {
   PROFILE,
   NOTIFICATIONS,
   CONTACTUS,
+  LOGOUT,
+  MEDICINE,
+  FOOD,
+  LIQUOR,
+  SALON,
   SANITIZERANDSPRAY,
-  LOGOUT
+  VIEWALL
 }
 
 class DrawerList {
