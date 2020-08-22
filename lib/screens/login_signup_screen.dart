@@ -302,6 +302,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   String _email;
   String _password;
+  String _name;
   FormType _formType = FormType.login;
 
   bool validateAndSave() {
@@ -389,6 +390,37 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                       : Text(
                     'Register',
                     style: TextStyle(fontSize: 38.0, color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                  ),
+                  _formType != FormType.login?
+                  Container(
+                    width: 0.8 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: TextFormField(
+                        autofocus: true,
+                        keyboardType: TextInputType.emailAddress,
+                        textAlign: TextAlign.center,
+                        key: Key('username'),
+                        decoration: InputDecoration(
+                          hintText: '  Enter Name',
+                          hintStyle: TextStyle(
+                            fontSize: 20.0,
+                            color: Color.fromRGBO(00, 44, 64, 1),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: EmailFieldValidator.validate,
+                        onSaved: (String value) => _name = value,
+                      ),
+                    ),
+                  ):SizedBox(
+                    height: 58,
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
