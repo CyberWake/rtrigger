@@ -1,16 +1,14 @@
-import
-'package:flutter/material.dart';
-import 'package:user/Models/sanitizer_screen_categories.dart';
-import '../screens/area_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:user/models/categories_enum.dart';
 import '../screens/area_screen.dart';
 
-class VendorListItem extends StatelessWidget {
+class SanitizeVendorListItem extends StatelessWidget {
   final String vendorName;
   final String location;
   final String pricePerFeet;
-  final Category category;
+  final SanitizeCategory category;
   final String uid;
-  VendorListItem(
+  SanitizeVendorListItem(
       {@required this.vendorName,
       @required this.location,
       @required this.pricePerFeet,
