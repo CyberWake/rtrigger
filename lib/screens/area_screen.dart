@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user/widgets/appbar_for_sanitizer_and_parlour_screen.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 import '../Models/sanitizer_screen_categories.dart';
 
 class AreaScreen extends StatefulWidget {
