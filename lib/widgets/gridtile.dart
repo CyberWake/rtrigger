@@ -9,7 +9,7 @@ import 'package:user/widgets/homedrawer.dart';
 import 'package:user/screens/medicine_screen.dart';
 import 'package:user/screens/saloon_screen.dart';
 import 'package:user/screens/sanitizer_spray_screen.dart';
-import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/screens/food_screen.dart';
+import 'package:user/screens/food_screen.dart';
 
 class CustomGridTile extends StatelessWidget {
   final String title;

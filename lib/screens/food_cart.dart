@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/widgets/cart_item_card.dart';
+import 'package:user/widgets/cart_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:user/widgets/cart_item_card.dart';
 import 'package:user/services/Food/cart.dart';
@@ -18,9 +18,8 @@ class _FoodCartState extends State<FoodCart> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     getCartData();
+    super.initState();
   }
 
   void getCartData() async {

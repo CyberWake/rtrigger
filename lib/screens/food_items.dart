@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/widgets/food_item_card.dart';
+import 'package:user/widgets/food_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:user/widgets/food_item_card.dart';
 import 'package:user/services/Food/food_fetching.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/screens/food_items.dart';
+import 'package:user/screens/food_items.dart';
 
 class FoodCategoryCard extends StatelessWidget {
   FoodCategoryCard({this.index, this.foodName, this.image});
