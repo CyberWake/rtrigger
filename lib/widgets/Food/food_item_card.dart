@@ -4,8 +4,13 @@ import 'package:user/widgets/Food/add_to_cart_button.dart';
 import 'package:uuid/uuid.dart';
 
 class FoodItemCard extends StatefulWidget {
-
-  FoodItemCard({this.image,this.foodTitle,this.time,this.distance,this.price,this.vendorName});
+  FoodItemCard(
+      {this.image,
+      this.foodTitle,
+      this.time,
+      this.distance,
+      this.price,
+      this.vendorName});
 
   final String image;
   final String foodTitle;
@@ -19,7 +24,6 @@ class FoodItemCard extends StatefulWidget {
 }
 
 class _FoodItemCardState extends State<FoodItemCard> {
-
   int quantity = 1;
   var productID = Uuid().v1();
   Cart cart = Cart();
@@ -27,29 +31,53 @@ class _FoodItemCardState extends State<FoodItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 5,
       child: Container(
+        padding: EdgeInsets.all(10),
         child: Row(
           children: [
             Expanded(
               flex: 2,
-              child: Image(
-                image: AssetImage(widget.image),
-              ),
+              child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 60,
+                  child: ClipOval(
+                      child: Image.asset(
+                    widget.image,
+                    fit: BoxFit.cover,
+                  ))),
             ),
             Expanded(
               flex: 3,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(widget.foodTitle),
-                  Text("Rs. ${widget.price}"),
-                  Text(widget.time),
-                  Text("(${widget.vendorName} | ${widget.distance})"),
+                  Text(widget.foodTitle.toUpperCase(),
+                      style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                  Divider(),
+                  Text(
+                    "₹ ${widget.price}",
+                    style: TextStyle(color: Colors.green, fontSize: 16),
+                  ),
+                  Divider(),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(widget.time),
+                      Text("(${widget.vendorName} | ${widget.distance})"),
+                    ],
+                  ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
                         icon: Icon(Icons.remove),
-                        onPressed: (){
-                          if(quantity>0){
+                        onPressed: () {
+                          if (quantity > 0) {
                             setState(() {
                               quantity -= 1;
                             });
@@ -59,8 +87,8 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       Text("$quantity"),
                       IconButton(
                         icon: Icon(Icons.add),
-                        onPressed: (){
-                          if(quantity<10){
+                        onPressed: () {
+                          if (quantity < 10) {
                             setState(() {
                               quantity += 1;
                             });
@@ -69,7 +97,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       ),
                       FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: (){
+                        onPressed: () {
                           var cartItem = {
                             "image": widget.image,
                             "name": widget.foodTitle,
@@ -82,7 +110,9 @@ class _FoodItemCardState extends State<FoodItemCard> {
                           };
                           cart.addToCart(userID: "Harsh", item: [cartItem]);
                         },
-                        child: CartButton(title: "Add to Cart",),
+                        child: CartButton(
+                          title: "Add to Cart",
+                        ),
                       ),
                     ],
                   ),

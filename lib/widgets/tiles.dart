@@ -36,7 +36,7 @@ class Tiles extends StatelessWidget {
       case 1:Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategoryScreen())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategory())
               )
             );break;
 
