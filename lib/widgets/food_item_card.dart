@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:user/services/Food/cart.dart';
 import 'package:user/widgets/add_to_cart_button.dart';
@@ -27,6 +28,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
   int quantity = 1;
   var productID = Uuid().v1();
   Cart cart = Cart();
+  final _userID = FirebaseAuth.instance.currentUser.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   backgroundColor: Colors.white,
                   radius: 60,
                   child: ClipOval(
-                      child: Image.asset(
+                      child: Image.network(
                     widget.image,
                     fit: BoxFit.cover,
                   ))),
@@ -108,7 +110,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             "productID": productID,
                             "distance": widget.distance,
                           };
-                          cart.addToCart(userID: "Harsh", item: [cartItem]);
+                          cart.addToCart(userID: _userID, item: [cartItem]);
                         },
                         child: CartButton(
                           title: "Add to Cart",

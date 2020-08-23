@@ -28,6 +28,15 @@ class CartItemCard extends StatefulWidget {
 }
 
 class _CartItemCardState extends State<CartItemCard> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.image);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,7 +51,7 @@ class _CartItemCardState extends State<CartItemCard> {
                   backgroundColor: Colors.white,
                   radius: 60,
                   child: ClipOval(
-                      child: Image.asset(
+                      child: Image.network(
                     widget.image,
                     fit: BoxFit.cover,
                   ))),

@@ -33,7 +33,7 @@ class CustomGridTile extends StatelessWidget {
           )*/
       );break;
 
-      case Cards.food:return NavigationHomeScreen(DrawerIndex.FOOD,FoodScreen()/*Navigator.push(
+      case Cards.food:return NavigationHomeScreen(DrawerIndex.FOOD,FoodCategory()/*Navigator.push(
           context,
           CupertinoPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategoryScreen())

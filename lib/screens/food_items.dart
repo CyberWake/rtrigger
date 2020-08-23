@@ -46,11 +46,11 @@ class _FoodItemsState extends State<FoodItems> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return FoodItemCard(
-                  image: "assets/img/salon.png",
+                  image: items[index]["img"],
                   time: "10 min",
                   distance: "2 km",
                   foodTitle: items[index]["name"],
-                  price: 150,
+                  price: int.parse(items[index]["price"]),
                   vendorName: "Royal Shop",
                 );
               },

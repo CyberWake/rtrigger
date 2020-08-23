@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user/widgets/cart_item_card.dart';
@@ -12,6 +13,7 @@ class FoodCart extends StatefulWidget {
 
 class _FoodCartState extends State<FoodCart> {
   var _firestore = FirebaseFirestore.instance;
+  final _userID = FirebaseAuth.instance.currentUser.uid;
   Cart cart = Cart();
   var cartItems = [];
   int total = 0;
@@ -34,7 +36,7 @@ class _FoodCartState extends State<FoodCart> {
   }
 
   void getCartData() async {
-    var temp = await cart.getCartItems("Harsh");
+    var temp = await cart.getCartItems(_userID);
     setState(() {
       cartItems = temp;
       calculateTotal();
@@ -63,13 +65,13 @@ class _FoodCartState extends State<FoodCart> {
                           foodTitle: cartItems[index]["name"],
                           distance: "2 km",
                           time: "10 min",
-                          image: "assets/img/salon.png",
+                          image: cartItems[index]["image"],
                           quantity: cartItems[index]["quantity"],
                           productID: cartItems[index]["productID"],
                           onTap: () async {
                             Cart cart = Cart();
                             var deleteResult = await cart.deleteFromCart(
-                                userID: "Harsh",
+                                userID: _userID,
                                 productID: cartItems[index]["productID"]);
                             if (deleteResult == true) {
                               getCartData();
