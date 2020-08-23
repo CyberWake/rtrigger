@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
 import 'package:user/widgets/cart_item_card.dart';
 import 'package:user/models/apptheme.dart';
-import 'package:user/widgets/cart_item_card.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/services/Food/cart.dart';
 
 class FoodCart extends StatefulWidget {
@@ -12,16 +13,89 @@ class FoodCart extends StatefulWidget {
 }
 
 class _FoodCartState extends State<FoodCart> {
-  var _firestore = FirebaseFirestore.instance;
+  Auth auth = Auth();
+  UserProfile profile;
+  Razorpay _razorpay;
   final _userID = FirebaseAuth.instance.currentUser.uid;
   Cart cart = Cart();
   var cartItems = [];
   int total = 0;
+  bool isLoading = true;
+
+  void _handlePaymentError() async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('An Error occured!'),
+              content: Text('Something went Wrong'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(_).pop();
+                  },
+                ),
+              ],
+            ));
+  }
+
+  void _handleExternalWallet() {
+    return;
+  }
+
+  void _handlePaymentSuccess() async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Hurray!'),
+              content: Text('Payment Successful.'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(_).pop();
+                  },
+                ),
+              ],
+            ));
+  }
 
   @override
   void initState() {
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      setState(() {
+        isLoading = false;
+      });
+    });
     getCartData();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
+  }
+
+  Future<void> makePayment() async {
+    var options = {
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'amount': total*100, //in paise so * 100
+      'name': 'Rtiggers',
+      'description':
+          'Order Payment for id - ' + profile.username + total.toString(),
+      'prefill': {'contact': profile.phone, 'email': profile.email},
+      "method": {
+        "netbanking": true,
+        "card": true,
+        "wallet": true,
+        "upi": true,
+      },
+    };
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
   }
 
   void calculateTotal() {
@@ -50,42 +124,44 @@ class _FoodCartState extends State<FoodCart> {
           title: Text("Your Cart"),
           backgroundColor: AppTheme.dark_grey,
         ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  flex: 9,
-                  child: Container(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return CartItemCard(
-                          vendorName: cartItems[index]["vendor"],
-                          price: cartItems[index]["price"],
-                          foodTitle: cartItems[index]["name"],
-                          distance: "2 km",
-                          time: "10 min",
-                          image: cartItems[index]["image"],
-                          quantity: cartItems[index]["quantity"],
-                          productID: cartItems[index]["productID"],
-                          onTap: () async {
-                            Cart cart = Cart();
-                            var deleteResult = await cart.deleteFromCart(
-                                userID: _userID,
-                                productID: cartItems[index]["productID"]);
-                            if (deleteResult == true) {
-                              getCartData();
-                              //calculateTotal();
-                            }
-                          },
-                        );
-                      },
-                      itemCount: cartItems.length,
-                    ),
-                  )),
-            ],
-          ),
-        ),
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        flex: 9,
+                        child: Container(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CartItemCard(
+                                vendorName: cartItems[index]["vendor"],
+                                price: cartItems[index]["price"],
+                                foodTitle: cartItems[index]["name"],
+                                distance: "2 km",
+                                time: "10 min",
+                                image: cartItems[index]["image"],
+                                quantity: cartItems[index]["quantity"],
+                                productID: cartItems[index]["productID"],
+                                onTap: () async {
+                                  Cart cart = Cart();
+                                  var deleteResult = await cart.deleteFromCart(
+                                      userID: _userID,
+                                      productID: cartItems[index]["productID"]);
+                                  if (deleteResult == true) {
+                                    getCartData();
+                                    //calculateTotal();
+                                  }
+                                },
+                              );
+                            },
+                            itemCount: cartItems.length,
+                          ),
+                        )),
+                  ],
+                ),
+              ),
         bottomNavigationBar: BottomAppBar(
           color: AppTheme.dark_grey,
           elevation: 5,
@@ -94,7 +170,10 @@ class _FoodCartState extends State<FoodCart> {
               splashColor: AppTheme.darkerText,
               elevation: 5,
               backgroundColor: AppTheme.dark_grey,
-              onPressed: () {}, //Implement Route To Payment Here
+              onPressed: () {
+                makePayment();
+              },
+              //Implement Route To Payment Here
               label: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

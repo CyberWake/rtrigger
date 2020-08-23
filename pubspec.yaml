@@ -43,6 +43,7 @@ dependencies:
   geolocator: ^5.3.2+2
   mailer: ^3.0.4
   twilio_flutter: ^0.0.5
+  razorpay_flutter: 1.1.0
 
 dev_dependencies:
   flutter_test:
