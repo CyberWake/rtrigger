@@ -22,20 +22,27 @@ class _FoodCartState extends State<FoodCart> {
     getCartData();
   }
 
+  void calculateTotal() {
+    total = 0;
+    print("calculating Total");
+
+    for (int i = 0; i < cartItems.length; i++) {
+      setState(() {
+        total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
+      });
+    }
+  }
+
   void getCartData() async {
     var temp = await cart.getCartItems("Harsh");
     setState(() {
       cartItems = temp;
+      calculateTotal();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < cartItems.length; i++) {
-      setState(() {
-        total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
-      });
-    }  
     return Scaffold(
         appBar: AppBar(
           title: Text("Your Cart"),
@@ -66,6 +73,7 @@ class _FoodCartState extends State<FoodCart> {
                                 productID: cartItems[index]["productID"]);
                             if (deleteResult == true) {
                               getCartData();
+                              //calculateTotal();
                             }
                           },
                         );
