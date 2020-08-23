@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
-      url=profile.imageUrl;
+      url = profile.imageUrl;
       setState(() {
         isLoading = false;
       });
@@ -85,9 +84,13 @@ class _ProfileState extends State<Profile> {
             : Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 10,
+                    ),
                     GestureDetector(
                       child: Container(
                         height: 100,
@@ -95,7 +98,9 @@ class _ProfileState extends State<Profile> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(url!=profile.imageUrl?url:profile.imageUrl),
+                              image: NetworkImage(url != profile.imageUrl
+                                  ? url
+                                  : profile.imageUrl),
                               fit: BoxFit.fill,
                             )),
                       ),

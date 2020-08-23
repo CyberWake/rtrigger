@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
-
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
 
 class Contact extends StatefulWidget {
   @override
@@ -11,251 +10,244 @@ class Contact extends StatefulWidget {
 }
 
 class _ContactState extends State<Contact> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Auth auth = Auth();
+  UserProfile profile;
   var subject = "";
   var body = "";
   var name = "";
   var mail = "";
+  bool isLoaded = false;
+  bool isSent = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<void> send() async {
-    final Email email = Email(
-      body: "Name: " + name + "\n" + "Email: " + mail + "\n\n" + body,
-      subject: subject,
-      recipients: ['cogentwebservices@gmail.com'],
-      attachmentPaths: null,
-      isHTML: false,
-    );
-
+  Future<void> sendIt() async {
+    setState(() {
+      isSent = false;
+    });
+    final FormState form = _formKey.currentState;
+    form.save();
     String platformResponse;
-
+    String username = 'rtiggersapp@gmail.com';
+    String password = 'Rtiggersapp@1';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, mail)
+      ..recipients.add('support@rtiggersapp.com')
+      ..subject = 'User Feedback!'
+      ..text = body
+      ..html = "<h1>Customer FeedBack</h1>\n" +
+          "<p>" +
+          body +
+          "</p>\n<p>The user email is - " +
+          mail +
+          "</p>";
     try {
-      await FlutterEmailSender.send(email);
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
       platformResponse = 'success';
     } catch (error) {
+      print("Error occured");
+      print(error);
       platformResponse = error.toString();
+    } finally {
+      setState(() {
+        isSent = true;
+      });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(platformResponse),
+      ));
     }
+  }
 
-    if (!mounted) return;
-
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(platformResponse),
-    ));
+  @override
+  void initState() {
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      name = profile.username;
+      mail = profile.email;
+      setState(() {
+        isLoaded = true;
+      });
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left:15.0,right: 15,top: 60),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         crossAxisAlignment: CrossAxisAlignment.center,
-         mainAxisSize: MainAxisSize.max,
-         children: [
-           Container(
-             height: 450,
-             width: MediaQuery.of(context).size.width - 60,
-             child: ListView(children: <Widget>[
-               SizedBox(height: 20),
-               Padding(
-                 padding:
-                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
-                 child: Container(
-                   decoration: new BoxDecoration(
-                     color: Colors.grey[300],
-                     shape: BoxShape.rectangle,
-                     border: new Border.all(
-                       color: Colors.white,
-                       width: 1.0,
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                   ),
-                   child: Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: new TextFormField(
-
-                       decoration: new InputDecoration(
-                           border: InputBorder.none,
-                           labelText: 'Full Name',
-                           labelStyle: TextStyle(color: Colors.black)),
-                       onChanged: (value) {
-                         name = value;
-                       },
-                     ),
-                   ),
-                 ),
-               ),
-               Padding(
-                 padding:
-                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
-                 child: Container(
-                   decoration: new BoxDecoration(
-                     color: Colors.grey[300],
-                     shape: BoxShape.rectangle,
-                     border: new Border.all(
-                       color: Colors.white,
-                       width: 1.0,
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                   ),
-                   child: Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: new TextFormField(
-                       onChanged: (value) {
-                         mail = value;
-                       },
-                       decoration: new InputDecoration(
-                           border: InputBorder.none,
-                           labelText: 'Email Address',
-                           labelStyle: TextStyle(color: Colors.black)),
-                     ),
-                   ),
-                 ),
-               ),
-               Padding(
-                 padding:
-                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
-                 child: Container(
-                   decoration: new BoxDecoration(
-                     color: Colors.grey[300],
-                     shape: BoxShape.rectangle,
-                     border: new Border.all(
-                       color: Colors.white,
-                       width: 1.0,
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                   ),
-                   child: Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: new TextFormField(
-                       keyboardType: TextInputType.multiline,
-                       maxLines: null,
-                       decoration: new InputDecoration(
-                           border: InputBorder.none,
-                           labelText: 'Contact Reason',
-                           labelStyle: TextStyle(color: Colors.black)),
-                       onChanged: (value) {
-                         subject = value;
-                       },
-                     ),
-                   ),
-                 ),
-               ),
-               Padding(
-                 padding:
-                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
-                 child: Container(
-                   decoration: new BoxDecoration(
-                     color: Colors.grey[300],
-                     shape: BoxShape.rectangle,
-                     border: new Border.all(
-                       color: Colors.white,
-                       width: 1.0,
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                   ),
-                   child: Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: TextFormField(
-                         keyboardType: TextInputType.multiline,
-                         maxLines: null,
-                         decoration: new InputDecoration(
-                             border: InputBorder.none,
-                             labelText: 'Description of Query',
-                             labelStyle: TextStyle(color: Colors.black)),
-                         onChanged: (value) {
-                           body = value;
-                         },
-                       )),
-                 ),
-               ),
-               Padding(
-                 padding: EdgeInsets.symmetric(vertical: 35, horizontal: 50),
-                 child: RaisedButton(
-                   onPressed: () {
-                     send();
-                   },
-                   child: Container(
-                     height: 50,
-                     child: Column(
-                       children: <Widget>[
-                         Container(
-                           height: 10,
-                         ),
-                         Text("Send",
-                             style: TextStyle(
-                                 fontSize: 20,
-                                 fontWeight: FontWeight.bold,
-                                 color: Colors.white)),
-                       ],
-                     ),
-                   ),
-                   shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(18.0),
-                       side: BorderSide(
-                         color: Color.fromRGBO(00, 44, 64, 1.0),
-                       )),
-                   color: Color.fromRGBO(00, 44, 64, 1.0),
-                 ),
-               ),
-             ]),
-           ),
-           Container(
-             width: MediaQuery.of(context).size.width - 60,
-             child: Text(
-               "or",
-               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-               textAlign: TextAlign.center,
-             ),
-           ),
-           Container(
-             width: MediaQuery.of(context).size.width ,
-             padding: EdgeInsets.only(bottom: 70),
-             child: Row(
-               mainAxisSize: MainAxisSize.max,
-               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-               children: <Widget>[
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                   child: IconButton(
-                       icon: Icon(
-                         MdiIcons.clipboardAccount,
-                         color: Colors.green,
-                         size: 40,
-                       ),
-                       onPressed: () {
-                         FlutterOpenWhatsapp.sendSingleMessage("917080855524", "Send Query");
-                       }
-                   ),
-                 ),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                   child: IconButton(
-                       icon: Icon(
-                         Icons.call,
-                         color: Colors.black,
-                         size: 40,
-                       ),
-                       onPressed: () {
-                         UrlLauncher.launch('tel:+917080855524');
-                       }),
-                 ),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                   child: IconButton(
-                       icon: Icon(
-                         MdiIcons.gmail,
-                         color: Colors.red,
-                         size: 40,
-                       ),
-                       onPressed: () {
-                         UrlLauncher.launch('mailto:cogentwebservices@gmail.com');
-                       }),
-                 ),
-               ],
-             ),
-           ),
-         ],
+    return isLoaded
+        ? SingleChildScrollView(
+          child: Padding(
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height - 120,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView(children: <Widget>[
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 20),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: new BoxDecoration(
+                                  color: Colors.grey[300],
+                                  shape: BoxShape.rectangle,
+                                  border: new Border.all(
+                                    color: Colors.white,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new TextFormField(
+                                    initialValue: name,
+                                    decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        labelText: 'Full Name',
+                                        labelStyle:
+                                            TextStyle(color: Colors.black)),
+                                    onChanged: (value) {
+                                      name = value;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 20),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.rectangle,
+                            border: new Border.all(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              onChanged: (value) {
+                                mail = value;
+                              },
+                              initialValue: mail,
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Email Address',
+                                  labelStyle: TextStyle(color: Colors.black)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 20),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.rectangle,
+                            border: new Border.all(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Contact Reason',
+                                  labelStyle: TextStyle(color: Colors.black)),
+                              onChanged: (value) {
+                                subject = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 20),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.rectangle,
+                            border: new Border.all(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                decoration: new InputDecoration(
+                                    border: InputBorder.none,
+                                    labelText: 'Description of Query',
+                                    labelStyle: TextStyle(color: Colors.black)),
+                                onChanged: (value) {
+                                  body = value;
+                                },
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 35, horizontal: 50),
+                        child: RaisedButton(
+                          onPressed: () {
+                            sendIt();
+                          },
+                          child: Container(
+                            height: 50,
+                            child: isSent
+                                ? Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 10,
+                                      ),
+                                      Text("Send",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white)),
+                                    ],
+                                  )
+                                : Center(child: CircularProgressIndicator()),
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(
+                                color: Color.fromRGBO(00, 44, 64, 1.0),
+                              )),
+                          color: Color.fromRGBO(00, 44, 64, 1.0),
+                        ),
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
         )
-    );
+        : Center(child: CircularProgressIndicator());
   }
 }
