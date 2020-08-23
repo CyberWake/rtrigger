@@ -56,11 +56,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(navigationItems[0].icon),
       ),
       DrawerList(
-        index: DrawerIndex.FAVOURITE,
-        labelName: navigationItems[1].title,
-        icon: Icon(navigationItems[1].icon),
-      ),
-      DrawerList(
         index: DrawerIndex.ORDERS,
         labelName: navigationItems[2].title,
         icon: Icon(navigationItems[2].icon),
@@ -74,11 +69,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
         index: DrawerIndex.PROFILE,
         labelName: navigationItems[4].title,
         icon: Icon(navigationItems[4].icon),
-      ),
-      DrawerList(
-        index: DrawerIndex.NOTIFICATIONS,
-        labelName: navigationItems[5].title,
-        icon: Icon(navigationItems[5].icon),
       ),
       DrawerList(
         index: DrawerIndex.CONTACTUS,
