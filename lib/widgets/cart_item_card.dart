@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/widgets/add_to_cart_button.dart';
-import 'package:user/services/Food/cart.dart';
+import 'package:user/widgets/add_to_cart_button.dart';
 
 class CartItemCard extends StatefulWidget {
-
-  CartItemCard({this.image,this.foodTitle,this.time,this.distance,this.price,this.vendorName, this.quantity, this.productID, this.onTap});
+  CartItemCard(
+      {this.image,
+      this.foodTitle,
+      this.time,
+      this.distance,
+      this.price,
+      this.vendorName,
+      this.quantity,
+      this.productID,
+      this.onTap});
 
   final String image;
   final String foodTitle;
@@ -21,35 +28,62 @@ class CartItemCard extends StatefulWidget {
 }
 
 class _CartItemCardState extends State<CartItemCard> {
-
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 5,
       child: Container(
+        padding: EdgeInsets.all(10),
         child: Row(
           children: [
             Expanded(
               flex: 2,
-              child: Image(
-                image: AssetImage(widget.image),
-              ),
+              child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 60,
+                  child: ClipOval(
+                      child: Image.asset(
+                    widget.image,
+                    fit: BoxFit.cover,
+                  ))),
             ),
             Expanded(
               flex: 3,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(widget.foodTitle),
-                  Text("Rs. ${widget.price}"),
-                  Text(widget.time),
-                  Text("(${widget.vendorName} | ${widget.distance})"),
+                  Text(widget.foodTitle.toUpperCase(),
+                      style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                  Divider(),
+                  Text(
+                    "Rs. ${widget.price}",
+                    style: TextStyle(color: Colors.green, fontSize: 16),
+                  ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(widget.time),
+                      Text("(${widget.vendorName} | ${widget.distance})"),
+                    ],
+                  ),
+                  Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Qty : ${widget.quantity}"),
+                      Text(
+                        "Qty : ${widget.quantity}",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: widget.onTap,
-                        child: CartButton(title: "Remove",),
+                        child: CartButton(
+                          title: "Remove",
+                        ),
                       ),
                     ],
                   ),

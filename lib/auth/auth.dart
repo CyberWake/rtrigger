@@ -89,6 +89,7 @@ class Auth implements BaseAuth {
       String email, String password) async {
     final user = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+    await getProfile();
     return user.user?.uid;
   }
 
