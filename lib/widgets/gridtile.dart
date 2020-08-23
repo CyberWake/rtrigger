@@ -81,29 +81,27 @@ class CustomGridTile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(7),
           height: screenHeight / 5,
-          child: FittedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                loc != "null"?
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius:40,
-                      child: ClipOval(
-                          child: Image.asset(
-                            loc,
-                            fit: BoxFit.cover,
-                          )
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              loc != "null"?
+              CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius:40,
+                  child: ClipOval(
+                      child: Image.asset(
+                        loc,
+                        fit: BoxFit.cover,
                       )
                   )
-                    :SizedBox(height: 1,),
-                Text(title,
-                    style: TextStyle(
-                        fontFamily: 'RobotoCondensed',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13)),
-              ],
-            ),
+              )
+                  :SizedBox(height: 1,),
+              Text(title,
+                  style: TextStyle(
+                      fontFamily: 'RobotoCondensed',
+                      fontWeight: FontWeight.bold,
+                      fontSize: title.length>10?18:22)),
+            ],
           ),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(15)),
