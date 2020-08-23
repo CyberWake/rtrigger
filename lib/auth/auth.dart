@@ -36,6 +36,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:user/models/profile.dart';
 
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
@@ -49,7 +50,39 @@ abstract class BaseAuth {
 
 class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  var profile;
+  UserProfile profile;
+
+  Future<void> getProfile() async {
+    final User user = FirebaseAuth.instance.currentUser;
+    var auth = FirebaseFirestore.instance;
+    await auth.collection('users').doc(user.uid).get().then((value) {
+      profile = UserProfile(
+          username: value.data()['username'],
+          email: value.data()['email'],
+          userId: value.data()['userId'],
+          phone: value.data()['phone'],
+          address: value.data()['address'],
+          imageUrl: value.data()['imageUrl']);
+    });
+  }
+
+  Future<void> updateProfile(UserProfile newProfile) async {
+    final User user = _firebaseAuth.currentUser;
+    var auth1 = FirebaseFirestore.instance;
+    var _db = auth1.collection('users').doc(user.uid);
+    try {
+      await _db.update({
+        'username': newProfile.username,
+        'email': newProfile.email,
+        'userId': newProfile.userId,
+        'phone': newProfile.phone,
+        'address': newProfile.address,
+        'imageUrl': newProfile.imageUrl
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 
   @override
   Future<String> signInWithEmailAndPassword(
@@ -84,41 +117,6 @@ class Auth implements BaseAuth {
       'address': "Address",
       'imageUrl':
           "https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg"
-    });
-  }
-
-  Future<void> getProfile() async {
-    final User user = _firebaseAuth.currentUser;
-    var auth = FirebaseFirestore.instance;
-    print(user.email);
-     profile = auth.collection('users').doc(user.uid).get().then((value) {
-      return value.data();
-    });
-     print("Profile");
-     print(profile);
-  }
-
-  Future<void> updateProfile(
-      {String email,
-      String username,
-      String uid,
-      int phone,
-      String address,
-      String url}) async {
-    final User user = _firebaseAuth.currentUser;
-    var auth1 = FirebaseFirestore.instance;
-    var _db = auth1.collection('users').doc(user.uid);
-    _db.update({
-      'username': username,
-      'email': email,
-      'userId': uid,
-      'phone': phone,
-      'address': address,
-      'imageUrl': url
-    }).then((value) {
-      return "Success";
-    }).catchError(() {
-      return "cannot add";
     });
   }
 
