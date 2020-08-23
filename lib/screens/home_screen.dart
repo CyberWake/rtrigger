@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:user/widgets/tiles.dart';
+import 'package:user/widgets/gridtile.dart';
+import 'package:user/models/categories_enum.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -21,12 +22,43 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     return Container(
       color: Colors.transparent,
       margin: EdgeInsets.only(top: 60,left: 5,right: 5),
-      child: GridView.builder(
+      child: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: CustomGridTile(title:'Medicine', loc:'assets/img/medicine.png', card:Cards.medicine, type: CardType.Home)),
+              Expanded(
+                  child: CustomGridTile(title:'Food', loc:'assets/img/food.png',card: Cards.food,type:CardType.Home)),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: CustomGridTile(title:'Liqour', loc:'assets/img/liquor.png', card:Cards.liqour, type:CardType.Home)),
+              Expanded(
+                  child: CustomGridTile(title:'Saloon and Beauty Parlour', loc:'assets/img/salon.png',card: Cards.saloon, type:CardType.Home)),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: CustomGridTile(title: 'Santizer and Spray', loc:'assets/img/sanitize.png', card:Cards.spray, type:CardType.Home)),
+              Expanded(
+                  child: CustomGridTile(title:'View All',loc:'null', card:Cards.viewall, type:CardType.Home)),
+            ],
+          ),
+        ],
+      ),
+      /*GridView.builder(
         itemCount: 6,
           gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,),
           itemBuilder: (BuildContext context,int i)=>Tiles(i)
-      )
+      )*/
     );
   }
 }

@@ -8,7 +8,7 @@ class SaloonVendorListTile extends StatelessWidget {
   final String location;
   final String uid;
   final List servicesList;
-  final SaloonCategory category;
+  final Cards category;
 
   SaloonVendorListTile(
       {@required this.vendorName,

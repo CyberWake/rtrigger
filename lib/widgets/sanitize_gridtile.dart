@@ -5,7 +5,7 @@ import 'package:user/screens/sanitizer_vendor_list_screen.dart';
 class SanitizeGridTile extends StatelessWidget {
   final String title;
   final String loc;
-  final Category category;
+  final Cards category;
   SanitizeGridTile(this.title, this.loc, this.category);
 
   @override

@@ -6,7 +6,7 @@ class AreaScreen extends StatefulWidget {
   final String uid, vendorName;
   final String pricePerFeet;
   final String location;
-  final Category category;
+  final Cards category;
 
   AreaScreen(
       {@required this.uid,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:user/widgets/food_item_card.dart';
 import 'package:user/models/apptheme.dart';
-import 'package:user/widgets/Food/food_item_card.dart';
+import 'package:user/widgets/food_item_card.dart';
 import 'package:user/services/Food/food_fetching.dart';
-
-import 'food_cart.dart';
 
 class FoodItems extends StatefulWidget {
   FoodItems({this.title, this.index});

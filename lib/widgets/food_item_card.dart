@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:user/widgets/Food/add_to_cart_button.dart';
 import 'package:user/services/Food/cart.dart';
+import 'package:user/widgets/add_to_cart_button.dart';
+import 'package:uuid/uuid.dart';
 
-class CartItemCard extends StatefulWidget {
-  CartItemCard(
+class FoodItemCard extends StatefulWidget {
+  FoodItemCard(
       {this.image,
       this.foodTitle,
       this.time,
       this.distance,
       this.price,
-      this.vendorName,
-      this.quantity,
-      this.productID,
-      this.onTap});
+      this.vendorName});
 
   final String image;
   final String foodTitle;
@@ -20,15 +18,16 @@ class CartItemCard extends StatefulWidget {
   final String time;
   final String vendorName;
   final String distance;
-  final int quantity;
-  final String productID;
-  final Function onTap;
 
   @override
-  _CartItemCardState createState() => _CartItemCardState();
+  _FoodItemCardState createState() => _FoodItemCardState();
 }
 
-class _CartItemCardState extends State<CartItemCard> {
+class _FoodItemCardState extends State<FoodItemCard> {
+  int quantity = 1;
+  var productID = Uuid().v1();
+  Cart cart = Cart();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -60,7 +59,7 @@ class _CartItemCardState extends State<CartItemCard> {
                           fontSize: 20)),
                   Divider(),
                   Text(
-                    "Rs. ${widget.price}",
+                    "₹ ${widget.price}",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),
@@ -73,17 +72,46 @@ class _CartItemCardState extends State<CartItemCard> {
                   ),
                   Divider(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Qty : ${widget.quantity}",
-                        style: TextStyle(fontSize: 16),
+                      IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () {
+                          if (quantity > 0) {
+                            setState(() {
+                              quantity -= 1;
+                            });
+                          }
+                        },
+                      ),
+                      Text("$quantity"),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          if (quantity < 10) {
+                            setState(() {
+                              quantity += 1;
+                            });
+                          }
+                        },
                       ),
                       FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: widget.onTap,
+                        onPressed: () {
+                          var cartItem = {
+                            "image": widget.image,
+                            "name": widget.foodTitle,
+                            "price": widget.price,
+                            "quantity": quantity,
+                            "vendor": widget.vendorName,
+                            "time": widget.time,
+                            "productID": productID,
+                            "distance": widget.distance,
+                          };
+                          cart.addToCart(userID: "Harsh", item: [cartItem]);
+                        },
                         child: CartButton(
-                          title: "Remove",
+                          title: "Add to Cart",
                         ),
                       ),
                     ],

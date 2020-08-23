@@ -6,7 +6,7 @@ import 'package:user/screens/navigating_home_screen.dart';
 import 'package:user/screens/saloon_screen.dart';
 import 'package:user/screens/sanitizer_spray_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
-import '../screens/Food/food_categories.dart';
+import '../screens/food_screen.dart';
 import 'homedrawer.dart';
 
 class Tiles extends StatelessWidget {
@@ -36,7 +36,7 @@ class Tiles extends StatelessWidget {
       case 1:Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategory())
+                builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodScreen())
               )
             );break;
 

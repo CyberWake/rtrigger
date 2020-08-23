@@ -7,26 +7,26 @@ import 'package:user/widgets/loading_bar.dart';
 import 'package:user/widgets/saloon_vendor_listtile.dart';
 
 class SaloonVendorListScreen extends StatelessWidget {
-  final SaloonCategory category;
+  final Cards category;
   SaloonVendorListScreen(this.category);
   String _collectionName;
 
   @override
   Widget build(BuildContext context) {
     switch (category) {
-      case SaloonCategory.male:
+      case Cards.male:
         _collectionName = 'vendorSaloonMen';
         break;
 
-      case SaloonCategory.female:
+      case Cards.female:
         _collectionName = 'vendorSaloonFemale';
         break;
 
-      case SaloonCategory.unisex:
+      case Cards.unisex:
         _collectionName = 'vendorSaloonUnisex';
         break;
 
-      case SaloonCategory.spa:
+      case Cards.spa:
         _collectionName = 'vendorSaloonSpa';
         break;
     }

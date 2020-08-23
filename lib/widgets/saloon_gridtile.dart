@@ -5,7 +5,7 @@ import 'package:user/screens/saloon_vendor_list_screen.dart';
 class SaloonGridTile extends StatelessWidget {
   final String loc;
   final String title;
-  final SaloonCategory saloonCategory;
+  final Cards saloonCategory;
   SaloonGridTile(this.title, this.loc, this.saloonCategory);
 
   @override

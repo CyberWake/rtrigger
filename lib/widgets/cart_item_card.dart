@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:user/services/Food/cart.dart';
-import 'package:user/widgets/Food/add_to_cart_button.dart';
-import 'package:uuid/uuid.dart';
+import 'package:user/widgets/add_to_cart_button.dart';
 
-class FoodItemCard extends StatefulWidget {
-  FoodItemCard(
+class CartItemCard extends StatefulWidget {
+  CartItemCard(
       {this.image,
       this.foodTitle,
       this.time,
       this.distance,
       this.price,
-      this.vendorName});
+      this.vendorName,
+      this.quantity,
+      this.productID,
+      this.onTap});
 
   final String image;
   final String foodTitle;
@@ -18,16 +19,15 @@ class FoodItemCard extends StatefulWidget {
   final String time;
   final String vendorName;
   final String distance;
+  final int quantity;
+  final String productID;
+  final Function onTap;
 
   @override
-  _FoodItemCardState createState() => _FoodItemCardState();
+  _CartItemCardState createState() => _CartItemCardState();
 }
 
-class _FoodItemCardState extends State<FoodItemCard> {
-  int quantity = 1;
-  var productID = Uuid().v1();
-  Cart cart = Cart();
-
+class _CartItemCardState extends State<CartItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,7 +59,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                           fontSize: 20)),
                   Divider(),
                   Text(
-                    "₹ ${widget.price}",
+                    "Rs. ${widget.price}",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),
@@ -72,46 +72,17 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   ),
                   Divider(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.remove),
-                        onPressed: () {
-                          if (quantity > 0) {
-                            setState(() {
-                              quantity -= 1;
-                            });
-                          }
-                        },
-                      ),
-                      Text("$quantity"),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          if (quantity < 10) {
-                            setState(() {
-                              quantity += 1;
-                            });
-                          }
-                        },
+                      Text(
+                        "Qty : ${widget.quantity}",
+                        style: TextStyle(fontSize: 16),
                       ),
                       FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          var cartItem = {
-                            "image": widget.image,
-                            "name": widget.foodTitle,
-                            "price": widget.price,
-                            "quantity": quantity,
-                            "vendor": widget.vendorName,
-                            "time": widget.time,
-                            "productID": productID,
-                            "distance": widget.distance,
-                          };
-                          cart.addToCart(userID: "Harsh", item: [cartItem]);
-                        },
+                        onPressed: widget.onTap,
                         child: CartButton(
-                          title: "Add to Cart",
+                          title: "Remove",
                         ),
                       ),
                     ],
