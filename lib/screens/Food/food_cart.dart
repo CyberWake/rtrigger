@@ -13,6 +13,7 @@ class _FoodCartState extends State<FoodCart> {
   var _firestore = FirebaseFirestore.instance;
   Cart cart = Cart();
   var cartItems = [];
+  int total = 0;
 
   @override
   void initState() {
@@ -30,6 +31,11 @@ class _FoodCartState extends State<FoodCart> {
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < cartItems.length; i++) {
+      setState(() {
+        total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
+      });
+    }  
     return Scaffold(
         appBar: AppBar(
           title: Text("Your Cart"),
@@ -78,8 +84,20 @@ class _FoodCartState extends State<FoodCart> {
               splashColor: AppTheme.darkerText,
               elevation: 5,
               backgroundColor: AppTheme.dark_grey,
-              onPressed: () {},//Implement Route To Payment Here
-              label: Text("Make Payment".toUpperCase()),
+              onPressed: () {}, //Implement Route To Payment Here
+              label: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "Total: ₹ $total ".toUpperCase(),
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text("Make Payment".toUpperCase()),
+                ],
+              ),
             ),
           ),
         ));
