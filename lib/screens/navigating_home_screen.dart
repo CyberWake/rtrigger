@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
 import 'package:user/screens/drawer_contact_screen.dart';
 import 'package:user/screens/drawer_profile_screen.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
-import 'package:user/widgets/search.dart';
-
 import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
@@ -20,8 +20,9 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Widget screenView;
   DrawerIndex drawerIndex;
   String finalDate = '';
-  String UserName = " Aditya";
-  String greeting = "Hello,";
+  Auth auth = Auth();
+  UserProfile profile;
+  String UserName = " User";
   getCurrentDate(){
     var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
@@ -30,9 +31,13 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   }
   @override
   void initState() {
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      UserName = profile.username;
+    });
     drawerIndex = widget.index;
     screenView = widget.viewScreen;
-    getCurrentDate();
+      getCurrentDate();
     super.initState();
   }
 
@@ -76,7 +81,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(finalDate,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.grey),),
-                                    Text("Hello, Aditya",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
+                                    Text("Hello "+UserName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
                                   ],
                                 ),
                                 //Search(),
