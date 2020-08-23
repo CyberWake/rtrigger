@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:user/screens/food_screen.dart';
+import 'package:user/screens/food_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:user/models/categories_enum.dart';
@@ -16,58 +18,75 @@ class CustomGridTile extends StatelessWidget {
   final String loc;
   final Cards card;
   final CardType type;
-  CustomGridTile({this.title, this.loc, this.card,this.type});
-  getNextScreen(BuildContext context){
-    switch(type){
-      case CardType.Sanitizer: return SanitizeVendorListScreen(card);break;
-      case CardType.Saloon: return SaloonVendorListScreen(card);break;
-      case CardType.Home: return goFromHomeTo(context);break;
+  CustomGridTile({this.title, this.loc, this.card, this.type});
+  getNextScreen(BuildContext context) {
+    switch (type) {
+      case CardType.Sanitizer:
+        return SanitizeVendorListScreen(card);
+        break;
+      case CardType.Saloon:
+        return SaloonVendorListScreen(card);
+        break;
+      case CardType.Home:
+        return goFromHomeTo(context);
+        break;
     }
   }
-  goFromHomeTo(BuildContext context){
-    switch(card){
-      case Cards.medicine : return NavigationHomeScreen(DrawerIndex.MEDICINE,MedicineScreen()/*Navigator.push(
+
+  goFromHomeTo(BuildContext context) {
+    switch (card) {
+      case Cards.medicine:
+        return NavigationHomeScreen(DrawerIndex.MEDICINE,
+            MedicineScreen() /*Navigator.push(
           context,
           CupertinoPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.MEDICINE,MedicineScreen())
           )*/
-      );break;
+            );
+        break;
 
-      case Cards.food:return NavigationHomeScreen(DrawerIndex.FOOD,FoodCategory()/*Navigator.push(
+      case Cards.food:
+        return NavigationHomeScreen(DrawerIndex.FOOD,
+            FoodCategory() /*Navigator.push(
           context,
           CupertinoPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategoryScreen())
           )*/
-      );break;
+            );
+        break;
 
-      case Cards.liqour:return NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen()/*Navigator.push(
+      case Cards.liqour:
+        return NavigationHomeScreen(DrawerIndex.LIQUOR,
+            SanitizerAndSprayScreen() /*Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen())
           )*/
-      );break;
+            );
+        break;
 
-      case Cards.saloon:return NavigationHomeScreen(DrawerIndex.SALON,SaloonScreen()/*Navigator.push(
+      case Cards.saloon:
+        return NavigationHomeScreen(DrawerIndex.SALON,
+            SaloonScreen() /*Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SaloonScreen())
           )*/
-      );break;
+            );
+        break;
 
-      case Cards.spray:return NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen()/*Navigator.push(
+      case Cards.spray:
+        return NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,
+            SanitizerAndSprayScreen() /*Navigator.push(
           context,
           SlideLeftRoute(
               page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
           )*/
-      );break;
-
-      case Cards.spray:return NavigationHomeScreen(DrawerIndex.VIEWALL,SanitizerAndSprayScreen()/*Navigator.push(
-            context,
-            SlideLeftRoute(page: NavigationHomeScreen(DrawerIndex.VIEWALL,SanitizerAndSprayScreen())
-            )*/
-        );break;
+            );
+        break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -75,33 +94,39 @@ class CustomGridTile extends StatelessWidget {
       elevation: 20,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => getNextScreen(context)));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => getNextScreen(context)));
         },
         child: Container(
           padding: EdgeInsets.all(7),
           height: screenHeight / 5,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              loc != "null"?
-              CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius:40,
-                  child: ClipOval(
-                      child: Image.asset(
-                        loc,
-                        fit: BoxFit.cover,
+          child: FittedBox(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                loc != "null"
+                    ? FittedBox(
+                        child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 40,
+                            child: ClipOval(
+                                child: Image.asset(
+                              loc,
+                              fit: BoxFit.cover,
+                            ))),
                       )
-                  )
-              )
-                  :SizedBox(height: 1,),
-              Text(title,
-                  style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      fontWeight: FontWeight.bold,
-                      fontSize: title.length>10?18:22)),
-            ],
+                    : SizedBox(
+                        height: 1,
+                      ),
+                FittedBox(
+                  child: Text(title,
+                      style: TextStyle(
+                        fontFamily: 'RobotoCondensed',
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ],
+            ),
           ),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(15)),
