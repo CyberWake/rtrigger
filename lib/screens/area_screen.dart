@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
+import 'package:user/screens/sanitize_confirm_screen.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class AreaScreen extends StatefulWidget {
@@ -110,9 +111,14 @@ class _AreaScreenState extends State<AreaScreen> {
               height: screenHeight * 0.05,
               child: RaisedButton(
                 onPressed: () {
-//                  Navigator.of(context)
-//                      .push(MaterialPageRoute(builder: (_) => DonePage(7)));
-                  //todo : after submit button navigation
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SanitizeConfirmScreen(
+                          uid: widget.uid,
+                          vendorPrice: areaText,
+                          pricePerFeet: widget.pricePerFeet,
+                          category: widget.category,
+                          vendorName: widget.vendorName,
+                          location: widget.location)));
                 },
                 child: Text("Submit",
                     style: TextStyle(
