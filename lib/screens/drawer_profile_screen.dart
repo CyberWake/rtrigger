@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> {
                                 decoration:
                                     InputDecoration(labelText: 'Username'),
                                 initialValue: profile.username,
-                                textInputAction: TextInputAction.next,
+                                autofocus: true,
                                 onSaved: (value) {
                                   newName = value;
                                 },
@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile> {
                             TextFormField(
                                 decoration: InputDecoration(labelText: 'Phone'),
                                 initialValue: profile.phone.toString(),
-                                textInputAction: TextInputAction.next,
+                                autofocus: true,
                                 keyboardType: TextInputType.number,
                                 onSaved: (value) {
                                   phoneno = int.parse(value);
@@ -166,7 +166,7 @@ class _ProfileState extends State<Profile> {
                                 decoration:
                                     InputDecoration(labelText: 'Address'),
                                 initialValue: profile.address,
-                                textInputAction: TextInputAction.next,
+                                autofocus: true,
                                 keyboardType: TextInputType.multiline,
                                 onSaved: (value) {
                                   address = value;
