@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
-import 'package:user/widgets/saloon_gridtile.dart';
+import 'package:user/widgets/gridtile.dart';
 
 class SaloonScreen extends StatelessWidget {
   @override
@@ -23,21 +22,17 @@ class SaloonScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child: SaloonGridTile(
-                        'Male', 'assets/img/male.jpg', SaloonCategory.male)),
+                    child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon)),
                 Expanded(
-                    child: SaloonGridTile('Female', 'assets/img/female.jpg',
-                        SaloonCategory.female)),
+                    child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon)),
               ],
             ),
             Row(
               children: [
                 Expanded(
-                    child: SaloonGridTile('Unisex', 'assets/img/unisex.png',
-                        SaloonCategory.unisex)),
+                    child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon)),
                 Expanded(
-                    child: SaloonGridTile(
-                        'Spa', 'assets/img/spa.jpg', SaloonCategory.spa)),
+                    child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
               ],
             ),
           ],

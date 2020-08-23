@@ -5,7 +5,7 @@ import 'package:user/widgets/saloon_services_list_tile.dart';
 
 class SaloonServicesScreen extends StatelessWidget {
   final List services;
-  final SaloonCategory category;
+  final Cards category;
   SaloonServicesScreen(this.services, this.category);
 
   @override

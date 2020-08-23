@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
-import 'package:user/widgets/sanitize_gridtile.dart';
+import 'package:user/widgets/gridtile.dart';
 
 class SanitizerAndSprayScreen extends StatelessWidget {
 
@@ -16,18 +16,24 @@ class SanitizerAndSprayScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child: SanitizeGridTile('Sanitize',
-                        'assets/img/sanitize.png', Category.sanitize)),
+                    child: CustomGridTile(
+                        title:'Sanitize', loc:'assets/img/sanitize.png', card:Cards.sanitize,
+                        type:CardType.Sanitizer)
+                ),
                 Expanded(
-                    child: SanitizeGridTile('Mosquito',
-                        'assets/img/mosquito.jpg', Category.mosquito)),
+                    child: CustomGridTile(
+                        title:'Mosquito', loc:'assets/img/mosquito.jpg',card: Cards.mosquito,
+                        type:CardType.Sanitizer)
+                ),
               ],
             ),
             Row(
               children: [
                 Expanded(
-                    child: SanitizeGridTile('Cockroach',
-                        'assets/img/cockroch.jpg', Category.cockroach)),
+                    child: CustomGridTile(
+                        title:'Cockroach', loc:'assets/img/cockroch.jpg', card:Cards.cockroach,
+                        type:CardType.Sanitizer)
+                ),
                 Expanded(child: Container()),
               ],
             ),
@@ -35,9 +41,6 @@ class SanitizerAndSprayScreen extends StatelessWidget {
         ),
       ),
     );
-    /*Scaffold(
-      //appBar: AppBarForSanitizerAndParlourScreen(context),
-      body:
-    );*/
   }
 }
+

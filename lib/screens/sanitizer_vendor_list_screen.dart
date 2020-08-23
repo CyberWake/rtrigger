@@ -6,17 +6,17 @@ import 'package:user/widgets/loading_bar.dart';
 import 'package:user/widgets/vendor_list_item.dart';
 
 class SanitizeVendorListScreen extends StatelessWidget {
-  final Category category;
+  final Cards category;
   SanitizeVendorListScreen(this.category);
   String collectionName = '';
 
   @override
   Widget build(BuildContext context) {
-    if (category == Category.sanitize)
+    if (category == Cards.sanitize)
       collectionName = 'vendorSanitize';
-    else if (category == Category.cockroach)
+    else if (category == Cards.cockroach)
       collectionName = 'vendorCockroach';
-    else if (category == Category.mosquito) collectionName = 'vendorMosquito';
+    else if (category == Cards.mosquito) collectionName = 'vendorMosquito';
 
     return Scaffold(
       appBar: AppBarForSanitizerAndParlourScreen(context),

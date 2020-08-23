@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:user/widgets/Food/cart_item_card.dart';
+import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/widgets/cart_item_card.dart';
 import 'package:user/services/Food/cart.dart';
 
 class FoodCart extends StatefulWidget {

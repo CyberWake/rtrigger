@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user/widgets/Food/add_to_cart_button.dart';
+import 'file:///C:/Users/yasha/Desktop/a/tik_tiok_ui/rtrigger/lib/widgets/add_to_cart_button.dart';
 import 'package:user/services/Food/cart.dart';
 
 class CartItemCard extends StatefulWidget {

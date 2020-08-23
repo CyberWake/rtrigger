@@ -7,7 +7,7 @@ class VendorListItem extends StatelessWidget {
   final String vendorName;
   final String location;
   final String pricePerFeet;
-  final Category category;
+  final Cards category;
   final String uid;
   VendorListItem(
       {@required this.vendorName,

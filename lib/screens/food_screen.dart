@@ -1,15 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:user/widgets/Food/food_category_card.dart';
 import 'package:user/models/food_category_list.dart';
+import '../widgets/appbar_subcategory_screens.dart';
 
-import '../../widgets/appbar_subcategory_screens.dart';
-
-class FoodCategoryScreen extends StatelessWidget {
+class FoodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FoodCategoryList food_cat_class = FoodCategoryList();
-
+    FoodCategoryList foodCatClass = FoodCategoryList();
     return Scaffold(
       appBar: AppBarForSanitizerAndParlourScreen(context),
       body: Padding(
@@ -25,14 +21,14 @@ class FoodCategoryScreen extends StatelessWidget {
               ),
               Expanded(
                 child: GridView.builder(
-                    itemCount: food_cat_class.foodItems.length,
+                    itemCount: foodCatClass.foodItems.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3),
                     itemBuilder: (BuildContext context, int index) {
                       return CardTile(
-                          food_cat_class.foodItems[index]["foodName"],
-                          food_cat_class.foodItems[index]["image"],
-                          food_cat_class.foodItems[index]["index"],
+                          foodCatClass.foodItems[index]["foodName"],
+                          foodCatClass.foodItems[index]["image"],
+                          foodCatClass.foodItems[index]["index"],
                           null);
                     }),
               ),
