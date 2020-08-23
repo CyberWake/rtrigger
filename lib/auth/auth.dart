@@ -101,6 +101,12 @@ class Auth implements BaseAuth {
     return user.user?.uid;
   }
 
+  Future<void> setCart() async{
+    final _firestore = FirebaseFirestore.instance;
+    final userID = FirebaseAuth.instance.currentUser.uid;
+    await _firestore.collection("cart").doc(userID).set({"products": []});
+  }
+
   @override
   Future<String> currentUser() async {
     final User user = _firebaseAuth.currentUser;

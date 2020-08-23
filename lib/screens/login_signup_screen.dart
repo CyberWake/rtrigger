@@ -299,7 +299,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Stream<User> user; // firebase user
   Stream<Map<String, dynamic>> profile; // custom user data in Firestore
   bool isLoaded=true;
-
+  Auth auth1=Auth();
   String _email;
   String _password;
   String _name;
@@ -328,13 +328,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   isLoaded=true;
                 });
               });
-
           print('Signed in: $userId');
         } else {
           final String userId =
               await auth.createUserWithEmailAndPassword(_email, _password);
-          await Auth().addUserDetails(_email, _name, userId);
-
+          await auth1.addUserDetails(_email, _name, userId);
+          await auth1.setCart();
           print('Registered user: $userId');
         }
         widget.onSignedIn();
