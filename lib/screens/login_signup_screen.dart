@@ -258,6 +258,7 @@
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -278,6 +279,7 @@ class PasswordFieldValidator {
 
 class LoginSignupPage extends StatefulWidget {
   const LoginSignupPage({this.onSignedIn});
+
   final VoidCallback onSignedIn;
 
   @override
@@ -286,18 +288,17 @@ class LoginSignupPage extends StatefulWidget {
 
 enum FormType {
   login,
-
   register,
 }
 
 class _LoginSignupPageState extends State<LoginSignupPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
   // final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Stream<User> user; // firebase user
   Stream<Map<String, dynamic>> profile; // custom user data in Firestore
+  bool isLoaded=true;
 
   String _email;
   String _password;
@@ -317,15 +318,22 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     if (validateAndSave()) {
       try {
         final BaseAuth auth = AuthProvider.of(context).auth;
+        setState(() {
+          isLoaded=false;
+        });
         if (_formType == FormType.login) {
           final String userId =
-          await auth.signInWithEmailAndPassword(_email, _password);
+              await auth.signInWithEmailAndPassword(_email, _password).whenComplete(() {
+                setState(() {
+                  isLoaded=true;
+                });
+              });
 
           print('Signed in: $userId');
         } else {
           final String userId =
-          await auth.createUserWithEmailAndPassword(_email, _password);
-          await Auth().addUserDetails(_email,_name,userId);
+              await auth.createUserWithEmailAndPassword(_email, _password);
+          await Auth().addUserDetails(_email, _name, userId);
 
           print('Registered user: $userId');
         }
@@ -384,44 +392,45 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   ),
                   _formType == FormType.login
                       ? Text(
-                    'Login',
-                    style: TextStyle(fontSize: 38.0, color: Colors.white),
-                  )
+                          'Login',
+                          style: TextStyle(fontSize: 38.0, color: Colors.white),
+                        )
                       : Text(
-                    'Register',
-                    style: TextStyle(fontSize: 38.0, color: Colors.white),
-                  ),
+                          'Register',
+                          style: TextStyle(fontSize: 38.0, color: Colors.white),
+                        ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
-                  _formType != FormType.login?
-                  Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        autofocus: true,
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        key: Key('username'),
-                        decoration: InputDecoration(
-                          hintText: '  Enter Name',
-                          hintStyle: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(00, 44, 64, 1),
+                  _formType != FormType.login
+                      ? Container(
+                          width: 0.8 * MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              autofocus: true,
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              key: Key('username'),
+                              decoration: InputDecoration(
+                                hintText: '  Enter Name',
+                                hintStyle: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Color.fromRGBO(00, 44, 64, 1),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              validator: EmailFieldValidator.validate,
+                              onSaved: (String value) => _name = value,
+                            ),
                           ),
-                          border: InputBorder.none,
+                        )
+                      : SizedBox(
+                          height: 58,
                         ),
-                        validator: EmailFieldValidator.validate,
-                        onSaved: (String value) => _name = value,
-                      ),
-                    ),
-                  ):SizedBox(
-                    height: 58,
-                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
@@ -484,47 +493,51 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   ),
                   _formType == FormType.login
                       ? Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: Colors.lime[800],
-                      color: Color.fromRGBO(173, 173, 117, 1),
-                    ),
-                    child: FlatButton(
-                      key: Key('signIn'),
-                      child:
-                      Text('Login', style: TextStyle(fontSize: 20.0)),
-                      onPressed: validateAndSubmit,
-                    ),
-                  )
+                          width: 0.8 * MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.lime[800],
+                            color: Color.fromRGBO(173, 173, 117, 1),
+                          ),
+                          child: FlatButton(
+                            key: Key('signIn'),
+                            child: isLoaded
+                                ? Text('Login',
+                                    style: TextStyle(fontSize: 20.0))
+                                : Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                            onPressed: validateAndSubmit,
+                          ),
+                        )
                       : Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: Colors.lime[800],
-                      color: Color.fromRGBO(173, 173, 117, 1),
-                    ),
-                    child: FlatButton(
-                      child: Text('Create an account',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          )),
-                      onPressed: validateAndSubmit,
-                    ),
-                  ),
+                          width: 0.8 * MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.lime[800],
+                            color: Color.fromRGBO(173, 173, 117, 1),
+                          ),
+                          child: FlatButton(
+                            child: isLoaded? Text('Create an account',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                )): Center(child: CircularProgressIndicator()),
+                            onPressed: validateAndSubmit,
+                          ),
+                        ),
                   _formType == FormType.login
                       ? FlatButton(
-                    child: Text('Create an account',
-                        style: TextStyle(
-                            fontSize: 20.0, color: Colors.white)),
-                    onPressed: moveToRegister,
-                  )
+                          child: Text('Create an account',
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white)),
+                          onPressed: moveToRegister,
+                        )
                       : FlatButton(
-                    child: Text('Have an account? Login',
-                        style: TextStyle(
-                            fontSize: 20.0, color: Colors.white)),
-                    onPressed: moveToLogin,
-                  ),
+                          child: Text('Have an account? Login',
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white)),
+                          onPressed: moveToLogin,
+                        ),
                 ],
               ),
             ),
@@ -574,7 +587,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         ),
         FlatButton(
           child:
-          Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
+              Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
           onPressed: moveToLogin,
         ),
       ];

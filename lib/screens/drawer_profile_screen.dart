@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:user/auth/auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
+import 'package:user/models/profile.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -14,16 +15,16 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var _profile;
-  Auth _auth=Auth();
   File file;
+  Auth auth = Auth();
+  UserProfile profile;
   String url = "";
   String fileName = '';
   String newName = "";
   String address = "";
   int phoneno = 0;
   bool isLoaded = true;
-  bool init=true;
+  bool isLoading = true;
 
   void validateAndSave() async {
     final FormState form = _formKey.currentState;
@@ -35,13 +36,16 @@ class _ProfileState extends State<Profile> {
       setState(() {
         isLoaded = false;
       });
-      await Auth().updateProfile(
-          email: _profile['email'],
-          uid: _profile['userId'],
-          username: newName.isEmpty ? _profile['username'] : newName,
-          url: url.isEmpty ? _profile['imageUrl'] : url,
-          phone: phoneno == 0 ? _profile['phone'] : phoneno,
-          address: address.isEmpty ? _profile['address'] : address);
+      await auth.updateProfile(UserProfile(
+          email: profile.email,
+          userId: profile.userId,
+          username: newName.isEmpty ? profile.username : newName,
+          imageUrl: url.isEmpty ? profile.imageUrl : url,
+          phone: phoneno == 0 ? profile.phone : phoneno,
+          address: address.isEmpty ? profile.address : address));
+      setState(() {
+        isLoaded = true;
+      });
     } catch (error) {
       await showDialog(
           context: context,
@@ -57,137 +61,138 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ));
-    } finally {
-      setState(() {
-        isLoaded = true;
-      });
-      Navigator.of(context).pop();
     }
   }
 
   @override
   void initState() {
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      url=profile.imageUrl;
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
-    if(init){
-      init=false;
-    _auth.getProfile();
-    _profile=_auth.profile;
-    print(_profile['username']);
-    setState(() {});
-
-    super.didChangeDependencies();}
-  }
-
-  //name,email,image,address, phone
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      url,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  onTap: () async {
-                    file = await FilePicker.getFile(type: FileType.any);
-                    fileName = path.basename(file.path);
-                    StorageReference storageReference = FirebaseStorage.instance
-                        .ref()
-                        .child("images/$fileName");
-                    StorageUploadTask uploadTask =
-                        storageReference.putFile(file);
+      body: SingleChildScrollView(
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(url!=profile.imageUrl?url:profile.imageUrl),
+                              fit: BoxFit.fill,
+                            )),
+                      ),
+                      onTap: () async {
+                        file = await FilePicker.getFile(type: FileType.any);
+                        fileName = path.basename(file.path);
+                        setState(() {
+                          fileName = path.basename(file.path);
+                        });
+                        StorageReference storageReference = FirebaseStorage
+                            .instance
+                            .ref()
+                            .child("images/$fileName");
+                        StorageUploadTask uploadTask =
+                            storageReference.putFile(file);
 
-                    final StorageTaskSnapshot downloadUrl =
-                        (await uploadTask.onComplete);
-                    url = (await downloadUrl.ref.getDownloadURL());
-                  }, // <-- user image
+                        final StorageTaskSnapshot downloadUrl =
+                            (await uploadTask.onComplete);
+                        url = (await downloadUrl.ref.getDownloadURL());
+                        setState(() async {
+                          url = (await downloadUrl.ref.getDownloadURL());
+                        });
+                      }, // <-- user image
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(children: <Widget>[
+                            Text(
+                              profile.email,
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            TextFormField(
+                                decoration:
+                                    InputDecoration(labelText: 'Username'),
+                                initialValue: profile.username,
+                                autofocus: true,
+                                onSaved: (value) {
+                                  newName = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter a username';
+                                  }
+                                  return null;
+                                }),
+                            TextFormField(
+                                decoration: InputDecoration(labelText: 'Phone'),
+                                initialValue: profile.phone.toString(),
+                                autofocus: true,
+                                keyboardType: TextInputType.number,
+                                onSaved: (value) {
+                                  phoneno = int.parse(value);
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty ||
+                                      int.parse(value) < 6000000000 ||
+                                      int.parse(value) > 9999999999) {
+                                    return 'Please enter valid phone number';
+                                  }
+                                  return null;
+                                }),
+                            TextFormField(
+                                decoration:
+                                    InputDecoration(labelText: 'Address'),
+                                initialValue: profile.address,
+                                autofocus: true,
+                                keyboardType: TextInputType.multiline,
+                                onSaved: (value) {
+                                  address = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter a valid address.';
+                                  }
+                                  return null;
+                                }),
+                          ]),
+                        )),
+                    isLoaded
+                        ? RaisedButton(
+                            color: Colors.purple,
+                            child: Text(
+                              "Update info",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                            onPressed: validateAndSave,
+                          )
+                        : CircularProgressIndicator()
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Form(
-                        key: _formKey,
-                        child: ListView(children: <Widget>[
-                          Text(
-                            "Email id: " + _profile['email'],
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          TextFormField(
-                              decoration:
-                                  InputDecoration(labelText: 'Username'),
-                              initialValue: _profile['username'],
-                              textInputAction: TextInputAction.next,
-                              onSaved: (value) {
-                                newName = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter a username';
-                                }
-                                return null;
-                              }),
-                          TextFormField(
-                              decoration: InputDecoration(labelText: 'Phone'),
-                              initialValue: _profile['phone'],
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.number,
-                              onSaved: (value) {
-                                phoneno = int.parse(value);
-                              },
-                              validator: (value) {
-                                if (value.isEmpty ||
-                                    int.parse(value) < 6000000000 ||
-                                    int.parse(value) > 9999999999) {
-                                  return 'Please enter valid phone number';
-                                }
-                                return null;
-                              }),
-                          TextFormField(
-                              decoration: InputDecoration(labelText: 'Address'),
-                              initialValue: _profile['address'],
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.multiline,
-                              onSaved: (value) {
-                                address = value;
-                              },
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter a valid address.';
-                                }
-                                return null;
-                              }),
-                        ]))),
-                isLoaded == true
-                    ? RaisedButton(
-                        child: Text("Update info"),
-                        onPressed: validateAndSave,
-                      )
-                    : CircularProgressIndicator()
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
