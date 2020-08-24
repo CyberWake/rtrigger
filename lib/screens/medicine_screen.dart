@@ -210,26 +210,30 @@ class _MedicineScreenState extends State<MedicineScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        'Upload Prescription',
-                        style: TextStyle(
-                          color: _color,
-                          fontSize: y * 0.022,
-                        ),
-                      ),
                       attachment
                           ? Text(
                               'Completed',
                               style:
                                   TextStyle(color: _color, fontSize: y * 0.022),
                             )
-                          : GestureDetector(
-                              child: Icon(Icons.attachment,
-                                  color: _color, size: 25),
-                              onTapDown: (TapDownDetails details) {
-                                _button(details.globalPosition);
-                              },
-                            )
+                          : Row(
+                        children: [
+                          Text(
+                            'Upload Prescription',
+                            style: TextStyle(
+                              color: _color,
+                              fontSize: y * 0.022,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Icon(Icons.attachment,
+                                color: _color, size: 25),
+                            onTapDown: (TapDownDetails details) {
+                              _button(details.globalPosition);
+                            },
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
