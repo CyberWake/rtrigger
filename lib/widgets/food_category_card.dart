@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/screens/food_items.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FoodCategoryCard extends StatelessWidget {
   FoodCategoryCard({this.index, this.foodName, this.image});
@@ -20,30 +21,37 @@ class FoodCategoryCard extends StatelessWidget {
         }));
       },
       child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              flex: 5,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 33,
-                  child: ClipOval(
-                      child: Image.asset(
-                    image,
-                    fit: BoxFit.cover,
-                  ))),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(foodName,
-                  style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13)),
-            ),
-          ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                flex: 5,
+                child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 33,
+                    child: ClipOval(
+                        child: Image.asset(
+                      image,
+                      fit: BoxFit.cover,
+                    ))),
+              ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  foodName,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
