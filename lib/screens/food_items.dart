@@ -42,17 +42,7 @@ class _FoodItemsState extends State<FoodItems> {
       ),
       body: SafeArea(
         child: isLoaded
-            ? items.length == 0
-                ? Center(
-                    child: Text(
-                      'No items available now, Please check after sometime.',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 25),
-                    ),
-                  )
-                : Container(
+            ? Container(
                     child: Expanded(
                       flex: 10,
                       child: ListView.builder(
