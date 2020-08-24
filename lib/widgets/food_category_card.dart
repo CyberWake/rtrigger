@@ -20,6 +20,7 @@ class FoodCategoryCard extends StatelessWidget {
         }));
       },
       child: Card(
+        elevation: 20,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
