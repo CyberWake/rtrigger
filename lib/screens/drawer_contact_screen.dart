@@ -84,6 +84,7 @@ class _ContactState extends State<Contact> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+                    padding: EdgeInsets.only(top: 15),
                     height: MediaQuery.of(context).size.height - 120,
                     width: MediaQuery.of(context).size.width,
                     child: ListView(children: <Widget>[
