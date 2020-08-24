@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/screens/drawer_contact_screen.dart';
+import 'package:user/screens/drawer_order_screen.dart';
 import 'package:user/screens/drawer_profile_screen.dart';
 import 'package:user/screens/food_cart.dart';
 import 'package:user/screens/home_screen.dart';
@@ -134,7 +135,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.ORDERS) {
         setState(() {
-          screenView = Home();
+          screenView = OrderScreen(false);
           drawerIndex = DrawerIndex.ORDERS;
         });
       } else if (drawerIndex == DrawerIndex.MYCART) {

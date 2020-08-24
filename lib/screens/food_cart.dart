@@ -150,7 +150,7 @@ class _FoodCartState extends State<FoodCart> {
             ? Center(child: CircularProgressIndicator())
             : total==0?Container(
           padding: EdgeInsets.all(15),
-          child: Text("Nice to have you here..\nHope to see back when we serve you",
+          child: Text("Nice to have you here..\nFirst add something in cart",
           style: TextStyle(fontSize: MediaQuery.of(context).size.width/15),),
         ):
         SafeArea(
