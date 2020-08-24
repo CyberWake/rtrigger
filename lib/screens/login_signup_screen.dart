@@ -258,8 +258,10 @@
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:user/screens/root_screen.dart';
 
 import '../auth/auth.dart';
 import '../auth/authorizationProvider.dart';
@@ -294,11 +296,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // final FirebaseFirestore _db = FirebaseFirestore.instance;
-  Auth auth=Auth();
+  Auth auth = Auth();
   Stream<User> user; // firebase user
   Stream<Map<String, dynamic>> profile; // custom user data in Firestore
-  bool isLoaded=true;
-  Auth auth1=Auth();
+  bool isLoaded = true;
+  Auth auth1 = Auth();
   String _email;
   String _password;
   String _name;
@@ -313,25 +315,33 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     return false;
   }
 
-  Future<void> validateAndSubmit() async {
+  Future<void> validateAndSubmit(BuildContext context) async {
     if (validateAndSave()) {
       try {
         final BaseAuth auth = AuthProvider.of(context).auth;
         setState(() {
-          isLoaded=false;
+          isLoaded = false;
         });
         if (_formType == FormType.login) {
-          final String userId =
-              await auth.signInWithEmailAndPassword(_email, _password).whenComplete(() {
-                setState(() {
-                  isLoaded=true;
-                });
+          try {
+            final String userId = await auth
+                .signInWithEmailAndPassword(_email, _password)
+                .whenComplete(() {
+              setState(() {
+                isLoaded = true;
               });
-          print('Signed in: $userId');
-        }
-        else {
+            });
+            print('Signed in: $userId');
+          } catch (error) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(error),
+            ));
+          }
+        } else {
           final String userId =
               await auth.createUserWithEmailAndPassword(_email, _password);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => RootPage()));
           await auth1.addUserDetails(_email, _name, userId);
           await auth1.setCart();
           print('Registered user: $userId');
@@ -503,7 +513,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                 : Center(
                                     child: CircularProgressIndicator(),
                                   ),
-                            onPressed: validateAndSubmit,
+                            onPressed: () => validateAndSubmit(context),
                           ),
                         )
                       : Container(
@@ -514,11 +524,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                             color: Color.fromRGBO(173, 173, 117, 1),
                           ),
                           child: FlatButton(
-                            child: isLoaded? Text('Create an account',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                )): Center(child: CircularProgressIndicator()),
-                            onPressed: validateAndSubmit,
+                            child: isLoaded
+                                ? Text('Create an account',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    ))
+                                : Center(child: CircularProgressIndicator()),
+                            onPressed: () => validateAndSubmit(context),
                           ),
                         ),
                   _formType == FormType.login
@@ -568,7 +580,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         RaisedButton(
           key: Key('signIn'),
           child: Text('Login', style: TextStyle(fontSize: 20.0)),
-          onPressed: validateAndSubmit,
+          onPressed: () => validateAndSubmit(context),
         ),
         FlatButton(
           child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
@@ -579,7 +591,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       return <Widget>[
         RaisedButton(
           child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
-          onPressed: validateAndSubmit,
+          onPressed: () => validateAndSubmit(context),
         ),
         FlatButton(
           child:

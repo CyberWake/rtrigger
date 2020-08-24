@@ -43,7 +43,6 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
           return true;
         },
         child: SafeArea(
-          child: Center(
             child: SingleChildScrollView(
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -276,7 +275,7 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
             ),
           ),
         ),
-      ),
+
     );
   }
 

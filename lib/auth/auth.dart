@@ -87,21 +87,38 @@ class Auth implements BaseAuth {
   @override
   Future<String> signInWithEmailAndPassword(
       String email, String password) async {
-    final user = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    await getProfile();
-    return user.user?.uid;
+    try {
+      final user = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      await getProfile();
+      if (user.user.emailVerified) {
+        return user.user?.uid;
+      }
+    } catch (e) {
+      throw e;
+    }
+    return null;
   }
 
   @override
   Future<String> createUserWithEmailAndPassword(
       String email, String password) async {
+    try{
     final user = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
-    return user.user?.uid;
+    try {
+      await user.user.sendEmailVerification();
+      return user.user?.uid;
+    } catch (e) {
+      print("An error occurred while sending verification email");
+      print(e.toString());
+    }}
+    catch(e){
+      throw e;
+    }
   }
 
-  Future<void> setCart() async{
+  Future<void> setCart() async {
     final _firestore = FirebaseFirestore.instance;
     final userID = FirebaseAuth.instance.currentUser.uid;
     await _firestore.collection("cart").doc(userID).set({"products": []});
