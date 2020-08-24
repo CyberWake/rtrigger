@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget AppBarForSanitizerAndParlourScreen(final context) {
+Widget UniversalAppBar(final context) {
   return AppBar(
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.blueGrey,
     elevation: 0.0,
     centerTitle: true,
     actions: <Widget>[

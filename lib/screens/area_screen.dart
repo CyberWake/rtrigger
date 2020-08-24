@@ -33,7 +33,7 @@ class _AreaScreenState extends State<AreaScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context),
       body: Stack(
         children: <Widget>[
           Positioned(

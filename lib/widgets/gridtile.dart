@@ -20,7 +20,32 @@ class CustomGridTile extends StatelessWidget {
   final Cards card;
   final CardType type;
   CustomGridTile({this.title, this.loc, this.card, this.type});
-  getNextScreen(BuildContext context) {
+  /*getNextScreen() {
+    switch (type) {
+      case CardType.Medicine:
+        return MedicineScreen();
+        break;
+      case CardType.Food:
+        return FoodScreen();
+        break;
+      case CardType.Liqour:
+        return LiquorScreen();
+        break;
+      case CardType.Sanitizer:if(card==Cards.sanitize||card==Cards.mosquito||card==Cards.cockroach){
+                                return SaloonVendorListScreen(card);
+                              }
+                              return SaloonScreen();
+                              break;
+      case CardType.Saloon:if(card==Cards.male||card==Cards.male||card==Cards.male){
+                              return SanitizeVendorListScreen(card);
+                            }
+                            return SaloonScreen();
+
+        break;
+
+    }
+  }*/
+  getNextScreen() {
     switch (type) {
       case CardType.Sanitizer:
         return SanitizeVendorListScreen(card);
@@ -29,61 +54,31 @@ class CustomGridTile extends StatelessWidget {
         return SaloonVendorListScreen(card);
         break;
       case CardType.Home:
-        return goFromHomeTo(context);
+        return goFromHomeTo();
         break;
     }
   }
 
-  goFromHomeTo(BuildContext context) {
+ goFromHomeTo() {
     switch (card) {
       case Cards.medicine:
-        return NavigationHomeScreen(DrawerIndex.MEDICINE,
-            MedicineScreen() /*Navigator.push(
-          context,
-          CupertinoPageRoute(
-              builder: (context) => NavigationHomeScreen(DrawerIndex.MEDICINE,MedicineScreen())
-          )*/
-            );
+        return MedicineScreen();
         break;
 
       case Cards.food:
-        return NavigationHomeScreen(DrawerIndex.FOOD,
-            FoodCategory() /*Navigator.push(
-          context,
-          CupertinoPageRoute(
-              builder: (context) => NavigationHomeScreen(DrawerIndex.FOOD,FoodCategoryScreen())
-          )*/
-            );
+        return FoodScreen();
         break;
 
       case Cards.liqour:
-        return NavigationHomeScreen(DrawerIndex.LIQUOR,
-            LiquorCategory() /*Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen())
-          )*/
-            );
+        return LiquorScreen();
         break;
 
       case Cards.saloon:
-        return NavigationHomeScreen(DrawerIndex.SALON,
-            SaloonScreen() /*Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NavigationHomeScreen(DrawerIndex.SALON,SaloonScreen())
-          )*/
-            );
+        return SaloonScreen();
         break;
 
       case Cards.spray:
-        return NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,
-            SanitizerAndSprayScreen() /*Navigator.push(
-          context,
-          SlideLeftRoute(
-              page: NavigationHomeScreen(DrawerIndex.SANITIZERANDSPRAY,SanitizerAndSprayScreen())
-          )*/
-            );
+        return SanitizerAndSprayScreen();
         break;
     }
   }
@@ -96,7 +91,7 @@ class CustomGridTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => getNextScreen(context)));
+              .push(CupertinoPageRoute(builder: (_) => getNextScreen()));
         },
         child: Container(
           padding: EdgeInsets.all(7),

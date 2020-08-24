@@ -31,7 +31,7 @@ class SanitizeConfirmScreen extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context),
       body: Card(
         elevation: 7,
         child: Padding(

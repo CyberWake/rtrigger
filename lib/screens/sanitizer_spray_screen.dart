@@ -7,7 +7,7 @@ class SanitizerAndSprayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
         child: ListView(

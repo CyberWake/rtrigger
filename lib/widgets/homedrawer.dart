@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/Models/apptheme.dart';
 import 'package:user/Models/navigation%20titles.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/models/varialbes.dart';
+import 'package:user/screens/drawer_profile_screen.dart';
 
 import '../screens/root_screen.dart';
 
@@ -125,7 +127,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(60.0)),
                               child: isLoaded
-                                  ? Image.network(url)
+                                  ? GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (BuildContext context) => Profile()));
+                                },
+                                    child: Hero(
+                                tag: url,
+                                    child: Image.network(url)),
+                                  )
                                   : Center(child: CircularProgressIndicator()),
                             ),
                           ),

@@ -9,9 +9,6 @@ import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
-  final DrawerIndex index;
-  final Widget viewScreen;
-  NavigationHomeScreen(this.index,this.viewScreen);
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -23,20 +20,22 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Auth auth = Auth();
   UserProfile profile;
   String UserName = " User";
+
   getCurrentDate(){
     var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
     finalDate = formattedDate.toString() ;
   }
+
   @override
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
       UserName = profile.username;
     });
-    drawerIndex = widget.index;
-    screenView = widget.viewScreen;
+    drawerIndex = DrawerIndex.HOME;
+    screenView = Home();
       getCurrentDate();
     super.initState();
   }
@@ -69,6 +68,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       ),
     );
   }
+
   _getTitle(DrawerIndex index){
     switch(index){
       case DrawerIndex.HOME: return Row(
@@ -99,7 +99,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       case DrawerIndex.MYCART: return Text("My Cart");break;
       case DrawerIndex.PROFILE: return Text("Profile");break;
       case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
-      case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
+      case DrawerIndex.CONTACTUS: return Text("Contact Us");break;
       case DrawerIndex.MEDICINE: return Text("Medicine");break;
       case DrawerIndex.FOOD: return Text("Food");break;
       case DrawerIndex.LIQUOR: return Text("Liquor");break;

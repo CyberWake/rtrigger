@@ -95,12 +95,12 @@ import 'package:user/models/food_category_list.dart';
 import 'package:user/widgets/food_category_card.dart';
 import 'food_cart.dart';
 
-class FoodCategory extends StatefulWidget {
+class FoodScreen extends StatefulWidget {
   @override
-  _FoodCategoryState createState() => _FoodCategoryState();
+  _FoodScreenState createState() => _FoodScreenState();
 }
 
-class _FoodCategoryState extends State<FoodCategory> {
+class _FoodScreenState extends State<FoodScreen> {
   List<dynamic> _listItem = FoodCategoryList().foodItems;
 
   @override

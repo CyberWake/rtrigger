@@ -32,7 +32,7 @@ class SaloonVendorListScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context),
       body: FutureBuilder<List<Map>>(
         future: listOfVendors(),
         builder: (context, snapshot) {
