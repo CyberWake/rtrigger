@@ -79,7 +79,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context),
+      appBar: UniversalAppBar(context,false,"profile"),
       body: SingleChildScrollView(
         child: isLoading
             ? Center(child: CircularProgressIndicator())

@@ -13,14 +13,13 @@ class LiquorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context),
+      appBar: UniversalAppBar(context,true,"Liqour Category"),
       body: SafeArea(
         child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
-              Expanded(child: Text("Choose category")),
               Expanded(
                 flex: 10,
                 child: Column(

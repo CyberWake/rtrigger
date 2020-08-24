@@ -35,13 +35,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       title: 'Medicine',
                       loc: 'assets/img/medicine.png',
                       card: Cards.medicine,
-                      type: CardType.Medicine)),
+                      type: CardType.Home)),
               Expanded(
                   child: CustomGridTile(
                       title: 'Food',
                       loc: 'assets/img/food.png',
                       card: Cards.food,
-                      type: CardType.Food)),
+                      type: CardType.Home)),
             ],
           ),
           Row(

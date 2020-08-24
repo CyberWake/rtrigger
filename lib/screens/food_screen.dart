@@ -92,6 +92,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:user/models/food_category_list.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_category_card.dart';
 import 'food_cart.dart';
 
@@ -111,13 +112,14 @@ class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: UniversalAppBar(context,true,"Food Category"),
       body: SafeArea(
         child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
-              Expanded(
+              /*Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -141,7 +143,7 @@ class _FoodScreenState extends State<FoodScreen> {
                     },
                   ),
                 ],
-              )),
+              )),*/
               Expanded(
                 flex: 10,
                 child: GridView.count(

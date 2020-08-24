@@ -31,7 +31,7 @@ class SanitizeConfirmScreen extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: UniversalAppBar(context),
+      appBar: UniversalAppBar(context,false,"Confirm Booking"),
       body: Card(
         elevation: 7,
         child: Padding(

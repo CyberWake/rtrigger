@@ -5,6 +5,7 @@ import "package:image_picker/image_picker.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/search.dart';
 
 final Color _color = Color.fromRGBO(0, 44, 64, 1);
@@ -127,7 +128,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
     double y = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: UniversalAppBar(context, false, "Medicine"),
         body: Column(
         children: <Widget>[
           Padding(
