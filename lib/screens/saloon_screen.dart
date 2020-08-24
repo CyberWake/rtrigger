@@ -7,7 +7,7 @@ class SaloonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context),
+      appBar: UniversalAppBar(context,false,"Saloon/Beauty Parlour Category"),
       body: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
         child: ListView(
