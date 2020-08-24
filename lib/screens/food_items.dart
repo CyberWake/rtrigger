@@ -17,10 +17,10 @@ class FoodItems extends StatefulWidget {
 class _FoodItemsState extends State<FoodItems> {
   FoodFetching foodFetching = FoodFetching();
   List<dynamic> items = [];
+  bool isLoaded = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getFoodItems();
   }
@@ -29,6 +29,7 @@ class _FoodItemsState extends State<FoodItems> {
     var fetchedData = await foodFetching.getFood(widget.index);
     setState(() {
       items = fetchedData;
+      isLoaded = true;
     });
   }
 
@@ -40,24 +41,36 @@ class _FoodItemsState extends State<FoodItems> {
         title: Text(widget.title),
       ),
       body: SafeArea(
-        child: Container(
-          child: Expanded(
-            flex: 10,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return FoodItemCard(
-                  image: items[index]["img"],
-                  time: "10 min",
-                  distance: "2 km",
-                  foodTitle: items[index]["name"],
-                  price: int.parse(items[index]["price"]),
-                  vendorName: "Royal Shop",
-                );
-              },
-              itemCount: items.length,
-            ),
-          ),
-        ),
+        child: isLoaded
+            ? items.length == 0
+                ? Center(
+                    child: Text(
+                      'No items available now, Please check after sometime.',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 25),
+                    ),
+                  )
+                : Container(
+                    child: Expanded(
+                      flex: 10,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return FoodItemCard(
+                            image: items[index]["img"],
+                            time: "10 min",
+                            distance: "2 km",
+                            foodTitle: items[index]["name"],
+                            price: int.parse(items[index]["price"]),
+                            vendorName: "Royal Shop",
+                          );
+                        },
+                        itemCount: items.length,
+                      ),
+                    ),
+                  )
+            : Center(child: CircularProgressIndicator()),
       ),
     );
   }

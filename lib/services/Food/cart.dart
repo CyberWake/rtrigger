@@ -8,7 +8,7 @@ class Cart{
   Future<bool> addToCart({String userID, List item}) async{
 
     try{
-      _firestore.collection("cart").doc(userID).update({
+      await _firestore.collection("cart").doc(userID).update({
         "products": FieldValue.arrayUnion(item),
       });
       print("added to cart");

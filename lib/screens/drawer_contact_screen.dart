@@ -45,7 +45,7 @@ class _ContactState extends State<Contact> {
     try {
       final sendReport = await send(message, smtpServer);
       print('Message sent: ' + sendReport.toString());
-      platformResponse = 'success';
+      platformResponse = 'Sent';
     } catch (error) {
       print("Error occured");
       print(error);
@@ -54,8 +54,8 @@ class _ContactState extends State<Contact> {
       setState(() {
         isSent = true;
       });
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(platformResponse),
+      Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(platformResponse),
       ));
     }
   }
