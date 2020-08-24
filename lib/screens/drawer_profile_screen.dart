@@ -80,13 +80,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(15),
-                child: Column(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.all(15),
+          child: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -198,7 +198,7 @@ class _ProfileState extends State<Profile> {
                         : CircularProgressIndicator()
                   ],
                 ),
-              ),
+        ),
       ),
     );
   }

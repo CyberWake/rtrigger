@@ -22,12 +22,13 @@ class _FoodCartState extends State<FoodCart> {
   int total = 0;
   bool isLoading = true;
 
-  void _handlePaymentError() async {
+  void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('An Error occured!'),
-              content: Text('Something went Wrong'),
+              content:
+                  Text(response.code.toString() + ' - ' + response.message),
               actions: <Widget>[
                 FlatButton(
                   child: Text('Okay'),
@@ -39,16 +40,14 @@ class _FoodCartState extends State<FoodCart> {
             ));
   }
 
-  void _handleExternalWallet() {
-    return;
-  }
+  void _handleExternalWallet(ExternalWalletResponse response) {}
 
-  void _handlePaymentSuccess() async {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text('Hurray!'),
-              content: Text('Payment Successful.'),
+              title: Text('Payment Successful.'),
+              content: Text(response.paymentId),
               actions: <Widget>[
                 FlatButton(
                   child: Text('Okay'),
@@ -69,25 +68,25 @@ class _FoodCartState extends State<FoodCart> {
       });
     });
     getCartData();
+    super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    super.initState();
   }
 
   Future<void> makePayment() async {
     var options = {
       'key': 'rzp_test_Fs6iRWL4ppk5ng',
-      'amount': total*100, //in paise so * 100
+      'amount': total * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description':
           'Order Payment for id - ' + profile.username + total.toString(),
-      'prefill': {'contact': profile.phone, 'email': profile.email},
+      'prefill': {'contact': profile.phone.toString(), 'email': profile.email},
       "method": {
         "netbanking": true,
         "card": true,
-        "wallet": true,
+        "wallet": false,
         "upi": true,
       },
     };
@@ -118,77 +117,83 @@ class _FoodCartState extends State<FoodCart> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width/8),
-          child: isLoading
-              ? Center(child: CircularProgressIndicator())
-              : SafeArea(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          flex: 9,
-                          child: Container(
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return CartItemCard(
-                                  vendorName: cartItems[index]["vendor"],
-                                  price: cartItems[index]["price"],
-                                  foodTitle: cartItems[index]["name"],
-                                  distance: "2 km",
-                                  time: "10 min",
-                                  image: cartItems[index]["image"],
-                                  quantity: cartItems[index]["quantity"],
-                                  productID: cartItems[index]["productID"],
-                                  onTap: () async {
-                                    Cart cart = Cart();
-                                    var deleteResult = await cart.deleteFromCart(
-                                        userID: _userID,
-                                        productID: cartItems[index]["productID"]);
-                                    if (deleteResult == true) {
-                                      getCartData();
-                                      //calculateTotal();
-                                    }
-                                  },
-                                );
-                              },
-                              itemCount: cartItems.length,
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-      ),
-          bottomNavigationBar: BottomAppBar(
-            color: AppTheme.dark_grey,
-            elevation: 5,
-            child: Container(
-              child: FloatingActionButton.extended(
-                splashColor: AppTheme.darkerText,
-                elevation: 5,
-                backgroundColor: AppTheme.dark_grey,
-                onPressed: () {
-                  makePayment();
-                },
-                //Implement Route To Payment Here
-                label: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Total: ₹ $total ".toUpperCase(),
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text("Make Payment".toUpperCase()),
+                    Expanded(
+                        flex: 9,
+                        child: Container(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return CartItemCard(
+                                vendorName: cartItems[index]["vendor"],
+                                price: cartItems[index]["price"],
+                                foodTitle: cartItems[index]["name"],
+                                distance: "2 km",
+                                time: "10 min",
+                                image: cartItems[index]["image"],
+                                quantity: cartItems[index]["quantity"],
+                                productID: cartItems[index]["productID"],
+                                onTap: () async {
+                                  Cart cart = Cart();
+                                  var deleteResult = await cart.deleteFromCart(
+                                      userID: _userID,
+                                      productID: cartItems[index]["productID"]);
+                                  if (deleteResult == true) {
+                                    getCartData();
+                                    //calculateTotal();
+                                  }
+                                },
+                              );
+                            },
+                            itemCount: cartItems.length,
+                          ),
+                        )),
                   ],
                 ),
               ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: AppTheme.dark_grey,
+        elevation: 5,
+        child: Container(
+          child: FloatingActionButton.extended(
+            splashColor: AppTheme.darkerText,
+            elevation: 5,
+            backgroundColor: AppTheme.dark_grey,
+            onPressed: () {
+              makePayment();
+            },
+            //Implement Route To Payment Here
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Total: ₹ $total ".toUpperCase(),
+                  style: TextStyle(color: Colors.green),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text("Make Payment".toUpperCase()),
+              ],
             ),
           ),
+        ),
+      ),
     );
   }
 }
