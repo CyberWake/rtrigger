@@ -21,6 +21,7 @@ class FoodFetching{
     }
     catch(e){
       print(e);
+      return [];
     }
   }
 
