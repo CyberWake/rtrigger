@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:user/auth/auth.dart';
 import 'package:user/models/categories_enum.dart';
+import 'package:user/models/profile.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'dart:math' as Math;
 
@@ -32,7 +35,112 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _collectionName;
   DocumentReference _firestore;
+  Auth auth = Auth();
+  UserProfile profile;
+  Razorpay _razorpay;
+  bool isLoading = true;
 
+  void _handlePaymentError(PaymentFailureResponse response) async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('An Error occured!'),
+          content:
+          Text(response.code.toString() + ' - ' + response.message),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(_).pop();
+              },
+            ),
+          ],
+        ));
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {}
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Payment Successful.'),
+          content: Text(response.paymentId),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(_).pop();
+              },
+            ),
+          ],
+        ));
+  }
+
+  @override
+  void initState() {
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      setState(() {
+        isLoading = false;
+      });
+    });
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    String category;
+    if (widget.category == Cards.cockroach)
+      category = 'Cockroach';
+    else if (widget.category == Cards.sanitize)
+      category = 'Sanitize';
+    else if (widget.category == Cards.mosquito)
+      category = 'Mosquito';
+    else
+      category = 'Others';
+
+    _collectionName = 'SanitizerVendorTemp';
+    _firestore =
+        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
+
+    _firestore.set({
+      'date': DateTime.now(),
+      'id': _orderId,
+      'vPrice': widget.vendorPrice,
+      'name': widget.vendorName,
+      'status': 'open',
+      'location': widget.location,
+      'cPrice': 0,
+      'category': category,
+    });
+  }
+
+  Future<void> makePayment() async {
+    var options = {
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'amount': widget.vendorPrice * 100, //in paise so * 100
+      'name': 'Rtiggers',
+      'description':
+      'Order Payment for id - ' + profile.username + widget.vendorPrice.toString(),
+      'prefill': {'contact': profile.phone.toString(), 'email': profile.email},
+      "method": {
+        "netbanking": true,
+        "card": true,
+        "wallet": false,
+        "upi": true,
+      },
+    };
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,7 +346,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                           .toString() ==
                                                       _myPriceTextController
                                                           .text) {
-                                                    // todo : Implement Payment
+                                                    makePayment();
                                                   } else {
                                                     _scaffoldKey.currentState
                                                         .showSnackBar(SnackBar(
@@ -280,34 +388,5 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    String category;
-    if (widget.category == Cards.cockroach)
-      category = 'Cockroach';
-    else if (widget.category == Cards.sanitize)
-      category = 'Sanitize';
-    else if (widget.category == Cards.mosquito)
-      category = 'Mosquito';
-    else
-      category = 'Others';
-
-    _collectionName = 'SanitizerVendorTemp';
-    _firestore =
-        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-
-    _firestore.set({
-      'date': DateTime.now(),
-      'id': _orderId,
-      'vPrice': widget.vendorPrice,
-      'name': widget.vendorName,
-      'status': 'open',
-      'location': widget.location,
-      'cPrice': 0,
-      'category': category,
-    });
   }
 }

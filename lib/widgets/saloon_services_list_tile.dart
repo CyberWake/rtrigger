@@ -19,12 +19,13 @@ class _SaloonServiceListTileState extends State<SaloonServiceListTile> {
   Razorpay _razorpay;
   bool isLoading = true;
 
-  void _handlePaymentError() async {
+  void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
           title: Text('An Error occured!'),
-          content: Text('Something went Wrong'),
+          content:
+          Text(response.code.toString() + ' - ' + response.message),
           actions: <Widget>[
             FlatButton(
               child: Text('Okay'),
@@ -36,16 +37,14 @@ class _SaloonServiceListTileState extends State<SaloonServiceListTile> {
         ));
   }
 
-  void _handleExternalWallet() {
-    return;
-  }
+  void _handleExternalWallet(ExternalWalletResponse response) {}
 
-  void _handlePaymentSuccess() async {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text('Hurray!'),
-          content: Text('Payment Successful.'),
+          title: Text('Payment Successful.'),
+          content: Text(response.paymentId),
           actions: <Widget>[
             FlatButton(
               child: Text('Okay'),
@@ -65,25 +64,25 @@ class _SaloonServiceListTileState extends State<SaloonServiceListTile> {
         isLoading = false;
       });
     });
+    super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    super.initState();
   }
 
   Future<void> makePayment() async {
     var options = {
       'key': 'rzp_test_Fs6iRWL4ppk5ng',
-      'amount': widget.price*100, //in paise so * 100
+      'amount': widget.price * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description':
       'Order Payment for id - ' + profile.username + widget.price.toString(),
-      'prefill': {'contact': profile.phone, 'email': profile.email},
+      'prefill': {'contact': profile.phone.toString(), 'email': profile.email},
       "method": {
         "netbanking": true,
         "card": true,
-        "wallet": true,
+        "wallet": false,
         "upi": true,
       },
     };
@@ -92,6 +91,10 @@ class _SaloonServiceListTileState extends State<SaloonServiceListTile> {
     } catch (e) {
       debugPrint(e);
     }
+  }
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
   }
 
   @override
