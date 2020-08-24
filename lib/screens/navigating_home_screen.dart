@@ -20,7 +20,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   String finalDate = '';
   Auth auth = Auth();
   UserProfile profile;
-  String UserName = " User";
+  String userName = "";
 
   getCurrentDate(){
     var date = new DateTime.now().toString();
@@ -33,7 +33,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
-      UserName = profile.username;
+      userName = profile.username;
     });
     drawerIndex = DrawerIndex.HOME;
     screenView = Home();
@@ -82,7 +82,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(finalDate,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.grey),),
-                                    Text("Hello "+UserName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
+                                    Text("Hello "+userName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
                                   ],
                                 ),
                                 //Search(),
@@ -135,7 +135,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.MYCART) {
         setState(() {
-          screenView = FoodCart();
+          screenView = FoodCart(false);
           drawerIndex = DrawerIndex.MYCART;
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {

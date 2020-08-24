@@ -410,7 +410,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
-                              autofocus: true,
                               keyboardType: TextInputType.emailAddress,
                               textAlign: TextAlign.center,
                               key: Key('username'),
@@ -441,7 +440,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextFormField(
-                        autofocus: true,
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         key: Key('email'),
@@ -469,7 +467,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextFormField(
-                        autofocus: true,
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         key: Key('password'),

@@ -12,13 +12,6 @@ class SaloonScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Saloon & Beauty Parlour',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ),
             Row(
               children: [
                 Expanded(

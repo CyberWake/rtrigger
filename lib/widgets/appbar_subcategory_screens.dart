@@ -22,11 +22,11 @@ Widget UniversalAppBar(final context,bool isCart,String title) {
         ),
       ),
       isCart?IconButton(
-        icon: Icon(Icons.add_shopping_cart),
+        icon: Icon(Icons.add_shopping_cart,color: Colors.white,),
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) {
-                return FoodCart();
+                return FoodCart(true);
               }));
         },
         color: Colors.black,

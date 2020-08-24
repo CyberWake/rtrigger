@@ -8,6 +8,8 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/services/Food/cart.dart';
 
 class FoodCart extends StatefulWidget {
+  final bool isAppbar;
+  FoodCart(this.isAppbar);
   @override
   _FoodCartState createState() => _FoodCartState();
 }
@@ -111,6 +113,7 @@ class _FoodCartState extends State<FoodCart> {
 
   void getCartData() async {
     var temp = await cart.getCartItems(_userID);
+    print(temp);
     setState(() {
       cartItems = temp;
       calculateTotal();
@@ -120,6 +123,22 @@ class _FoodCartState extends State<FoodCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.isAppbar?
+      AppBar(backgroundColor: Colors.blueGrey,
+        elevation: 0.0,
+        centerTitle: true,
+        title: Text(
+          "Your Cart",
+          style: TextStyle(
+              fontFamily: 'RobotoCondensed',
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+        ),
+      )
+          :AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.width/8),
           child: isLoading
