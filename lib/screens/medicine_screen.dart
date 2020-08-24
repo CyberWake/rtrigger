@@ -8,6 +8,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/screens/medical_bargain_screen.dart';
+import 'package:user/screens/upload_prescription.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/search.dart';
 
@@ -21,9 +22,9 @@ class MedicineScreen extends StatefulWidget {
 
   MedicineScreen(
       {@required this.vendorName,
-      @required this.kmFar,
-      @required this.location,
-      @required this.uid});
+        @required this.kmFar,
+        @required this.location,
+        @required this.uid});
 
   @override
   _MedicineScreenState createState() => _MedicineScreenState();
@@ -34,13 +35,16 @@ class _MedicineScreenState extends State<MedicineScreen> {
   final _collectionName = 'medicalTemp';
   bool loading = false;
   bool attachment = false;
-  bool isLoading =true;
+  bool isLoading = true;
   File _image;
   final picker = ImagePicker();
+  String imageUrl;
   var pickedFile;
   final instructionController = TextEditingController();
   Auth auth = Auth();
   UserProfile profile;
+  bool imageUploaded = false;
+
   Future getImage() async {
     Navigator.pop(context);
 //    final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -69,34 +73,15 @@ class _MedicineScreenState extends State<MedicineScreen> {
     _image = await FilePicker.getFile();
   }
 
-  void submit(BuildContext ctx) async {
-    var url;
-    setState(() {
-      loading = true;
-    });
-    if (_image != null) {
-      String userId = (await FirebaseAuth.instance.currentUser).uid;
-      print(userId);
-      final store = FirebaseStorage.instance
-          .ref()
-          .child('user_medical_images')
-          .child(userId + '.jpg');
-      await store.putFile(_image).onComplete;
-      url = await store.getDownloadURL();
-      print(url);
+  void submit() {
+    if (imageUploaded == true && imageUrl != null)
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => MedicalBargainScreen(
-                url: url,
-                name: widget.vendorName,
-                location: widget.location,
-                description: instructionController.text,
-                uid: widget.uid,
-              )));
-    }
-    setState(() {
-      loading = false;
-      _image = null;
-    });
+              name: widget.vendorName,
+              location: widget.location,
+              url: imageUrl,
+              description: instructionController.text,
+              uid: widget.uid)));
   }
 
   void _button(Offset offset) async {
@@ -139,6 +124,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
           )
         ]);
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -150,6 +136,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double x = MediaQuery.of(context).size.width;
@@ -175,7 +162,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: y * 0.02),
                 child: Text(
-                  '${widget.kmFar} km from your location',
+                  '${widget.kmFar.toStringAsFixed(2)} km from your location',
                   style: TextStyle(color: _color, fontSize: y * 0.018),
                 ),
               ),
@@ -210,34 +197,38 @@ class _MedicineScreenState extends State<MedicineScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Text(
+                        'Upload Prescription',
+                        style: TextStyle(
+                          color: _color,
+                          fontSize: y * 0.022,
+                        ),
+                      ),
                       attachment
                           ? Text(
-                              'Completed',
-                              style:
-                                  TextStyle(color: _color, fontSize: y * 0.022),
-                            )
-                          : Row(
-                        children: [
-                          Text(
-                            'Upload Prescription',
-                            style: TextStyle(
-                              color: _color,
-                              fontSize: y * 0.022,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Icon(Icons.attachment,
-                                color: _color, size: 25),
-                            onTapDown: (TapDownDetails details) {
-                              _button(details.globalPosition);
-                            },
-                          )
-                        ],
+                        'Completed',
+                        style:
+                        TextStyle(color: _color, fontSize: y * 0.011),
                       )
+                          : GestureDetector(
+                        onTap: () async {
+                          final data = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => AddImages()));
+                          if (data['status'] == true)
+                            setState(() {
+                              imageUploaded = true;
+                              imageUrl = data['downloadUrl'];
+                            });
+                        },
+                        child: Icon(Icons.attachment,
+                            color: _color, size: 25),
+                      ),
                     ],
                   ),
                 ),
               ),
+              if (imageUploaded) Text('Image Uploaded Please Submit Request'),
               Container(
                 alignment: Alignment.center,
                 child: Padding(
@@ -260,22 +251,11 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     width: x / 2,
                     margin: EdgeInsets.only(top: 20),
                     child: RaisedButton(
-                      onPressed: () {
-                        submit(context);
-                      },
-                      child: loading
-                          ? Container(
-                              height: 10,
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.white,
-                              ))
-                          : Text("Submit Request",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.03,
-                              )),
+                      onPressed: submit,
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       color: Color.fromRGBO(00, 44, 64, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0),
