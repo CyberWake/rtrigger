@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/screens/food_screen.dart';
 import 'package:user/screens/food_screen.dart';
+import 'package:user/screens/liquor_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:user/models/categories_enum.dart';
@@ -57,7 +58,7 @@ class CustomGridTile extends StatelessWidget {
 
       case Cards.liqour:
         return NavigationHomeScreen(DrawerIndex.LIQUOR,
-            SanitizerAndSprayScreen() /*Navigator.push(
+            LiquorCategory() /*Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => NavigationHomeScreen(DrawerIndex.LIQUOR,SanitizerAndSprayScreen())
