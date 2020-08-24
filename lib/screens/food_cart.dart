@@ -120,75 +120,75 @@ class _FoodCartState extends State<FoodCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Your Cart"),
-          backgroundColor: AppTheme.dark_grey,
-        ),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      body: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width/8),
+          child: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 9,
+                          child: Container(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return CartItemCard(
+                                  vendorName: cartItems[index]["vendor"],
+                                  price: cartItems[index]["price"],
+                                  foodTitle: cartItems[index]["name"],
+                                  distance: "2 km",
+                                  time: "10 min",
+                                  image: cartItems[index]["image"],
+                                  quantity: cartItems[index]["quantity"],
+                                  productID: cartItems[index]["productID"],
+                                  onTap: () async {
+                                    Cart cart = Cart();
+                                    var deleteResult = await cart.deleteFromCart(
+                                        userID: _userID,
+                                        productID: cartItems[index]["productID"]);
+                                    if (deleteResult == true) {
+                                      getCartData();
+                                      //calculateTotal();
+                                    }
+                                  },
+                                );
+                              },
+                              itemCount: cartItems.length,
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+      ),
+          bottomNavigationBar: BottomAppBar(
+            color: AppTheme.dark_grey,
+            elevation: 5,
+            child: Container(
+              child: FloatingActionButton.extended(
+                splashColor: AppTheme.darkerText,
+                elevation: 5,
+                backgroundColor: AppTheme.dark_grey,
+                onPressed: () {
+                  makePayment();
+                },
+                //Implement Route To Payment Here
+                label: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
-                        flex: 9,
-                        child: Container(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return CartItemCard(
-                                vendorName: cartItems[index]["vendor"],
-                                price: cartItems[index]["price"],
-                                foodTitle: cartItems[index]["name"],
-                                distance: "2 km",
-                                time: "10 min",
-                                image: cartItems[index]["image"],
-                                quantity: cartItems[index]["quantity"],
-                                productID: cartItems[index]["productID"],
-                                onTap: () async {
-                                  Cart cart = Cart();
-                                  var deleteResult = await cart.deleteFromCart(
-                                      userID: _userID,
-                                      productID: cartItems[index]["productID"]);
-                                  if (deleteResult == true) {
-                                    getCartData();
-                                    //calculateTotal();
-                                  }
-                                },
-                              );
-                            },
-                            itemCount: cartItems.length,
-                          ),
-                        )),
+                    Text(
+                      "Total: ₹ $total ".toUpperCase(),
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Make Payment".toUpperCase()),
                   ],
                 ),
               ),
-        bottomNavigationBar: BottomAppBar(
-          color: AppTheme.dark_grey,
-          elevation: 5,
-          child: Container(
-            child: FloatingActionButton.extended(
-              splashColor: AppTheme.darkerText,
-              elevation: 5,
-              backgroundColor: AppTheme.dark_grey,
-              onPressed: () {
-                makePayment();
-              },
-              //Implement Route To Payment Here
-              label: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "Total: ₹ $total ".toUpperCase(),
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text("Make Payment".toUpperCase()),
-                ],
-              ),
             ),
           ),
-        ));
+    );
   }
 }
