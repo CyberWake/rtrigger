@@ -189,7 +189,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                             .update({
                                           'cPrice': double.tryParse(myPriceText),
                                         });
-                                        Navigator.of(context).pop();
                                       } else {
                                         scaffoldKey.currentState
                                             .showSnackBar(SnackBar(
