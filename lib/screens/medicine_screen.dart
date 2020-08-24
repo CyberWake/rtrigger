@@ -5,6 +5,8 @@ import "package:image_picker/image_picker.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
 import 'package:user/screens/medical_bargain_screen.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/search.dart';
@@ -32,10 +34,13 @@ class _MedicineScreenState extends State<MedicineScreen> {
   final _collectionName = 'medicalTemp';
   bool loading = false;
   bool attachment = false;
+  bool isLoading =true;
   File _image;
   final picker = ImagePicker();
   var pickedFile;
   final instructionController = TextEditingController();
+  Auth auth = Auth();
+  UserProfile profile;
   Future getImage() async {
     Navigator.pop(context);
 //    final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -134,7 +139,17 @@ class _MedicineScreenState extends State<MedicineScreen> {
           )
         ]);
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      setState(() {
+        isLoading = false;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double x = MediaQuery.of(context).size.width;
@@ -243,6 +258,12 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     child: RaisedButton(
                       onPressed: () {
                         submit(context);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
+                            MedicalBargainScreen(
+                              name: profile.username.toString(),
+                              uid: profile.userId.toString(),
+
+                            )));
                       },
                       child: loading
                           ? Container(

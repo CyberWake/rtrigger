@@ -10,11 +10,11 @@ class MedicalBargainScreen extends StatefulWidget {
   final String description;
 
   MedicalBargainScreen(
-      {@required this.name,
-      @required this.location,
-      @required this.url,
-      @required this.description,
-      @required this.uid});
+      { this.name,
+         this.uid,
+        this.location,
+        this.url,
+        this.description});
 
   @override
   _MedicalBargainScreenState createState() => _MedicalBargainScreenState();
@@ -22,12 +22,16 @@ class MedicalBargainScreen extends StatefulWidget {
 
 class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
   final _collectionName = 'MedicalTemp';
-  final _orderNo = Math.Random().nextInt(10000000000);
+  final _orderNo = Math.Random().nextInt(1000000);
 
   @override
   Widget build(BuildContext context) {
-    print(_orderNo);
-    return Scaffold();
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Text(_orderNo.toString(),style: TextStyle(color: Colors.black),),
+      ),
+    );
   }
 
   @override
