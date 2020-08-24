@@ -105,7 +105,6 @@ class _FoodScreenState extends State<FoodScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
