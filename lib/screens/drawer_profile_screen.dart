@@ -6,6 +6,7 @@ import 'package:user/auth/auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:user/models/profile.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -78,6 +79,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: UniversalAppBar(context,false,"profile"),
       body: SingleChildScrollView(
         child: isLoading
             ? Center(child: CircularProgressIndicator())
@@ -92,17 +94,20 @@ class _ProfileState extends State<Profile> {
                       height: 10,
                     ),
                     GestureDetector(
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(url != profile.imageUrl
-                                  ? url
-                                  : profile.imageUrl),
-                              fit: BoxFit.fill,
-                            )),
+                      child: Hero(
+                        tag: url,
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(url != profile.imageUrl
+                                    ? url
+                                    : profile.imageUrl),
+                                fit: BoxFit.fill,
+                              )),
+                        ),
                       ),
                       onTap: () async {
                         file = await FilePicker.getFile(type: FileType.any);

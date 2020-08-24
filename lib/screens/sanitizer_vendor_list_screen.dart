@@ -19,7 +19,7 @@ class SanitizeVendorListScreen extends StatelessWidget {
     else if (category == Cards.mosquito) collectionName = 'vendorMosquito';
 
     return Scaffold(
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context,false,"Vendor List"),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance.collection(collectionName).get(),
         builder: (context, snapshot) {

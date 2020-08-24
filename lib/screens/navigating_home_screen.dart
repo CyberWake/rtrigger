@@ -3,15 +3,13 @@ import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/screens/drawer_contact_screen.dart';
 import 'package:user/screens/drawer_profile_screen.dart';
+import 'package:user/screens/food_cart.dart';
 import 'package:user/screens/home_screen.dart';
 import 'package:user/widgets/homedrawer.dart';
 import '../Models/apptheme.dart';
 import '../widgets/customdrawer.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
-  final DrawerIndex index;
-  final Widget viewScreen;
-  NavigationHomeScreen(this.index,this.viewScreen);
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -23,20 +21,22 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Auth auth = Auth();
   UserProfile profile;
   String UserName = " User";
+
   getCurrentDate(){
     var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
     finalDate = formattedDate.toString() ;
   }
+
   @override
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
       UserName = profile.username;
     });
-    drawerIndex = widget.index;
-    screenView = widget.viewScreen;
+    drawerIndex = DrawerIndex.HOME;
+    screenView = Home();
       getCurrentDate();
     super.initState();
   }
@@ -69,6 +69,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       ),
     );
   }
+
   _getTitle(DrawerIndex index){
     switch(index){
       case DrawerIndex.HOME: return Row(
@@ -94,12 +95,22 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
                               ]
                             );
                             break;
-      case DrawerIndex.FAVOURITE: return Text("Favourites");break;
-      case DrawerIndex.ORDERS: return Text("Orders");break;
-      case DrawerIndex.MYCART: return Text("My Cart");break;
-      case DrawerIndex.PROFILE: return Text("Profile");break;
-      case DrawerIndex.NOTIFICATIONS: return Text("Notifications");break;
-      case DrawerIndex.CONTACTUS: return Text("Contatct Us");break;
+      case DrawerIndex.ORDERS: return Padding(
+          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
+          child: Text("Orders")
+      );break;
+      case DrawerIndex.MYCART: return Padding(
+          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
+          child: Text("My Cart")
+      );break;
+      case DrawerIndex.PROFILE: return Padding(
+          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
+          child: Text("Profile")
+      );break;
+      case DrawerIndex.CONTACTUS: return Padding(
+          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
+          child: Text("Contact Us")
+      );break;
       case DrawerIndex.MEDICINE: return Text("Medicine");break;
       case DrawerIndex.FOOD: return Text("Food");break;
       case DrawerIndex.LIQUOR: return Text("Liquor");break;
@@ -117,11 +128,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           screenView = Home();
           drawerIndex = DrawerIndex.HOME;
         });
-      } else if (drawerIndex == DrawerIndex.FAVOURITE) {
-        setState(() {
-          screenView = Home();
-          drawerIndex = DrawerIndex.FAVOURITE;
-        });
       } else if (drawerIndex == DrawerIndex.ORDERS) {
         setState(() {
           screenView = Home();
@@ -129,18 +135,13 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.MYCART) {
         setState(() {
-          screenView = Home();
+          screenView = FoodCart();
           drawerIndex = DrawerIndex.MYCART;
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {
         setState(() {
           screenView = Profile();
           drawerIndex = DrawerIndex.PROFILE;
-        });
-      } else if (drawerIndex == DrawerIndex.NOTIFICATIONS) {
-        setState(() {
-          screenView = Home();
-          drawerIndex = DrawerIndex.NOTIFICATIONS;
         });
       } else if (drawerIndex == DrawerIndex.CONTACTUS) {
         setState(() {

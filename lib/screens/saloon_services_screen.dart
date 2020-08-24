@@ -11,7 +11,7 @@ class SaloonServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context,false," "),
       body: ListView.builder(
           itemCount: services.length,
           itemBuilder: (context, index) {

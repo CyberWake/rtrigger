@@ -33,7 +33,7 @@ class _AreaScreenState extends State<AreaScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBarForSanitizerAndParlourScreen(context),
+      appBar: UniversalAppBar(context,true," "),
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -114,7 +114,8 @@ class _AreaScreenState extends State<AreaScreen> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SanitizeConfirmScreen(
                           uid: widget.uid,
-                          vendorPrice: areaText,
+                          vendorPrice:
+                              (double.parse(areaText) * pricePerFeet).toInt(),
                           pricePerFeet: widget.pricePerFeet,
                           category: widget.category,
                           vendorName: widget.vendorName,

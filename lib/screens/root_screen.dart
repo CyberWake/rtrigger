@@ -87,7 +87,7 @@ class _RootPageState extends State<RootPage> {
           onSignedIn: _signedIn,
         );
       case AuthStatus.signedIn:
-        return NavigationHomeScreen(DrawerIndex.HOME, Home());
+        return NavigationHomeScreen();
     }
     return _buildWaitingScreen();
   }

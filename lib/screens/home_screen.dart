@@ -51,7 +51,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       title: 'Liqour',
                       loc: 'assets/img/liquor.png',
                       card: Cards.liqour,
-                      type: CardType.Home)),
+                      type: CardType.Home
+                  )),
               Expanded(
                   child: CustomGridTile(
                       title: 'Saloon and Beauty Parlour',
@@ -73,12 +74,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      /*GridView.builder(
-        itemCount: 6,
-          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,),
-          itemBuilder: (BuildContext context,int i)=>Tiles(i)
-      )*/
     );
   }
 }
