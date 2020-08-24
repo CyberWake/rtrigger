@@ -28,6 +28,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
   int quantity = 1;
   var productID = Uuid().v1();
   Cart cart = Cart();
+  bool isLoaded = true;
   final _userID = FirebaseAuth.instance.currentUser.uid;
 
   @override
@@ -110,11 +111,31 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             "productID": productID,
                             "distance": widget.distance,
                           };
-                          cart.addToCart(userID: _userID, item: [cartItem]);
+                          setState(() {
+                            isLoaded = false;
+                          });
+                          cart.addToCart(
+                              userID: _userID, item: [cartItem]).then((value) {
+                            setState(() {
+                              isLoaded = true;
+                            });
+                            if (value) {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text("Item added to cart"),
+                              ));
+                            } else {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "Unable to add item, Please try again later"),
+                              ));
+                              }
+                          });
                         },
-                        child: CartButton(
-                          title: "Add to Cart",
-                        ),
+                        child: isLoaded
+                            ? CartButton(
+                                title: "Add to Cart",
+                              )
+                            : Center(child: CircularProgressIndicator()),
                       ),
                     ],
                   ),
