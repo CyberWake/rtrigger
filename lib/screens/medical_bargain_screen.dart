@@ -11,7 +11,7 @@ class MedicalBargainScreen extends StatefulWidget {
 
   MedicalBargainScreen(
       { this.name,
-         this.uid,
+        this.uid,
         this.location,
         this.url,
         this.description});

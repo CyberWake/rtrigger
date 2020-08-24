@@ -258,12 +258,6 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     child: RaisedButton(
                       onPressed: () {
                         submit(context);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
-                            MedicalBargainScreen(
-                              name: profile.username.toString(),
-                              uid: profile.userId.toString(),
-
-                            )));
                       },
                       child: loading
                           ? Container(
