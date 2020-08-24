@@ -38,11 +38,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBarForSanitizerAndParlourScreen(context),
       body: WillPopScope(
         onWillPop: () async {
-          print('back');
           FirebaseFirestore.instance
               .collection(collectionName)
               .doc(widget.uid)
@@ -51,185 +48,195 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
           });
           return true;
         },
-        child: Card(
-          elevation: 7,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                StreamBuilder<DocumentSnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection(collectionName)
-                        .doc(widget.uid)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LoadingBar();
-                      } else {
-                        status = snapshot.data.data()['status'].toString();
-                        changedPrice =
-                            snapshot.data.data()['vPrice'].toString();
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Card(
+                elevation: 7,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection(collectionName)
+                              .doc(widget.uid)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return LoadingBar();
+                            } else {
+                              status = snapshot.data.data()['status'].toString();
+                              changedPrice =
+                                  snapshot.data.data()['vPrice'].toString();
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 8),
+                                    child: Text(
+                                      snapshot.data.data()['name'],
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 8),
+                                    child: Text(
+                                      snapshot.data.data()['location'] == null
+                                          ? 'Unknown'
+                                          : snapshot.data.data()['location'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Order ID : ${snapshot.data.data()['id']}',
+                                      style:
+                                          TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Text(
+                                      'Current Price : ${snapshot.data.data()['vPrice']} Rs',
+                                      style:
+                                          TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
+                        child: Text(
+                          myPriceText.isEmpty
+                              ? 'Your Price : 0 Rs'
+                              : 'Your Price : $myPriceText Rs',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 8),
-                              child: Text(
-                                snapshot.data.data()['name'],
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
+                            Text(
+                              'Your Price - Rs',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 8),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  myPriceText = value;
+                                });
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  focusColor: Color.fromRGBO(00, 44, 64, 1.0),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20))),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)))),
+                            )),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            MaterialButton(
+                              textColor: Colors.white,
+                              color: Color.fromRGBO(00, 44, 64, 1.0),
+                              onPressed: myPriceText.toString() !=
+                                          changedPrice.toString() &&
+                                      myPriceText != '0'
+                                  ? () {
+                                      if (myPriceText.isNotEmpty) {
+                                        FirebaseFirestore.instance
+                                            .collection(collectionName)
+                                            .doc(widget.uid)
+                                            .update({
+                                          'cPrice': double.tryParse(myPriceText),
+                                        });
+                                        Navigator.of(context).pop();
+                                      } else {
+                                        scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              'Please Enter a Price to Bargain'),
+                                        ));
+                                      }
+                                    }
+                                  : null,
                               child: Text(
-                                snapshot.data.data()['location'] == null
-                                    ? 'Unknown'
-                                    : snapshot.data.data()['location'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
+                                'Bargain',
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              width: 20,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Order ID : ${snapshot.data.data()['id']}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              child: Text(
-                                'Current Price : ${snapshot.data.data()['vPrice']} Rs',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                            MaterialButton(
+                              color: Color.fromRGBO(00, 44, 64, 1.0),
+                              onPressed: changedPrice.toString() == myPriceText
+                                  ? () {
+                                      // todo : Implement Payment
+                                    }
+                                  : null,
+                              textColor: Colors.white,
+                              child: Text('Accept'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
                               ),
                             ),
                           ],
-                        );
-                      }
-                    }),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Text(
-                    myPriceText.isEmpty
-                        ? 'Your Price : 0 Rs'
-                        : 'Your Price : $myPriceText Rs',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Your Price - Rs',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            myPriceText = value;
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            focusColor: Color.fromRGBO(00, 44, 64, 1.0),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)))),
-                      )),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      MaterialButton(
-                        textColor: Colors.white,
-                        color: Color.fromRGBO(00, 44, 64, 1.0),
-                        onPressed: myPriceText.toString() !=
-                                    changedPrice.toString() &&
-                                myPriceText != '0'
-                            ? () {
-                                if (myPriceText.isNotEmpty) {
-                                  FirebaseFirestore.instance
-                                      .collection(collectionName)
-                                      .doc(widget.uid)
-                                      .update({
-                                    'cPrice': double.tryParse(myPriceText),
-                                  });
-                                  Navigator.of(context).pop();
-                                } else {
-                                  scaffoldKey.currentState
-                                      .showSnackBar(SnackBar(
-                                    content:
-                                        Text('Please Enter a Price to Bargain'),
-                                  ));
-                                }
-                              }
-                            : null,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Bargain',
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      MaterialButton(
-                        color: Color.fromRGBO(00, 44, 64, 1.0),
-                        onPressed: changedPrice.toString() == myPriceText
-                            ? () {
-                                // todo : Implement Payment
-                              }
-                            : null,
-                        textColor: Colors.white,
-                        child: Text('Accept'),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
+                          'Status - $status',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Status - $status',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
