@@ -27,16 +27,15 @@ class SanitizeConfirmScreen extends StatefulWidget {
 }
 
 class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
-  String myPriceText = '0';
+  final myPriceTextController = TextEditingController(text: '0');
   final orderId = Math.Random().nextInt(1000000000);
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final String collectionName = 'SanitizerVendorTemp';
-  String changedPrice = '';
-  String status = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: UniversalAppBar(context, false, 'Order'),
       key: scaffoldKey,
       body: WillPopScope(
         onWillPop: () async {
@@ -52,6 +51,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
           child: Center(
             child: SingleChildScrollView(
               child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 elevation: 7,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -69,9 +70,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                 ConnectionState.waiting) {
                               return LoadingBar();
                             } else {
-                              status = snapshot.data.data()['status'].toString();
-                              changedPrice =
-                                  snapshot.data.data()['vPrice'].toString();
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -104,8 +102,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       'Order ID : ${snapshot.data.data()['id']}',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   Padding(
@@ -113,125 +111,172 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                         horizontal: 8, vertical: 2),
                                     child: Text(
                                       'Current Price : ${snapshot.data.data()['vPrice']} Rs',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    child: Text(
+                                      snapshot.data.data()['cPrice'] == null
+                                          ? 'Your Price : 0 Rs'
+                                          : 'Your Price : ${snapshot.data.data()['cPrice']} Rs',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Your Price - Rs',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                            child: TextField(
+                                          controller: myPriceTextController,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                              focusColor: Color.fromRGBO(
+                                                  00, 44, 64, 1.0),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              20)))),
+                                        )),
+                                        IconButton(
+                                          tooltip: 'Tap for Update',
+                                          icon: Icon(Icons.check),
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection(collectionName)
+                                                .doc(widget.uid)
+                                                .update({
+                                              'cPrice':
+                                                  myPriceTextController.text
+                                            });
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        MaterialButton(
+                                          textColor: Colors.white,
+                                          color:
+                                              Color.fromRGBO(00, 44, 64, 1.0),
+                                          onPressed: snapshot.data
+                                                          .data()['cPrice']
+                                                          .toString() !=
+                                                      snapshot.data
+                                                          .data()['vPrice']
+                                                          .toString() &&
+                                                  snapshot.data
+                                                          .data()['cPrice']
+                                                          .toString() !=
+                                                      '0'
+                                              ? () {
+                                                  if (myPriceTextController
+                                                      .text.isNotEmpty) {
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            collectionName)
+                                                        .doc(widget.uid)
+                                                        .update({
+                                                      'cPrice': double.tryParse(
+                                                          myPriceTextController
+                                                              .text),
+                                                    });
+                                                  } else {
+                                                    scaffoldKey.currentState
+                                                        .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          'Please Enter a Price to Bargain'),
+                                                    ));
+                                                  }
+                                                }
+                                              : null,
+                                          child: Text(
+                                            'Bargain',
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        MaterialButton(
+                                          color:
+                                              Color.fromRGBO(00, 44, 64, 1.0),
+                                          onPressed: snapshot.data
+                                                      .data()['vPrice']
+                                                      .toString() ==
+                                                  myPriceTextController.text
+                                              ? () {
+                                                  if (snapshot.data
+                                                          .data()['vPrice']
+                                                          .toString() ==
+                                                      myPriceTextController
+                                                          .text) {
+                                                    // todo : Implement Payment
+                                                  } else {
+                                                    scaffoldKey.currentState
+                                                        .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          'Your Entered Price and Current Price must be Same'),
+                                                    ));
+                                                  }
+                                                }
+                                              : null,
+                                          textColor: Colors.white,
+                                          child: Text('Accept'),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Status - ${snapshot.data.data()['status']}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ],
                               );
                             }
                           }),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 8),
-                        child: Text(
-                          myPriceText.isEmpty
-                              ? 'Your Price : 0 Rs'
-                              : 'Your Price : $myPriceText Rs',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Your Price - Rs',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: TextField(
-                              onChanged: (value) {
-                                setState(() {
-                                  myPriceText = value;
-                                });
-                              },
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  focusColor: Color.fromRGBO(00, 44, 64, 1.0),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20))),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)))),
-                            )),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            MaterialButton(
-                              textColor: Colors.white,
-                              color: Color.fromRGBO(00, 44, 64, 1.0),
-                              onPressed: myPriceText.toString() !=
-                                          changedPrice.toString() &&
-                                      myPriceText != '0'
-                                  ? () {
-                                      if (myPriceText.isNotEmpty) {
-                                        FirebaseFirestore.instance
-                                            .collection(collectionName)
-                                            .doc(widget.uid)
-                                            .update({
-                                          'cPrice': double.tryParse(myPriceText),
-                                        });
-                                      } else {
-                                        scaffoldKey.currentState
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              'Please Enter a Price to Bargain'),
-                                        ));
-                                      }
-                                    }
-                                  : null,
-                              child: Text(
-                                'Bargain',
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            MaterialButton(
-                              color: Color.fromRGBO(00, 44, 64, 1.0),
-                              onPressed: changedPrice.toString() == myPriceText
-                                  ? () {
-                                      // todo : Implement Payment
-                                    }
-                                  : null,
-                              textColor: Colors.white,
-                              child: Text('Accept'),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Status - $status',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -246,6 +291,16 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   @override
   void initState() {
     super.initState();
+    String category;
+    if (widget.category == Cards.cockroach)
+      category = 'Cockroach';
+    else if (widget.category == Cards.sanitize)
+      category = 'Sanitize';
+    else if (widget.category == Cards.mosquito)
+      category = 'Mosquito';
+    else
+      category = 'Others';
+
     FirebaseFirestore.instance.collection(collectionName).doc(widget.uid).set({
       'date': DateTime.now(),
       'id': orderId,
@@ -253,6 +308,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'name': widget.vendorName,
       'status': 'open',
       'location': widget.location,
+      'cPrice': 0,
+      'category': category,
     });
   }
 }

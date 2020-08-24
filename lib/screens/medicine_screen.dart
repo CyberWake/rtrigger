@@ -16,6 +16,7 @@ class MedicineScreen extends StatefulWidget {
 }
 
 class _MedicineScreenState extends State<MedicineScreen> {
+  final GlobalKey _menuKey = new GlobalKey();
   bool loading = false;
   String line1 = "";
   String line2 = "";
@@ -77,15 +78,13 @@ class _MedicineScreenState extends State<MedicineScreen> {
     });
   }
 
-  Widget button() {
-    return PopupMenuButton(
-        icon: Icon(
-          Icons.attachment,
-          color: _color,
-          size: MediaQuery.of(context).size.height * 0.05,
-        ),
-        itemBuilder: (BuildContext context) {
-          return [
+  void _button(Offset offset) async{
+    double left = offset.dx;
+    double top = offset.dy;
+    await showMenu(
+        context: context,
+        position: RelativeRect.fromLTRB(left, top, 0, 0),
+        items:[
             PopupMenuItem(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,9 +116,8 @@ class _MedicineScreenState extends State<MedicineScreen> {
                 ],
               ),
             )
-          ];
-        },
-        onSelected: (_) {});
+          ]
+    );
   }
 
   @override
@@ -129,236 +127,156 @@ class _MedicineScreenState extends State<MedicineScreen> {
     double w = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       appBar: UniversalAppBar(context, false, "Medicine"),
-        body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: x * 0.15),
-            child: Container(
-              width: w,
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 0.0, bottom: y * 0.013),
+        body: Container(
+          margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.width/8),
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/10),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Medical Shop Name',
+                    style: TextStyle(
+                        color: _color,
+                        fontSize: y * 0.033,
+                        fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: y * 0.02),
+                  child: Text(
+                    '1 km from your location',
+                    style: TextStyle(color: _color, fontSize: y * 0.018),
+                  ),
+                ),
+                Text(
+                  'Home Delivery available',
+                  style: TextStyle(
+                      color: _color,
+                      fontWeight: FontWeight.w600,
+                      fontSize: y * 0.018),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: y * 0.02),
+                  child: Text(
+                    'Upload the picture or the document list of things needed',
+                    style: TextStyle(color: _color, fontSize: y * 0.019),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: y * 0.02),
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: x * 0.6,
+                    height: y * 0.07,
+                    padding: EdgeInsets.symmetric(horizontal: x * 0.02),
+                    //width: 275,
+                    decoration: ShapeDecoration(
+                      color: Colors.teal.withOpacity(0.2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: x * 0.01, right: x * 0.018),
-                          child: FlatButton.icon(
-                            onPressed: () {
-                              print("hi");
-                              //Navigator.of(context).push(MaterialPageRoute(builder: (_) => Filter(medicine_list)));
-                            },
-                            icon: Icon(
-                              Icons.filter_list,
-                              color: _color,
-                              size: y * 0.03,
-                            ),
-                            label: Text(
-                              'Filter',
-                              style: TextStyle(color: _color),
-                            ),
+                        Text(
+                          'Upload Prescription',
+                          style: TextStyle(
+                            color: _color,
+                            fontSize: y * 0.022,
                           ),
                         ),
-                        Search(),
-                        Padding(
-                          padding: EdgeInsets.only(left: x * 0.01),
-                          child: IconButton(
-                            icon: Icon(Icons.add_shopping_cart),
-                            color: _color,
-                            iconSize: y * 0.03,
-                            onPressed: () {
-                              /*Cart_list.add({
-                                  'id' : line1,
-                                  'loc' : 'images/ii.png',
-                                  'sum' : 100,
-                                  'count' : 1,
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(builder: (_) => Cart()));*/
-                            },
-                          ),
+                        attachment
+                            ? Text(
+                          'Completed',
+                          style: TextStyle(
+                              color: _color, fontSize: y * 0.022),
+                        ):GestureDetector(
+                          child: Icon(Icons.attachment,
+                              color: _color, size: 25),
+                          onTapDown: (TapDownDetails details) {
+                            _button(details.globalPosition);
+                          },
                         )
                       ],
                     ),
                   ),
-                  Text('Medical Shop Name',
-                      style: TextStyle(
-                          color: _color,
-                          fontSize: y * 0.033,
-                          fontWeight: FontWeight.bold)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: y * 0.02),
-                    child: Text(
-                      '1 km from your location',
-                      style: TextStyle(color: _color, fontSize: y * 0.018),
-                    ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: y * 0.05, bottom: 0.0),
+                    child: Text('Or Type the name of medicine'),
                   ),
-                  Text(
-                    'Home Delivery available',
-                    style: TextStyle(
-                        color: _color,
-                        fontWeight: FontWeight.w600,
-                        fontSize: y * 0.018),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: x * 0.0875, right: x * 0.0875),
+                  child: Column(
+                    children: [
+                      TextField(
+                        minLines: 1,
+                        keyboardType: TextInputType.multiline,
+                        onChanged: (val) {
+                          line1 = val.trim();
+                          print(val);
+                        },
+                        maxLines: 8,
+                      ),
+                      TextField(
+                        minLines: 1,
+                        onChanged: (val) {
+                          line2 = val.trim();
+                        },
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 8,
+                      ),
+                      TextField(
+                        minLines: 1,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 8,
+                        onChanged: (val) {
+                          line1 = val.trim();
+                        },
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: y * 0.02),
-                    child: Text(
-                      'Upload the picture or the document list of things needed',
-                      style: TextStyle(color: _color, fontSize: y * 0.019),
-                    ),
-                  ),
-                  /* Container(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: ShapeDecoration(
-                            color: Colors.teal.withOpacity(0.2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'Upload',
-                                style: TextStyle(
-                                    color: _color,
-                                    fontSize: MediaQuery.of(context).size.height *
-                                        0.018),
-                              ),
-                              if (_image == null)
-                                button
-                              else
-                                Text(
-                                  'Complete',
-                                  style: TextStyle(
-                                      color: _color, fontSize: y * 0.026),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),*/
-                  Container(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: y * 0.02, bottom: 0.0),
-                      child: Text('Or Type the name of medicine'),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: y * 0.02),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: y * 0.011),
+                  child: Container(
                     alignment: Alignment.center,
                     child: Container(
-                      width: x * 0.6,
-                      height: y * 0.07,
-                      padding: EdgeInsets.symmetric(horizontal: x * 0.02),
-                      //width: 275,
-                      decoration: ShapeDecoration(
-                        color: Colors.teal.withOpacity(0.2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Upload Prescription',
+                      height: y * 0.08,
+                      width: x / 2,
+                      margin: EdgeInsets.only(top:20),
+                      child: RaisedButton(
+                        onPressed: () {
+                          submit(context);
+                        },
+                        child: loading
+                            ? Container(
+                            height: 10,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            ))
+                            : Text("Submit Request",
                             style: TextStyle(
-                              color: _color,
-                              fontSize: y * 0.022,
-                            ),
-                          ),
-                          attachment
-                              ? IconButton(
-                                  icon: Icon(Icons.attachment,
-                                      color: _color, size: 25),
-                                  onPressed: () {
-                                    button;
-                                  },
-                                )
-                              : Text(
-                                  'Completed',
-                                  style: TextStyle(
-                                      color: _color, fontSize: y * 0.022),
-                                ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: x * 0.0875, right: x * 0.0875),
-                    child: Column(
-                      children: [
-                        TextField(
-                          minLines: 1,
-                          keyboardType: TextInputType.multiline,
-                          onChanged: (val) {
-                            line1 = val.trim();
-                            print(val);
-                          },
-                          maxLines: 8,
-                        ),
-                        TextField(
-                          minLines: 1,
-                          onChanged: (val) {
-                            line2 = val.trim();
-                          },
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 8,
-                        ),
-                        TextField(
-                          minLines: 1,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 8,
-                          onChanged: (val) {
-                            line1 = val.trim();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: y * 0.011),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: y * 0.05,
-                        width: x / 4,
-                        child: RaisedButton(
-                          onPressed: () {
-                            submit(context);
-                          },
-                          child: loading
-                              ? Container(
-                                  height: 10,
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                  ))
-                              : Text("Save",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.height * 0.02,
-                                  )),
-                          color: Color.fromRGBO(00, 44, 64, 1.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize:
+                              MediaQuery.of(context).size.height * 0.03,
+                            )),
+                        color: Color.fromRGBO(00, 44, 64, 1.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
     );
   }
 }
