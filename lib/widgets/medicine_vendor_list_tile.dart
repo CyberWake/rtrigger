@@ -8,16 +8,13 @@ class MedicineVendorListTile extends StatelessWidget {
   final double kmFar;
   final String location;
   final String uid;
-  final List servicesList;
-  final Cards category;
 
-  MedicineVendorListTile(
-      {@required this.vendorName,
-        @required this.kmFar,
-        @required this.location,
-        @required this.uid,
-        @required this.servicesList,
-        @required this.category});
+  MedicineVendorListTile({
+    @required this.vendorName,
+    @required this.kmFar,
+    @required this.location,
+    @required this.uid,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,7 @@ class MedicineVendorListTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child:
-          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Row(
@@ -69,10 +66,13 @@ class MedicineVendorListTile extends StatelessWidget {
               minWidth: screenWidth,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        MedicineScreen()));
+                    builder: (context) => MedicineScreen(
+                        vendorName: vendorName,
+                        kmFar: kmFar,
+                        location: location,
+                        uid: uid)));
               },
-              child: Text('Tap To See Services'),
+              child: Text('ORDER NOW'),
             )
           ]),
         ),

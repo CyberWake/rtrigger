@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'dart:math' as Math;
-import 'package:user/auth/auth.dart';
-import 'package:user/models/profile.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+
 import 'package:user/widgets/loading_bar.dart';
 
 class SanitizeConfirmScreen extends StatefulWidget {
@@ -29,86 +27,20 @@ class SanitizeConfirmScreen extends StatefulWidget {
 }
 
 class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
-  final myPriceTextController = TextEditingController(text: '0');
-  final orderId = Math.Random().nextInt(1000000000);
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final String collectionName = 'SanitizerVendorTemp';
-  Auth auth = Auth();
-  UserProfile profile;
-  Razorpay _razorpay;
-  bool isLoading = true;
-
-  void _handlePaymentError() async {
-    return await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('An Error occured!'),
-          content: Text('Something went Wrong'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: () {
-                Navigator.of(_).pop();
-              },
-            ),
-          ],
-        ));
-  }
-
-  void _handleExternalWallet() {
-    return;
-  }
-
-  void _handlePaymentSuccess() async {
-    return await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Hurray!'),
-          content: Text('Payment Successful.'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: () {
-                Navigator.of(_).pop();
-              },
-            ),
-          ],
-        ));
-  }
-
-  Future<void> makePayment() async {
-    var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
-      'amount': widget.vendorPrice*100, //in paise so * 100
-      'name': 'Rtiggers',
-      'description':
-      'Order Payment for id - ' + profile.username + widget.vendorPrice.toString(),
-      'prefill': {'contact': profile.phone, 'email': profile.email},
-      "method": {
-        "netbanking": true,
-        "card": true,
-        "wallet": true,
-        "upi": true,
-      },
-    };
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      debugPrint(e);
-    }
-  }
+  final _myPriceTextController = TextEditingController(text: '0');
+  final _orderId = Math.Random().nextInt(1000000000);
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String _collectionName;
+  DocumentReference _firestore;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: UniversalAppBar(context, false, 'Order'),
-      key: scaffoldKey,
+      key: _scaffoldKey,
       body: WillPopScope(
         onWillPop: () async {
-          FirebaseFirestore.instance
-              .collection(collectionName)
-              .doc(widget.uid)
-              .update({
+          await _firestore.update({
             'status': 'closed',
           });
           return true;
@@ -127,10 +59,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       StreamBuilder<DocumentSnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection(collectionName)
-                              .doc(widget.uid)
-                              .snapshots(),
+                          stream: _firestore.snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -209,7 +138,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                         ),
                                         Expanded(
                                             child: TextField(
-                                          controller: myPriceTextController,
+                                          controller: _myPriceTextController,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                               focusColor: Color.fromRGBO(
@@ -235,12 +164,9 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                           tooltip: 'Tap for Update',
                                           icon: Icon(Icons.check),
                                           onPressed: () async {
-                                            await FirebaseFirestore.instance
-                                                .collection(collectionName)
-                                                .doc(widget.uid)
-                                                .update({
+                                            await _firestore.update({
                                               'cPrice':
-                                                  myPriceTextController.text
+                                                  _myPriceTextController.text
                                             });
                                           },
                                         )
@@ -265,23 +191,25 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                           .data()['cPrice']
                                                           .toString() !=
                                                       '0'
-                                              ? () {
-                                                  if (myPriceTextController
+                                              ? () async {
+                                                  if (_myPriceTextController
                                                       .text.isNotEmpty) {
-                                                    FirebaseFirestore.instance
-                                                        .collection(
-                                                            collectionName)
-                                                        .doc(widget.uid)
-                                                        .update({
+                                                    await _firestore.update({
                                                       'cPrice': double.tryParse(
-                                                          myPriceTextController
+                                                          _myPriceTextController
                                                               .text),
                                                     });
-                                                  } else {
-                                                    scaffoldKey.currentState
+                                                    _scaffoldKey.currentState
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          'Please Enter a Price to Bargain'),
+                                                          'Please Wait for Vendor Response'),
+                                                    ));
+                                                  } else {
+                                                    _scaffoldKey.currentState
+                                                        .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                        'Please Enter a Price to Bargain',
+                                                      ),
                                                     ));
                                                   }
                                                 }
@@ -303,17 +231,16 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                           onPressed: snapshot.data
                                                       .data()['vPrice']
                                                       .toString() ==
-                                                  myPriceTextController.text
+                                                  _myPriceTextController.text
                                               ? () {
                                                   if (snapshot.data
                                                           .data()['vPrice']
                                                           .toString() ==
-                                                      myPriceTextController
+                                                      _myPriceTextController
                                                           .text) {
                                                     // todo : Implement Payment
-                                                    makePayment();
                                                   } else {
-                                                    scaffoldKey.currentState
+                                                    _scaffoldKey.currentState
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
                                                           'Your Entered Price and Current Price must be Same'),
@@ -322,7 +249,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                 }
                                               : null,
                                           textColor: Colors.white,
-                                          child: Text('Accept',style:TextStyle(color: Colors.black),),
+                                          child: Text('Accept'),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(50.0),
@@ -357,6 +284,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   void initState() {
+    super.initState();
     String category;
     if (widget.category == Cards.cockroach)
       category = 'Cockroach';
@@ -367,9 +295,13 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     else
       category = 'Others';
 
-    FirebaseFirestore.instance.collection(collectionName).doc(widget.uid).set({
+    _collectionName = 'SanitizerVendorTemp';
+    _firestore =
+        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
+
+    _firestore.set({
       'date': DateTime.now(),
-      'id': orderId,
+      'id': _orderId,
       'vPrice': widget.vendorPrice,
       'name': widget.vendorName,
       'status': 'open',
@@ -377,16 +309,5 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'cPrice': 0,
       'category': category,
     });
-    auth.getProfile().whenComplete(() {
-      profile = auth.profile;
-      setState(() {
-        isLoading = false;
-      });
-    });
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    super.initState();
   }
 }

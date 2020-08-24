@@ -60,10 +60,10 @@ class CustomGridTile extends StatelessWidget {
     }
   }
 
- goFromHomeTo() {
+  goFromHomeTo() {
     switch (card) {
       case Cards.medicine:
-        return MedicineVendorListScreen(Cards.male);
+        return MedicineVendorListScreen();
         break;
 
       case Cards.food:
