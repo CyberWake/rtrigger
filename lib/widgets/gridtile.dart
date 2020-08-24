@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user/screens/food_screen.dart';
 import 'package:user/screens/food_screen.dart';
 import 'package:user/screens/liquor_screen.dart';
+import 'package:user/screens/medicine_vendor_list_screen.dart';
 import 'package:user/widgets/custom_page_transition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:user/models/categories_enum.dart';
@@ -62,7 +63,7 @@ class CustomGridTile extends StatelessWidget {
  goFromHomeTo() {
     switch (card) {
       case Cards.medicine:
-        return MedicineScreen();
+        return MedicineVendorListScreen(Cards.male);
         break;
 
       case Cards.food:
