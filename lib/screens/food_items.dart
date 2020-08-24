@@ -43,23 +43,20 @@ class _FoodItemsState extends State<FoodItems> {
       body: SafeArea(
         child: isLoaded
             ? Container(
-                    child: Expanded(
-                      flex: 10,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return FoodItemCard(
-                            image: items[index]["img"],
-                            time: "10 min",
-                            distance: "2 km",
-                            foodTitle: items[index]["name"],
-                            price: int.parse(items[index]["price"]),
-                            vendorName: "Royal Shop",
-                          );
-                        },
-                        itemCount: items.length,
-                      ),
-                    ),
-                  )
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return FoodItemCard(
+                      image: items[index]["img"],
+                      time: "10 min",
+                      distance: "2 km",
+                      foodTitle: items[index]["name"],
+                      price: int.parse(items[index]["price"]),
+                      vendorName: "Royal Shop",
+                    );
+                  },
+                  itemCount: items.length,
+                ),
+              )
             : Center(child: CircularProgressIndicator()),
       ),
     );
