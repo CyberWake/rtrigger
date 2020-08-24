@@ -258,7 +258,6 @@
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -295,7 +294,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // final FirebaseFirestore _db = FirebaseFirestore.instance;
-
+  Auth auth=Auth();
   Stream<User> user; // firebase user
   Stream<Map<String, dynamic>> profile; // custom user data in Firestore
   bool isLoaded=true;
@@ -329,7 +328,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                 });
               });
           print('Signed in: $userId');
-        } else {
+        }
+        else {
           final String userId =
               await auth.createUserWithEmailAndPassword(_email, _password);
           await auth1.addUserDetails(_email, _name, userId);
