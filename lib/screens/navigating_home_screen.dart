@@ -31,18 +31,22 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
 
   @override
   void initState() {
-    auth.getProfile().whenComplete(() {
-      profile = auth.profile;
-      userName = profile.username;
-    });
     drawerIndex = DrawerIndex.HOME;
     screenView = Home();
-      getCurrentDate();
+
     super.initState();
   }
-
+  getUserName ()async{
+    await auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      userName = profile.username;
+      print(userName);
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    getCurrentDate();
+    getUserName();
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(

@@ -148,7 +148,12 @@ class _FoodCartState extends State<FoodCart> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
         child: isLoading
             ? Center(child: CircularProgressIndicator())
-            : SafeArea(
+            : total==0?Container(
+          padding: EdgeInsets.all(15),
+          child: Text("Nice to have you here..\nHope to see back when we serve you",
+          style: TextStyle(fontSize: MediaQuery.of(context).size.width/15),),
+        ):
+        SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
