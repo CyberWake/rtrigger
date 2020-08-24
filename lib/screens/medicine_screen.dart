@@ -161,39 +161,6 @@ class _MedicineScreenState extends State<MedicineScreen> {
                     style: TextStyle(color: _color, fontSize: y * 0.019),
                   ),
                 ),
-                /* Container(
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              decoration: ShapeDecoration(
-                                color: Colors.teal.withOpacity(0.2),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Upload',
-                                    style: TextStyle(
-                                        color: _color,
-                                        fontSize: MediaQuery.of(context).size.height *
-                                            0.018),
-                                  ),
-                                  if (_image == null)
-                                    button
-                                  else
-                                    Text(
-                                      'Complete',
-                                      style: TextStyle(
-                                          color: _color, fontSize: y * 0.026),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),*/
                 Container(
                   padding: EdgeInsets.only(top: y * 0.02),
                   alignment: Alignment.center,
