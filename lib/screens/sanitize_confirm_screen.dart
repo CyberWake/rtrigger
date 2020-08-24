@@ -51,6 +51,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
           child: Center(
             child: SingleChildScrollView(
               child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 elevation: 7,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -164,6 +166,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                               20)))),
                                         )),
                                         IconButton(
+                                          tooltip: 'Tap for Update',
                                           icon: Icon(Icons.check),
                                           onPressed: () async {
                                             await FirebaseFirestore.instance
