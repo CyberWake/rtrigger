@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/loading_bar.dart';
-import 'package:user/widgets/vendor_list_item.dart';
+import 'package:user/widgets/sanitizer_vendor_list_item.dart';
 
 class SanitizeVendorListScreen extends StatelessWidget {
   final Cards category;
@@ -31,7 +31,7 @@ class SanitizeVendorListScreen extends StatelessWidget {
                     ? 0
                     : snapshot.data.docs.length,
                 itemBuilder: (context, index) {
-                  return VendorListItem(
+                  return SanitizerVendorListItem(
                       vendorName: snapshot.data.docs[index].data()['name'],
                       location: snapshot.data.docs[index].data()['location'],
                       pricePerFeet:

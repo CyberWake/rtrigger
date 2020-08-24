@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'dart:math' as Math;
-
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/widgets/loading_bar.dart';
 
 class SanitizeConfirmScreen extends StatefulWidget {
@@ -31,6 +33,70 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   final orderId = Math.Random().nextInt(1000000000);
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final String collectionName = 'SanitizerVendorTemp';
+  Auth auth = Auth();
+  UserProfile profile;
+  Razorpay _razorpay;
+  bool isLoading = true;
+
+  void _handlePaymentError() async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('An Error occured!'),
+          content: Text('Something went Wrong'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(_).pop();
+              },
+            ),
+          ],
+        ));
+  }
+
+  void _handleExternalWallet() {
+    return;
+  }
+
+  void _handlePaymentSuccess() async {
+    return await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Hurray!'),
+          content: Text('Payment Successful.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(_).pop();
+              },
+            ),
+          ],
+        ));
+  }
+
+  Future<void> makePayment() async {
+    var options = {
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'amount': widget.vendorPrice*100, //in paise so * 100
+      'name': 'Rtiggers',
+      'description':
+      'Order Payment for id - ' + profile.username + widget.vendorPrice.toString(),
+      'prefill': {'contact': profile.phone, 'email': profile.email},
+      "method": {
+        "netbanking": true,
+        "card": true,
+        "wallet": true,
+        "upi": true,
+      },
+    };
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,6 +311,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                       myPriceTextController
                                                           .text) {
                                                     // todo : Implement Payment
+                                                    makePayment();
                                                   } else {
                                                     scaffoldKey.currentState
                                                         .showSnackBar(SnackBar(
@@ -255,7 +322,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                 }
                                               : null,
                                           textColor: Colors.white,
-                                          child: Text('Accept'),
+                                          child: Text('Accept',style:TextStyle(color: Colors.black),),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(50.0),
@@ -290,7 +357,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   void initState() {
-    super.initState();
     String category;
     if (widget.category == Cards.cockroach)
       category = 'Cockroach';
@@ -311,5 +377,16 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'cPrice': 0,
       'category': category,
     });
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      setState(() {
+        isLoading = false;
+      });
+    });
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
   }
 }

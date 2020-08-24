@@ -3,13 +3,13 @@ import 'package:user/models/categories_enum.dart';
 import '../screens/area_screen.dart';
 import '../screens/area_screen.dart';
 
-class VendorListItem extends StatelessWidget {
+class SanitizerVendorListItem extends StatelessWidget {
   final String vendorName;
   final String location;
   final String pricePerFeet;
   final Cards category;
   final String uid;
-  VendorListItem(
+  SanitizerVendorListItem(
       {@required this.vendorName,
       @required this.location,
       @required this.pricePerFeet,
