@@ -114,7 +114,8 @@ class _AreaScreenState extends State<AreaScreen> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SanitizeConfirmScreen(
                           uid: widget.uid,
-                          vendorPrice: areaText,
+                          vendorPrice:
+                              (double.parse(areaText) * pricePerFeet).toInt(),
                           pricePerFeet: widget.pricePerFeet,
                           category: widget.category,
                           vendorName: widget.vendorName,

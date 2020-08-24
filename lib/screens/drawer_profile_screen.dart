@@ -79,7 +79,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context,false,"profile"),
       body: SingleChildScrollView(
         child: isLoading
             ? Center(child: CircularProgressIndicator())
@@ -146,7 +145,6 @@ class _ProfileState extends State<Profile> {
                                 decoration:
                                     InputDecoration(labelText: 'Username'),
                                 initialValue: profile.username,
-                                autofocus: true,
                                 onSaved: (value) {
                                   newName = value;
                                 },
@@ -159,7 +157,6 @@ class _ProfileState extends State<Profile> {
                             TextFormField(
                                 decoration: InputDecoration(labelText: 'Phone'),
                                 initialValue: profile.phone.toString(),
-                                autofocus: true,
                                 keyboardType: TextInputType.number,
                                 onSaved: (value) {
                                   phoneno = int.parse(value);
@@ -176,7 +173,6 @@ class _ProfileState extends State<Profile> {
                                 decoration:
                                     InputDecoration(labelText: 'Address'),
                                 initialValue: profile.address,
-                                autofocus: true,
                                 keyboardType: TextInputType.multiline,
                                 onSaved: (value) {
                                   address = value;
