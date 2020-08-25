@@ -1,15 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
+import 'package:user/screens/prepayment_screen.dart';
 import 'package:user/widgets/cart_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/services/Food/cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodCart extends StatefulWidget {
   final bool isAppbar;
+
   FoodCart(this.isAppbar);
+
   @override
   _FoodCartState createState() => _FoodCartState();
 }
@@ -23,6 +28,8 @@ class _FoodCartState extends State<FoodCart> {
   var cartItems = [];
   int total = 0;
   bool isLoading = true;
+  int _perKmCharge = 1;
+  final _firestore = FirebaseFirestore.instance;
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
@@ -77,6 +84,11 @@ class _FoodCartState extends State<FoodCart> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
+  void getPerKmCharge() async {
+    var temp = await _firestore.collection("deliveryRate").doc("rates").get();
+    _perKmCharge = temp.get("rate");
+  }
+
   Future<void> makePayment() async {
     var options = {
       'key': 'rzp_test_Fs6iRWL4ppk5ng',
@@ -105,7 +117,11 @@ class _FoodCartState extends State<FoodCart> {
 
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
-        total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
+        total = total +
+            cartItems[i]["price"] * cartItems[i]["quantity"] +
+            int.parse(cartItems[i]["distance"]
+                    .substring(0, cartItems[i]["distance"].length - 3)) *
+                _perKmCharge;
       });
     }
   }
@@ -128,67 +144,74 @@ class _FoodCartState extends State<FoodCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.isAppbar?
-      AppBar(backgroundColor: Colors.blueGrey,
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text(
-          "Your Cart",
-          style: TextStyle(
-              fontFamily: 'RobotoCondensed',
-              fontWeight: FontWeight.bold,
-              fontSize: 18),
-        ),
-      )
-          :AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: widget.isAppbar
+          ? AppBar(
+              backgroundColor: Colors.blueGrey,
+              elevation: 0.0,
+              centerTitle: true,
+              title: Text(
+                "Your Cart",
+                style: TextStyle(
+                    fontFamily: 'RobotoCondensed',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+            )
+          : AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+            ),
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
         child: isLoading
             ? Center(child: CircularProgressIndicator())
-            : total==0?Container(
-          padding: EdgeInsets.all(15),
-          child: Text("Nice to have you here..\nFirst add something in cart",
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width/15),),
-        ):
-        SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        flex: 9,
-                        child: Container(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return CartItemCard(
-                                vendorName: cartItems[index]["vendor"],
-                                price: cartItems[index]["price"],
-                                foodTitle: cartItems[index]["name"],
-                                distance: "2 km",
-                                time: "10 min",
-                                image: cartItems[index]["image"],
-                                quantity: cartItems[index]["quantity"],
-                                productID: cartItems[index]["productID"],
-                                onTap: () async {
-                                  Cart cart = Cart();
-                                  var deleteResult = await cart.deleteFromCart(
-                                      userID: _userID,
-                                      productID: cartItems[index]["productID"]);
-                                  if (deleteResult == true) {
-                                    getCartData();
-                                    //calculateTotal();
-                                  }
-                                },
-                              );
-                            },
-                            itemCount: cartItems.length,
+            : total == 0
+                ? Container(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      "Nice to have you here..\nFirst add something in cart",
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width / 15),
+                    ),
+                  )
+                : SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return CartItemCard(
+                                  vendorName: cartItems[index]["vendor"],
+                                  price: cartItems[index]["price"],
+                                  foodTitle: cartItems[index]["name"],
+                                  distance: cartItems[index]["distance"],
+                                  time: "10 min",
+                                  image: cartItems[index]["image"],
+                                  quantity: cartItems[index]["quantity"],
+                                  productID: cartItems[index]["productID"],
+                                  onTap: () async {
+                                    Cart cart = Cart();
+                                    var deleteResult =
+                                        await cart.deleteFromCart(
+                                            userID: _userID,
+                                            productID: cartItems[index]
+                                                ["productID"]);
+                                    if (deleteResult == true) {
+                                      getCartData();
+                                      //calculateTotal();
+                                    }
+                                  },
+                                );
+                              },
+                              itemCount: cartItems.length,
+                            ),
                           ),
-                        )),
-                  ],
-                ),
-              ),
+                        ),
+                      ],
+                    ),
+                  ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: AppTheme.dark_grey,
@@ -199,7 +222,10 @@ class _FoodCartState extends State<FoodCart> {
             elevation: 5,
             backgroundColor: AppTheme.dark_grey,
             onPressed: () {
-              makePayment();
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => PrePayment(total: total)));
             },
             //Implement Route To Payment Here
             label: Row(
@@ -212,7 +238,7 @@ class _FoodCartState extends State<FoodCart> {
                 SizedBox(
                   width: 20,
                 ),
-                Text("Make Payment".toUpperCase()),
+                Text("Order Now".toUpperCase()),
               ],
             ),
           ),

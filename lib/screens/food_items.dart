@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:user/widgets/food_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:user/widgets/food_item_card.dart';
@@ -47,11 +48,14 @@ class _FoodItemsState extends State<FoodItems> {
                   itemBuilder: (context, index) {
                     return FoodItemCard(
                       image: items[index]["img"],
-                      time: "10 min",
-                      distance: "2 km",
+                      time: items[index]["prep"].toString(),
+                      distance: (items[index]['distance'] as double)
+                              .toInt()
+                              .toString() +
+                          ' km',
                       foodTitle: items[index]["name"],
                       price: int.parse(items[index]["price"]),
-                      vendorName: "Royal Shop",
+                      vendorName: items[index]['shop'],
                     );
                   },
                   itemCount: items.length,

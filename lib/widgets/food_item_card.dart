@@ -59,19 +59,22 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       style: TextStyle(
                           fontFamily: 'RobotoCondensed',
                           fontWeight: FontWeight.bold,
-                          fontSize: 20)),
+                          fontSize: 20), textAlign: TextAlign.center,),
                   Divider(),
                   Text(
-                    "₹ ${widget.price}",
+                    "₹ ${widget.price} | ${widget.distance}",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(widget.time),
-                      Text("(${widget.vendorName} | ${widget.distance})"),
-                    ],
+                  FittedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(widget.time),
+                        SizedBox(width: 10,),
+                        Text("(${widget.vendorName})"),
+                      ],
+                    ),
                   ),
                   Divider(),
                   Row(
@@ -121,14 +124,14 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             });
                             if (value) {
                               Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text("Item added to cart"),
+                                content: Text("Item added to cart"),
                               ));
                             } else {
                               Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                     "Unable to add item, Please try again later"),
                               ));
-                              }
+                            }
                           });
                         },
                         child: isLoaded
