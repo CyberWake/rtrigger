@@ -4,6 +4,7 @@ import 'package:user/screens/register_screen.dart';
 import 'package:user/screens/root_screen.dart';
 import '../auth/auth.dart';
 import '../auth/authorizationProvider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmailFieldValidator {
   static String validate(String value) {
@@ -125,18 +126,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Text(
-                    'Login',
-                    style: TextStyle(fontSize: 38.0, color: Colors.white),
+                    'LOGIN',
+                    style:
+                        GoogleFonts.lato(fontSize: 38.0, color: Colors.white),
+                    //style: TextStyle(fontSize: 38.0, color: Colors.white),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
-                  SizedBox(
+                  /* SizedBox(
                     height: 58,
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
-                  ),
+                  ), */
                   Container(
                     width: 0.8 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
@@ -150,10 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: Key('email'),
                         decoration: InputDecoration(
                           hintText: '  Enter Email id',
-                          hintStyle: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(00, 44, 64, 1),
-                          ),
+                          hintStyle: GoogleFonts.lato(
+                              fontSize: 20.0,
+                              color: Color.fromRGBO(00, 44, 64, 1)),
                           border: InputBorder.none,
                         ),
                         validator: EmailFieldValidator.validate,
@@ -177,10 +179,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: Key('password'),
                         decoration: InputDecoration(
                           hintText: '  Enter Your Password',
-                          hintStyle: TextStyle(
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(00, 44, 64, 1),
-                          ),
+                          hintStyle: GoogleFonts.lato(
+                              fontSize: 20.0,
+                              color: Color.fromRGBO(00, 44, 64, 1)),
                           border: InputBorder.none,
                         ),
                         obscureText: true,
@@ -202,7 +203,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: FlatButton(
                       key: Key('signIn'),
                       child: isLoaded
-                          ? Text('Login', style: TextStyle(fontSize: 20.0))
+                          ? Text(
+                              'Login',
+                              style: GoogleFonts.lato(
+                                fontSize: 20.0,
+                              ),
+                            )
                           : Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -210,8 +216,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   FlatButton(
-                    child: Text('Create an account',
-                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    child: Text(
+                      'Create an account',
+                      style: GoogleFonts.lato(
+                          fontSize: 20.0, color: Colors.white),
+                    ),
                     onPressed: moveToRegister,
                   )
                 ],
