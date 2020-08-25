@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/models/profile.dart';
+import 'package:user/screens/prepayment_screen.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'dart:math' as Math;
 
@@ -342,8 +344,14 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                         .toString() ==
                                                     _myPriceTextController
                                                         .text) {
-                                                  makePayment();
-                                                } else {
+                                                  Navigator.push(
+                                                      context,
+                                                      CupertinoPageRoute(
+                                                          builder: (context) =>
+                                                              PrePayment(
+                                                                  total:
+                                                                  snapshot.data
+                                                                      .data()['vPrice'])));                                                } else {
                                                   _scaffoldKey.currentState
                                                       .showSnackBar(SnackBar(
                                                     content: Text(
