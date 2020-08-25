@@ -94,39 +94,32 @@ class CustomGridTile extends StatelessWidget {
           Navigator.of(context)
               .push(CupertinoPageRoute(builder: (_) => getNextScreen()));
         },
-        child: Container(
-          padding: EdgeInsets.all(7),
-          height: screenHeight / 5,
-          child: FittedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                loc != "null"
-                    ? FittedBox(
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 40,
-                            child: ClipOval(
-                                child: Image.asset(
-                              loc,
-                              fit: BoxFit.cover,
-                            ))),
-                      )
-                    : SizedBox(
-                        height: 1,
-                      ),
-                FittedBox(
-                  child: Text(title,
-                      style: TextStyle(
-                        fontFamily: 'RobotoCondensed',
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              loc != "null"
+                  ? CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: screenHeight / 12,
+                      child: ClipOval(
+                          child: Image.asset(
+                        loc,
+                        fit: BoxFit.cover,
+                      )))
+                  : SizedBox(
+                      height: 1,
+                    ),
+              FittedBox(
+                child: Text(title,
+                    style: TextStyle(
+                      fontFamily: 'RobotoCondensed',
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+            ],
           ),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(15)),
         ),
       ),
     );
