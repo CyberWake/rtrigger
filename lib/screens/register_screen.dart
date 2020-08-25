@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/auth/authorizationProvider.dart';
 import 'package:user/screens/login_screen.dart';
@@ -52,35 +53,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         isLoaded = false;
       });
-      try{
-      await auth
-          .createUserWithEmailAndPassword(_email, _password, _name)
-          .then((value) async {
-        setState(() {
-          isLoaded = true;
+      try {
+        await auth
+            .createUserWithEmailAndPassword(_email, _password, _name)
+            .then((value) async {
+          setState(() {
+            isLoaded = true;
+          });
+          if (value == 'email-already-in-use') {
+            await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      title: Text('An Error occurred '),
+                      content: Text('Entered email is already in use'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            Navigator.of(_).pop();
+                          },
+                        ),
+                      ],
+                    ));
+          } else {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+            print('Registered user');
+          }
         });
-        if (value == 'email-already-in-use') {
-          await showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                    title: Text('An Error occurred '),
-                    content: Text('Entered email is already in use'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Okay'),
-                        onPressed: () {
-                          Navigator.of(_).pop();
-                        },
-                      ),
-                    ],
-                  ));
-        } else {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-          print('Registered user');
-        }
-      });
-    }catch(e){
+      } catch (e) {
         print(e);
       }
     }
@@ -125,7 +126,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Text(
                     'Register',
-                    style: TextStyle(fontSize: 38.0, color: Colors.white),
+                    style:
+                        GoogleFonts.lato(fontSize: 38.0, color: Colors.white),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
@@ -143,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: Key('username'),
                         decoration: InputDecoration(
                           hintText: '  Enter Name',
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
@@ -170,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: Key('email'),
                         decoration: InputDecoration(
                           hintText: '  Enter Email id',
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
@@ -197,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: Key('password'),
                         decoration: InputDecoration(
                           hintText: '  Enter Your Password',
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
@@ -221,17 +223,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     child: FlatButton(
                       child: isLoaded
-                          ? Text('Create an account',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                              ))
+                          ? Text(
+                              'Create an account',
+                              style: GoogleFonts.lato(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            )
                           : Center(child: CircularProgressIndicator()),
                       onPressed: () => validateAndSubmit(context),
                     ),
                   ),
                   FlatButton(
-                    child: Text('Have an account? Login',
-                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    child: Text(
+                      'Have an account? Login',
+                      style: GoogleFonts.lato(
+                          fontSize: 20.0,color:Colors.white),
+                    ),
                     onPressed: moveToLogin,
                   ),
                 ],
