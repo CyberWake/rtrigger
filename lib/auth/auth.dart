@@ -97,7 +97,7 @@ class Auth implements BaseAuth {
       } else {
         return "Not verified";
       }
-    }  catch (e) {
+    } catch (e) {
       print(e);
     }
   }
@@ -108,21 +108,16 @@ class Auth implements BaseAuth {
     try {
       final user = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      try {
-        await user.user.sendEmailVerification().whenComplete(() async {
-          await addUserDetails(email, username, user.user.uid);
-          await setCart();
-          return user.user?.uid;
-        });
-      } catch (e) {
-        print("An error occurred while sending verification email");
-        print(e.toString());
-      }
+      await user.user.sendEmailVerification();
+        await addUserDetails(email, username, user.user.uid);
+        await setCart();
+        return user.user?.uid;
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        throw e.code;
+        return e.code;
       }
     } catch (e) {
       print(e);

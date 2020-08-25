@@ -1,11 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:user/screens/register_screen.dart';
 import 'package:user/screens/root_screen.dart';
-
 import '../auth/auth.dart';
 import '../auth/authorizationProvider.dart';
 
@@ -37,9 +33,6 @@ enum FormType {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  Auth auth = Auth();
-  Stream<User> user;
-  Stream<Map<String, dynamic>> profile;
   bool isLoaded = true;
   String _email;
   String _password;
@@ -67,11 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoaded = true;
           });
           if (value == 'Not verified') {
-             await showDialog(
+            await showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                      title: Text('An Error occurred '),
-                      content: Text('Entered email is not verified'),
+                      title: Text('Entered email is not verified'),
+                      content: Text('Check your mail inbox'),
                       actions: <Widget>[
                         FlatButton(
                           child: Text('Okay'),
