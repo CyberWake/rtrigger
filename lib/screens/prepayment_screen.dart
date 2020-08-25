@@ -212,6 +212,7 @@ class _PrePaymentState extends State<PrePayment> {
                         TextFormField(
                             decoration: InputDecoration(labelText: 'Address'),
                             initialValue: address,
+                            textCapitalization: TextCapitalization.words,
                             keyboardType: TextInputType.multiline,
                             onSaved: (value) {
                               address = value;
@@ -228,7 +229,6 @@ class _PrePaymentState extends State<PrePayment> {
                         TextFormField(
                             decoration: InputDecoration(labelText: 'Phone'),
                             initialValue: phoneno.toString(),
-                            textCapitalization: TextCapitalization.words,
                             keyboardType: TextInputType.number,
                             onSaved: (value) {
                               phoneno = int.parse(value);
