@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -386,7 +386,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     );
   }
 }
-=======
+*/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -782,4 +782,3 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     );
   }
 }
->>>>>>> master

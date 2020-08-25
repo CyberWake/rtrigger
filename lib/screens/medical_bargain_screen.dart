@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as Math;
 
@@ -298,7 +297,7 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
     });
   }
 }
-=======
+*/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -601,4 +600,3 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
     });
   }
 }
->>>>>>> master
