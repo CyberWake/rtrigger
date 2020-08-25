@@ -6,6 +6,7 @@ import 'package:user/widgets/cart_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/services/Food/cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodCart extends StatefulWidget {
   final bool isAppbar;
@@ -23,6 +24,8 @@ class _FoodCartState extends State<FoodCart> {
   var cartItems = [];
   int total = 0;
   bool isLoading = true;
+  int _perKmCharge = 1;
+  final _firestore = FirebaseFirestore.instance;
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
@@ -69,12 +72,18 @@ class _FoodCartState extends State<FoodCart> {
         isLoading = false;
       });
     });
+//    getPerKmCharge();
     getCartData();
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+  
+  void getPerKmCharge() async{
+    var temp = await _firestore.collection("deliveryRate").doc("rates").get();
+    _perKmCharge = temp.get("rate");
   }
 
   Future<void> makePayment() async {
@@ -105,7 +114,7 @@ class _FoodCartState extends State<FoodCart> {
 
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
-        total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
+        total = total + cartItems[i]["price"] * cartItems[i]["quantity"] + int.parse(cartItems[i]["distance"].substring(0,cartItems[i]["distance"].length-3))*_perKmCharge;
       });
     }
   }
@@ -158,34 +167,34 @@ class _FoodCartState extends State<FoodCart> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                        flex: 9,
-                        child: Container(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return CartItemCard(
-                                vendorName: cartItems[index]["vendor"],
-                                price: cartItems[index]["price"],
-                                foodTitle: cartItems[index]["name"],
-                                distance: "2 km",
-                                time: "10 min",
-                                image: cartItems[index]["image"],
-                                quantity: cartItems[index]["quantity"],
-                                productID: cartItems[index]["productID"],
-                                onTap: () async {
-                                  Cart cart = Cart();
-                                  var deleteResult = await cart.deleteFromCart(
-                                      userID: _userID,
-                                      productID: cartItems[index]["productID"]);
-                                  if (deleteResult == true) {
-                                    getCartData();
-                                    //calculateTotal();
-                                  }
-                                },
-                              );
-                            },
-                            itemCount: cartItems.length,
-                          ),
-                        )),
+                      child: Container(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return CartItemCard(
+                              vendorName: cartItems[index]["vendor"],
+                              price: cartItems[index]["price"],
+                              foodTitle: cartItems[index]["name"],
+                              distance: cartItems[index]["distance"],
+                              time: "10 min",
+                              image: cartItems[index]["image"],
+                              quantity: cartItems[index]["quantity"],
+                              productID: cartItems[index]["productID"],
+                              onTap: () async {
+                                Cart cart = Cart();
+                                var deleteResult = await cart.deleteFromCart(
+                                    userID: _userID,
+                                    productID: cartItems[index]["productID"]);
+                                if (deleteResult == true) {
+                                  getCartData();
+                                  //calculateTotal();
+                                }
+                              },
+                            );
+                          },
+                          itemCount: cartItems.length,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
