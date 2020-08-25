@@ -84,39 +84,45 @@ class _AddImagesState extends State<AddImages> {
         ),
         body: _imageFile != null
             ? ListView(children: <Widget>[
-          Container(
-              padding: EdgeInsets.all(32), child: Image.file(_imageFile)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FlatButton(
-                color: Colors.grey.shade300,
-                child: Icon(Icons.crop),
-                onPressed: _cropImage,
-              ),
-              FlatButton(
-                color: Colors.grey.shade300,
-                child: Icon(Icons.refresh),
-                onPressed: _clear,
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(32),
-            child: Uploader(
-              file: _imageFile,
-            ),
-          )
-        ])
-            : Container(
-          child: Center(
-              child: Text(
-                "Tap on icon below to upload your image.",
-                style: TextStyle(
-                  color: Colors.black,
+                Container(
+                    padding: EdgeInsets.all(32), child: Image.file(_imageFile)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      color: Colors.blueGrey,
+                      child: Icon(
+                        Icons.crop,
+                        color: Colors.white,
+                      ),
+                      onPressed: _cropImage,
+                    ),
+                    FlatButton(
+                      color: Colors.blueGrey,
+                      child: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                      onPressed: _clear,
+                    ),
+                  ],
                 ),
-              )),
-        ));
+                Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Uploader(
+                    file: _imageFile,
+                  ),
+                )
+              ])
+            : Container(
+                child: Center(
+                    child: Text(
+                  "Tap on icon below to upload your image.",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                )),
+              ));
   }
 }
 
@@ -131,7 +137,7 @@ class Uploader extends StatefulWidget {
 
 class _UploaderState extends State<Uploader> {
   final FirebaseStorage _storage =
-  FirebaseStorage(storageBucket: 'gs://rtigger-user.appspot.com');
+      FirebaseStorage(storageBucket: 'gs://rtigger-user.appspot.com');
 
   StorageUploadTask _uploadTask;
 
@@ -164,13 +170,16 @@ class _UploaderState extends State<Uploader> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (_uploadTask.isComplete)
-                    Text('Upload Complete, please wait updating database!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 18)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Upload Complete',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black, fontSize: 18)),
+                    ),
                   if (_uploadTask.isPaused)
                     FlatButton(
                       child:
-                      Icon(Icons.play_arrow, size: 50, color: Colors.black),
+                          Icon(Icons.play_arrow, size: 50, color: Colors.black),
                       onPressed: _uploadTask.resume,
                     ),
                   if (_uploadTask.isInProgress)
@@ -190,12 +199,17 @@ class _UploaderState extends State<Uploader> {
           });
     } else {
       return FlatButton.icon(
-          color: Colors.grey.shade300,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          color: Colors.blueGrey,
           label: Text(
             'Upload',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
-          icon: Icon(Icons.cloud_upload),
+          icon: Icon(
+            Icons.cloud_upload,
+            color: Colors.white,
+          ),
           onPressed: () async {
             await _startUpload();
           });
