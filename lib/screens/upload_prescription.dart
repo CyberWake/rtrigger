@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-final fireStore = Firestore.instance;
+final fireStore = FirebaseFirestore.instance;
 bool imgUploaded = false;
 String imgUrl;
 

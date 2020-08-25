@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:user/models/categories_enum.dart';
 import 'package:user/screens/medicine_screen.dart';
-import 'package:user/screens/saloon_services_screen.dart';
 
 class MedicineVendorListTile extends StatelessWidget {
   final String vendorName;
