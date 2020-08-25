@@ -27,13 +27,14 @@ class LiquorScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: GridView.builder(
+                        child: GridView.builder(itemCount: 4,
+                          
                             physics: NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
                             itemBuilder: (_, index) {
-                              if (index < 4)
+                              //if (index < 4)
                                 return FoodCategoryCard(
                                   image: _listItem[index]["image"],
                                   index: _listItem[index]["index"] + 15,
