@@ -37,16 +37,12 @@ enum FormType {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  // final FirebaseFirestore _db = FirebaseFirestore.instance;
   Auth auth = Auth();
-  Stream<User> user; // firebase user
-  Stream<Map<String, dynamic>> profile; // custom user data in Firestore
+  Stream<User> user;
+  Stream<Map<String, dynamic>> profile;
   bool isLoaded = true;
-  Auth auth1 = Auth();
   String _email;
   String _password;
-  String _name;
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
@@ -59,37 +55,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> validateAndSubmit(BuildContext context) async {
     if (validateAndSave()) {
+      final BaseAuth auth = AuthProvider.of(context).auth;
+      setState(() {
+        isLoaded = false;
+      });
       try {
-        final BaseAuth auth = AuthProvider.of(context).auth;
-        setState(() {
-          isLoaded = false;
-        });
-        try {
-          final String userId = await auth
-              .signInWithEmailAndPassword(_email, _password)
-              .whenComplete(() {
-            setState(() {
-              isLoaded = true;
-            });
+        await auth
+            .signInWithEmailAndPassword(_email, _password)
+            .then((value) async {
+          setState(() {
+            isLoaded = true;
           });
-          print('Signed in: $userId');
-        } catch (error) {
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text(error),
-          ));
-        }
-        widget.onSignedIn();
-      } catch (e) {
-        print('Error: $e');
+          if (value == 'Not verified') {
+             await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      title: Text('An Error occurred '),
+                      content: Text('Entered email is not verified'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            Navigator.of(_).pop();
+                          },
+                        ),
+                      ],
+                    ));
+          } else {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => RootPage()));
+            widget.onSignedIn();
+          }
+        });
+        print('Signed in');
+      } catch (error) {
+        print(error);
       }
     }
   }
 
   void moveToRegister() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -124,16 +132,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Text(
-                          'Login',
-                          style: TextStyle(fontSize: 38.0, color: Colors.white),
-                        ),
-
+                    'Login',
+                    style: TextStyle(fontSize: 38.0, color: Colors.white),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   SizedBox(
-                          height: 58,
-                        ),
+                    height: 58,
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
@@ -193,29 +200,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                          width: 0.8 * MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // color: Colors.lime[800],
-                            color: Color.fromRGBO(173, 173, 117, 1),
-                          ),
-                          child: FlatButton(
-                            key: Key('signIn'),
-                            child: isLoaded
-                                ? Text('Login',
-                                    style: TextStyle(fontSize: 20.0))
-                                : Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                            onPressed: () => validateAndSubmit(context),
-                          ),
-                        ),
+                    width: 0.8 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Colors.lime[800],
+                      color: Color.fromRGBO(173, 173, 117, 1),
+                    ),
+                    child: FlatButton(
+                      key: Key('signIn'),
+                      child: isLoaded
+                          ? Text('Login', style: TextStyle(fontSize: 20.0))
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                      onPressed: () => validateAndSubmit(context),
+                    ),
+                  ),
                   FlatButton(
-                          child: Text('Create an account',
-                              style: TextStyle(
-                                  fontSize: 20.0, color: Colors.white)),
-                          onPressed: moveToRegister,
-                        )
+                    child: Text('Create an account',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    onPressed: moveToRegister,
+                  )
                 ],
               ),
             ),
@@ -245,16 +250,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   List<Widget> buildSubmitButtons() {
-      return <Widget>[
-        RaisedButton(
-          key: Key('signIn'),
-          child: Text('Login', style: TextStyle(fontSize: 20.0)),
-          onPressed: () => validateAndSubmit(context),
-        ),
-        FlatButton(
-          child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
-          onPressed: moveToRegister,
-        ),
-      ];
+    return <Widget>[
+      RaisedButton(
+        key: Key('signIn'),
+        child: Text('Login', style: TextStyle(fontSize: 20.0)),
+        onPressed: () => validateAndSubmit(context),
+      ),
+      FlatButton(
+        child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
+        onPressed: moveToRegister,
+      ),
+    ];
   }
 }

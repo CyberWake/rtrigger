@@ -41,7 +41,8 @@ import 'package:user/models/profile.dart';
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
 
-  Future<String> createUserWithEmailAndPassword(String email, String password);
+  Future<String> createUserWithEmailAndPassword(
+      String email, String password, String username);
 
   Future<String> currentUser();
 
@@ -93,28 +94,38 @@ class Auth implements BaseAuth {
       await getProfile();
       if (user.user.emailVerified) {
         return user.user?.uid;
+      } else {
+        return "Not verified";
       }
-    } catch (e) {
-      throw e;
+    }  catch (e) {
+      print(e);
     }
-    return null;
   }
 
   @override
   Future<String> createUserWithEmailAndPassword(
-      String email, String password) async {
-    try{
-    final user = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+      String email, String password, String username) async {
     try {
-      await user.user.sendEmailVerification();
-      return user.user?.uid;
+      final user = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      try {
+        await user.user.sendEmailVerification().whenComplete(() async {
+          await addUserDetails(email, username, user.user.uid);
+          await setCart();
+          return user.user?.uid;
+        });
+      } catch (e) {
+        print("An error occurred while sending verification email");
+        print(e.toString());
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw e.code;
+      }
     } catch (e) {
-      print("An error occurred while sending verification email");
-      print(e.toString());
-    }}
-    catch(e){
-      throw e;
+      print(e);
     }
   }
 

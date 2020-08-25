@@ -45,7 +45,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password;
   String _name;
 
-
   bool validateAndSave() {
     final FormState form = formKey.currentState;
     if (form.validate()) {
@@ -62,25 +61,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
         setState(() {
           isLoaded = false;
         });
-
-          final String userId =
-          await auth.createUserWithEmailAndPassword(_email, _password);
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
-          await auth1.addUserDetails(_email, _name, userId);
-          await auth1.setCart();
-          print('Registered user: $userId');
-
-        widget.onSignedIn();
+        await auth
+            .createUserWithEmailAndPassword(_email, _password, _name)
+            .then((value) async {
+          if (value == 'email-already-in-use') {
+             await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      title: Text('An Error occurred '),
+                      content: Text('Entered email is already in use'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            Navigator.of(_).pop();
+                          },
+                        ),
+                      ],
+                    ));
+          } else {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+            print('Registered user');
+            return value;
+          }
+        });
       } catch (e) {
         print('Error: $e');
       }
     }
   }
 
-
   void moveToLogin() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   @override
@@ -214,17 +228,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: FlatButton(
                       child: isLoaded
                           ? Text('Create an account',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ))
+                              style: TextStyle(
+                                fontSize: 20.0,
+                              ))
                           : Center(child: CircularProgressIndicator()),
                       onPressed: () => validateAndSubmit(context),
                     ),
                   ),
                   FlatButton(
                     child: Text('Have an account? Login',
-                        style: TextStyle(
-                            fontSize: 20.0, color: Colors.white)),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
                     onPressed: moveToLogin,
                   ),
                 ],
@@ -257,15 +270,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   List<Widget> buildSubmitButtons() {
     return <Widget>[
-        RaisedButton(
-          child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
-          onPressed: () => validateAndSubmit(context),
-        ),
-        FlatButton(
-          child:
-          Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
-          onPressed: moveToLogin,
-        ),
-      ];
+      RaisedButton(
+        child: Text('Create an account', style: TextStyle(fontSize: 20.0)),
+        onPressed: () => validateAndSubmit(context),
+      ),
+      FlatButton(
+        child: Text('Have an account? Login', style: TextStyle(fontSize: 20.0)),
+        onPressed: moveToLogin,
+      ),
+    ];
   }
 }
