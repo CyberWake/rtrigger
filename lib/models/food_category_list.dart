@@ -74,7 +74,7 @@ class FoodCategoryList{
     },
     {
       "image": "assets/img/liquor.png",
-      "foodName": "Paan",
+      "foodName": "View More",
       "index": 14
     },
   ];

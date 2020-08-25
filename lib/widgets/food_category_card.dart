@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user/screens/food_items.dart';
+import 'package:user/screens/vendor_screen.dart';
 
 class FoodCategoryCard extends StatelessWidget {
   FoodCategoryCard({this.index, this.foodName, this.image});
@@ -12,12 +13,21 @@ class FoodCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return FoodItems(
-            title: foodName,
-            index: index,
-          );
-        }));
+        if(index==14){
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context){
+              return VendorScreen();
+            }
+          ));
+        }
+        else{
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FoodItems(
+              title: foodName,
+              index: index,
+            );
+          }));
+        }
       },
       child: Card(
         elevation: 20,
