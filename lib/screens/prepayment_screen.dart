@@ -129,6 +129,18 @@ class _PrePaymentState extends State<PrePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(
+        backgroundColor: Colors.blueGrey,
+        elevation: 0.0,
+        centerTitle: true,
+        title: Text(
+          "Order Details",
+          style: TextStyle(
+              fontFamily: 'RobotoCondensed',
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -142,14 +154,6 @@ class _PrePaymentState extends State<PrePayment> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          "Order Details",
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
                         SizedBox(
                           height: 25,
                         ),
