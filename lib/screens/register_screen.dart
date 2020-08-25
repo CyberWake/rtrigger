@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:user/screens/root_screen.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/auth/authorizationProvider.dart';
 import 'package:user/screens/login_screen.dart';
@@ -34,13 +32,7 @@ enum FormType {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  // final FirebaseFirestore _db = FirebaseFirestore.instance;
-  Auth auth = Auth();
-  Stream<User> user; // firebase user
-  Stream<Map<String, dynamic>> profile; // custom user data in Firestore
   bool isLoaded = true;
-  Auth auth1 = Auth();
   String _email;
   String _password;
   String _name;
@@ -56,38 +48,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> validateAndSubmit(BuildContext context) async {
     if (validateAndSave()) {
-      try {
-        final BaseAuth auth = AuthProvider.of(context).auth;
+      final BaseAuth auth = AuthProvider.of(context).auth;
+      setState(() {
+        isLoaded = false;
+      });
+      try{
+      await auth
+          .createUserWithEmailAndPassword(_email, _password, _name)
+          .then((value) async {
         setState(() {
-          isLoaded = false;
+          isLoaded = true;
         });
-        await auth
-            .createUserWithEmailAndPassword(_email, _password, _name)
-            .then((value) async {
-          if (value == 'email-already-in-use') {
-             await showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                      title: Text('An Error occurred '),
-                      content: Text('Entered email is already in use'),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.of(_).pop();
-                          },
-                        ),
-                      ],
-                    ));
-          } else {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LoginScreen()));
-            print('Registered user');
-            return value;
-          }
-        });
-      } catch (e) {
-        print('Error: $e');
+        if (value == 'email-already-in-use') {
+          await showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text('An Error occurred '),
+                    content: Text('Entered email is already in use'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(_).pop();
+                        },
+                      ),
+                    ],
+                  ));
+        } else {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen()));
+          print('Registered user');
+        }
+      });
+    }catch(e){
+        print(e);
       }
     }
   }
