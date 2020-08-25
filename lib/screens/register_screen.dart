@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           final String userId =
           await auth.createUserWithEmailAndPassword(_email, _password);
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => RootPage()));
+              MaterialPageRoute(builder: (context) => LoginScreen()));
           await auth1.addUserDetails(_email, _name, userId);
           await auth1.setCart();
           print('Registered user: $userId');
