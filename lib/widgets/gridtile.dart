@@ -113,6 +113,7 @@ class CustomGridTile extends StatelessWidget {
                     ),
               FittedBox(
                 child: Text(title,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'RobotoCondensed',
                       fontWeight: FontWeight.bold,
