@@ -215,8 +215,8 @@ class _FoodCartState extends State<FoodCart> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text("Cart total : ₹$totalCart"),
-                              Text("Delivery charge : ₹$totalDelivery"),
+                              Text("Cart total : ₹ $totalCart"),
+                              Text("Delivery charge : ₹ $totalDelivery"),
                             ],
                           ),
                         ),
