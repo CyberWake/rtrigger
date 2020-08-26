@@ -23,11 +23,11 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   UserProfile profile;
   String userName = "";
 
-  getCurrentDate(){
+  getCurrentDate() {
     var date = new DateTime.now().toString();
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
-    finalDate = formattedDate.toString() ;
+    finalDate = formattedDate.toString();
   }
 
   @override
@@ -37,13 +37,15 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
 
     super.initState();
   }
-  getUserName ()async{
+
+  getUserName() async {
     await auth.getProfile().whenComplete(() {
       profile = auth.profile;
       userName = profile.username;
       print(userName);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     getCurrentDate();
@@ -75,53 +77,85 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     );
   }
 
-  _getTitle(DrawerIndex index){
-    switch(index){
-      case DrawerIndex.HOME: return Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(finalDate,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: Colors.grey),),
-                                    Text("Hello "+userName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900,color: Colors.black),),
-                                  ],
-                                ),
-                                //Search(),
-                                /*IconButton(
+  _getTitle(DrawerIndex index) {
+    switch (index) {
+      case DrawerIndex.HOME:
+        return Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    finalDate,
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey),
+                  ),
+                  Text(
+                    "Hello " + userName,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+              //Search(),
+              /*IconButton(
                                   onPressed: (){
                                     print("cart button pressed");
                                   },
                                     icon:Icon(Icons.add_shopping_cart)
                                 )*/
-                              ]
-                            );
-                            break;
-      case DrawerIndex.ORDERS: return Padding(
-          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
-          child: Text("Orders")
-      );break;
-      case DrawerIndex.MYCART: return Padding(
-          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
-          child: Text("My Cart")
-      );break;
-      case DrawerIndex.PROFILE: return Padding(
-          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
-          child: Text("Profile")
-      );break;
-      case DrawerIndex.CONTACTUS: return Padding(
-          padding:EdgeInsets.only(left: MediaQuery.of(context).size.width/12),
-          child: Text("Contact Us")
-      );break;
-      case DrawerIndex.MEDICINE: return Text("Medicine");break;
-      case DrawerIndex.FOOD: return Text("Food");break;
-      case DrawerIndex.LIQUOR: return Text("Liquor");break;
-      case DrawerIndex.SALON: return Text("Salon and Beauty Parlour");break;
-      case DrawerIndex.SANITIZERANDSPRAY: return Text("Sanitizer and Spray");break;
-      case DrawerIndex.VIEWALL: return Text("View All");break;
+            ]);
+        break;
+      case DrawerIndex.ORDERS:
+        return Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width / 12),
+            child: Text("Orders"));
+        break;
+      case DrawerIndex.MYCART:
+        return Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width / 12),
+            child: Text("My Cart"));
+        break;
+      case DrawerIndex.PROFILE:
+        return Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width / 12),
+            child: Text("Profile"));
+        break;
+      case DrawerIndex.CONTACTUS:
+        return Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width / 12),
+            child: Text("Contact Us"));
+        break;
+      case DrawerIndex.MEDICINE:
+        return Text("Medicine");
+        break;
+      case DrawerIndex.FOOD:
+        return Text("Food");
+        break;
+      case DrawerIndex.LIQUOR:
+        return Text("Liquor");
+        break;
+      case DrawerIndex.SALON:
+        return Text("Salon and Beauty Parlour");
+        break;
+      case DrawerIndex.SANITIZERANDSPRAY:
+        return Text("Sanitizer and Spray");
+        break;
+      case DrawerIndex.VIEWALL:
+        return Text("View All");
+        break;
     }
   }
 
@@ -153,8 +187,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           screenView = Contact();
           drawerIndex = DrawerIndex.CONTACTUS;
         });
-      }
-      else {
+      } else {
         //do in your way......
       }
     }

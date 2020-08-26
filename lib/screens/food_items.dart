@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
-import 'package:user/widgets/food_item_card.dart';
-import 'package:user/models/apptheme.dart';
 import 'package:user/widgets/food_item_card.dart';
 import 'package:user/services/Food/food_fetching.dart';
 
