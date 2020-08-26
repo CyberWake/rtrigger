@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -84,10 +85,13 @@ class _FoodScreenState extends State<FoodScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Card(
                         color: Colors.grey[300],
-                        child: Image.network(
-                          url,
-                          fit: BoxFit.cover,
-                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                            fit: BoxFit.cover
+                        )
                       ),
                     );
                   });
