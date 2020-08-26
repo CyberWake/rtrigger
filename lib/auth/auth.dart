@@ -42,7 +42,7 @@ abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
 
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String username);
+      String email, String password, String username,int phone);
 
   Future<String> currentUser();
 
@@ -104,12 +104,12 @@ class Auth implements BaseAuth {
 
   @override
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String username) async {
+      String email, String password, String username,int phone) async {
     try {
       final user = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       await user.user.sendEmailVerification();
-        await addUserDetails(email, username, user.user.uid);
+        await addUserDetails(email, username, user.user.uid,phone);
         await setCart();
         return user.user?.uid;
 
@@ -136,14 +136,14 @@ class Auth implements BaseAuth {
     return user?.uid;
   }
 
-  Future<void> addUserDetails(String email, String username, String uid) async {
+  Future<void> addUserDetails(String email, String username, String uid,int phone) async {
     var auth1 = FirebaseFirestore.instance;
     var _db = auth1.collection('users').doc(uid);
     _db.set({
       'username': username,
       'email': email,
       'userId': uid,
-      'phone': 9999999999,
+      'phone': phone,
       'address': "Address",
       'imageUrl':
           "https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg"

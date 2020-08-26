@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math' as Math;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -117,7 +114,6 @@ class _PrePaymentState extends State<PrePayment> {
       form.save();
 
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
-      GeolocationStatus geolocationStatus =
           await geolocator.checkGeolocationPermissionStatus();
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
