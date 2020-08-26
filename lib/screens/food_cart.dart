@@ -87,6 +87,7 @@ class _FoodCartState extends State<FoodCart> {
   }
 
   void getPerKmCharge() async {
+    // Fetching per km charges for delivery charge calculation.
     var temp = await _firestore.collection("deliveryRate").doc("rates").get();
     _perKmCharge = temp.get("rate");
   }
@@ -114,6 +115,10 @@ class _FoodCartState extends State<FoodCart> {
   }
 
   void calculateTotal() {
+    
+    // totalCart => Food total
+    // totalDelivery => Delivery charges
+    // totalPay => Payable amount
     totalCart = 0;
     print("calculating Total");
 
