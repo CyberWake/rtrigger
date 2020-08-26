@@ -81,7 +81,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                   ),
                   Divider(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
                         icon: Icon(Icons.remove),
