@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/widgets/vendor_card.dart';
 import 'package:user/services/Food/vendor_fetching.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class VendorScreen extends StatefulWidget {
   @override
@@ -29,9 +30,7 @@ class _VendorScreenState extends State<VendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Vendors"),
-      ),
+      appBar: UniversalAppBar(context,true,'All Vendors'),
       body: SafeArea(
           child: ListView.builder(
             itemBuilder: (context, index){
