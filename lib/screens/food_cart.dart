@@ -26,7 +26,9 @@ class _FoodCartState extends State<FoodCart> {
   final _userID = FirebaseAuth.instance.currentUser.uid;
   Cart cart = Cart();
   var cartItems = [];
-  int total = 0;
+  int totalCart = 0;
+  int totalDelivery = 0;
+  int totalPay = 0;
   bool isLoading = true;
   int _perKmCharge = 1;
   final _firestore = FirebaseFirestore.instance;
@@ -92,10 +94,10 @@ class _FoodCartState extends State<FoodCart> {
   Future<void> makePayment() async {
     var options = {
       'key': 'rzp_test_Fs6iRWL4ppk5ng',
-      'amount': total * 100, //in paise so * 100
+      'amount': totalCart * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description':
-          'Order Payment for id - ' + profile.username + total.toString(),
+          'Order Payment for id - ' + profile.username + totalCart.toString(),
       'prefill': {'contact': profile.phone.toString(), 'email': profile.email},
       "method": {
         "netbanking": true,
@@ -112,18 +114,16 @@ class _FoodCartState extends State<FoodCart> {
   }
 
   void calculateTotal() {
-    total = 0;
+    totalCart = 0;
     print("calculating Total");
 
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
-        total = total +
-            cartItems[i]["price"] * cartItems[i]["quantity"] +
-            int.parse(cartItems[i]["distance"]
-                    .substring(0, cartItems[i]["distance"].length - 3)) *
-                _perKmCharge;
+        totalCart = totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
+        totalDelivery = totalDelivery + int.parse(cartItems[i]["distance"].substring(0, cartItems[i]["distance"].length - 3)) * _perKmCharge;
       });
     }
+    totalPay = totalCart+totalDelivery;
   }
 
   void getCartData() async {
@@ -161,11 +161,11 @@ class _FoodCartState extends State<FoodCart> {
               elevation: 0.0,
               backgroundColor: Colors.transparent,
             ),
-      body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
+      body: Container(
+//        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
         child: isLoading
             ? Center(child: CircularProgressIndicator())
-            : total == 0
+            : totalCart == 0
                 ? Container(
                     padding: EdgeInsets.all(15),
                     child: Text(
@@ -174,7 +174,7 @@ class _FoodCartState extends State<FoodCart> {
                           fontSize: MediaQuery.of(context).size.width / 15),
                     ),
                   )
-                : SafeArea(
+                : Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -209,6 +209,17 @@ class _FoodCartState extends State<FoodCart> {
                             ),
                           ),
                         ),
+                        Container(
+                          height: 30,
+                          color: Colors.orange,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("Cart total : $totalCart"),
+                              Text("Delivery charge : $totalDelivery"),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -225,20 +236,24 @@ class _FoodCartState extends State<FoodCart> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => PrePayment(total: total)));
+                      builder: (context) => PrePayment(total: totalPay)));
             },
             //Implement Route To Payment Here
-            label: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            label: Column(
               children: [
-                Text(
-                  "Total: ₹ $total ".toUpperCase(),
-                  style: TextStyle(color: Colors.green),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Total: ₹ $totalPay ".toUpperCase(),
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Order Now".toUpperCase()),
+                  ],
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text("Order Now".toUpperCase()),
               ],
             ),
           ),
