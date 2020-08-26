@@ -21,7 +21,8 @@ class AreaScreen extends StatefulWidget {
 }
 
 class _AreaScreenState extends State<AreaScreen> {
-  String areaText;
+  String areaText = '';
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,10 @@ class _AreaScreenState extends State<AreaScreen> {
     final pricePerFeet = double.parse(widget.pricePerFeet);
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: UniversalAppBar(context,true," "),
+      appBar: UniversalAppBar(context, true, " "),
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -111,15 +113,21 @@ class _AreaScreenState extends State<AreaScreen> {
               height: screenHeight * 0.05,
               child: RaisedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SanitizeConfirmScreen(
-                          uid: widget.uid,
-                          vendorPrice:
-                              (double.parse(areaText) * pricePerFeet).toInt(),
-                          pricePerFeet: widget.pricePerFeet,
-                          category: widget.category,
-                          vendorName: widget.vendorName,
-                          location: widget.location)));
+                  if (areaText != '0' && areaText.isNotEmpty) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SanitizeConfirmScreen(
+                            uid: widget.uid,
+                            vendorPrice:
+                                (double.parse(areaText) * pricePerFeet).toInt(),
+                            pricePerFeet: widget.pricePerFeet,
+                            category: widget.category,
+                            vendorName: widget.vendorName,
+                            location: widget.location)));
+                  } else {
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      content: Text('Please Enter Area First'),
+                    ));
+                  }
                 },
                 child: Text("Submit",
                     style: TextStyle(
