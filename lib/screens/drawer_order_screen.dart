@@ -69,7 +69,7 @@ class _OrderScreenState extends State<OrderScreen> {
         isLoading = false;
       });
     });
-    getCartData();
+    getOrderData();
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -106,16 +106,15 @@ class _OrderScreenState extends State<OrderScreen> {
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
         total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
+        total =0;
       });
     }
   }
 
-  void getCartData() async {
+  void getOrderData() async {
     var temp = await cart.getCartItems(_userID);
-    print(temp);
     setState(() {
       cartItems = temp;
-      calculateTotal();
     });
   }
 
@@ -172,14 +171,14 @@ class _OrderScreenState extends State<OrderScreen> {
                           quantity: cartItems[index]["quantity"],
                           productID: cartItems[index]["productID"],
                           onTap: () async {
-                            Cart cart = Cart();
+                            /*Cart cart = Cart();
                             var deleteResult = await cart.deleteFromCart(
                                 userID: _userID,
                                 productID: cartItems[index]["productID"]);
                             if (deleteResult == true) {
                               getCartData();
                               //calculateTotal();
-                            }
+                            }*/
                           },
                         );
                       },

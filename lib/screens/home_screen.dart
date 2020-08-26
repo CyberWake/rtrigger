@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,14 +35,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       setState(() {
         imageArray = value.data()['home'];
       });
-      print(value.data());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     getImages();
-    print(imageArray);
     return Container(
       color: Colors.transparent,
       margin: EdgeInsets.only(top: 60, left: 5, right: 5),
@@ -109,14 +108,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             items: imageArray.map((url) {
               return Builder(builder: (BuildContext context) {
                 return Container(
+                  margin: EdgeInsets.only(top:10,bottom: 10),
                   height: MediaQuery.of(context).size.height * 0.30,
                   width: MediaQuery.of(context).size.width,
                   child: Card(
                     color: Colors.grey[300],
-                    child: Image.network(
+                    child: CachedNetworkImage(
+                      imageUrl: url,
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          CircularProgressIndicator(value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),/*Image.network(
                       url,
                       fit: BoxFit.cover,
-                    ),
+                    ),*/
                   ),
                 );
               });

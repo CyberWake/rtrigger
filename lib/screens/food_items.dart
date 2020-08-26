@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_item_card.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:user/widgets/food_item_card.dart';
@@ -37,10 +38,7 @@ class _FoodItemsState extends State<FoodItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppTheme.dark_grey,
-        title: Text(widget.title),
-      ),
+      appBar: UniversalAppBar(context, true, widget.title),
       body: SafeArea(
         child: isLoaded
             ? Container(

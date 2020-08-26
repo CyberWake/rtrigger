@@ -6,8 +6,8 @@ import 'package:user/auth/auth.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/models/varialbes.dart';
 import 'package:user/screens/drawer_profile_screen.dart';
+import 'package:user/screens/login_screen.dart';
 
-import '../screens/root_screen.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -201,7 +201,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   print("Signing out");
                   await Auth().signOut();
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => RootPage()));
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
               ),
               SizedBox(

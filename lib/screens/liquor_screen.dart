@@ -5,7 +5,6 @@ import 'package:user/models/liquor_category_list.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_category_card.dart';
 
-import 'food_cart.dart';
 
 class LiquorScreen extends StatelessWidget {
   List<dynamic> _listItem = LiquorCategoryList().liquorItems;
@@ -16,7 +15,7 @@ class LiquorScreen extends StatelessWidget {
       appBar: UniversalAppBar(context, true, "Liqour Category"),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 16),
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 30),
           color: Colors.white,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
@@ -24,6 +23,7 @@ class LiquorScreen extends StatelessWidget {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height,
+                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 30 ),
                   //flex: 10,
                   child: Column(
                     children: [

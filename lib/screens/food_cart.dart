@@ -161,9 +161,9 @@ class _FoodCartState extends State<FoodCart> {
               elevation: 0.0,
               backgroundColor: Colors.transparent,
             ),
-      body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
-        child: isLoading
+      body:
+        //padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),
+        isLoading
             ? Center(child: CircularProgressIndicator())
             : total == 0
                 ? Container(
@@ -212,7 +212,6 @@ class _FoodCartState extends State<FoodCart> {
                       ],
                     ),
                   ),
-      ),
       bottomNavigationBar: BottomAppBar(
         color: AppTheme.dark_grey,
         elevation: 5,
