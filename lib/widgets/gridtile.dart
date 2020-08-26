@@ -20,7 +20,9 @@ class CustomGridTile extends StatelessWidget {
   final String loc;
   final Cards card;
   final CardType type;
+
   CustomGridTile({this.title, this.loc, this.card, this.type});
+
   /*getNextScreen() {
     switch (type) {
       case CardType.Medicine:
@@ -99,18 +101,31 @@ class CustomGridTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              loc != "null"
-                  ? CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: type==CardType.Home?screenHeight / 15:screenHeight / 12,
-                      child: ClipOval(
-                          child: Image.asset(
-                        loc,
-                        fit: BoxFit.cover,
-                      )))
-                  : SizedBox(
-                      height: 1,
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.width / 4,
+                width: MediaQuery.of(context).size.width / 4,
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: type == CardType.Home
+                      ? screenHeight / 15
+                      : screenHeight / 12,
+                  child: ClipOval(
+                    child: Image.asset(
+                      loc,
+                      fit: BoxFit.cover,
                     ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(loc), fit: BoxFit.cover)),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               FittedBox(
                 child: Text(title,
                     textAlign: TextAlign.center,
@@ -119,6 +134,9 @@ class CustomGridTile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     )),
               ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),

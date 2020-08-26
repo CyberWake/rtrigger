@@ -61,7 +61,7 @@ class _SaloonServiceListTileState extends State<SaloonServiceListTile> {
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
-                      lastDate: DateTime.now());
+                      lastDate: DateTime.now().add(Duration(days: 7)));
 //                      lastDate: DateTime(DateTime.now().year,
 //                          DateTime.now().month + 1, DateTime.now().day));
                   final time = await showTimePicker(

@@ -152,7 +152,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
                                           'Waiting For Response'
                                       ? null
                                       : () async {
-                                          await makePayment();
+                                           makePayment();
                                         },
                                   child: Text('Accept'),
                                   color: Colors.blueGrey,
@@ -182,7 +182,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
-    return await showDialog(
+     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('An Error occured!'),
@@ -202,7 +202,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    return await showDialog(
+     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('Payment Successful.'),
