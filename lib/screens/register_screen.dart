@@ -37,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _email;
   String _password;
   String _name;
+  int _phone;
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
@@ -55,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
       try {
         await auth
-            .createUserWithEmailAndPassword(_email, _password, _name)
+            .createUserWithEmailAndPassword(_email, _password, _name, _phone)
             .then((value) async {
           setState(() {
             isLoaded = true;
@@ -130,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         GoogleFonts.lato(fontSize: 38.0, color: Colors.white),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
                     width: 0.8 * MediaQuery.of(context).size.width,
@@ -152,12 +153,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           border: InputBorder.none,
                         ),
                         validator: EmailFieldValidator.validate,
+                        textCapitalization: TextCapitalization.words,
                         onSaved: (String value) => _name = value,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Container(
+                    width: 0.8 * MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        textAlign: TextAlign.center,
+                        key: Key('Phone no.'),
+                        decoration: InputDecoration(
+                          hintText: '  Enter Phone no.',
+                          hintStyle: GoogleFonts.lato(
+                            fontSize: 20.0,
+                            color: Color.fromRGBO(00, 44, 64, 1),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty ||
+                              int.parse(value) < 6000000000 ||
+                              int.parse(value) > 9999999999) {
+                            return 'Please enter valid phone number';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _phone = int.parse(value),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
                     width: 0.8 * MediaQuery.of(context).size.width,
@@ -184,7 +220,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
                     width: 0.8 * MediaQuery.of(context).size.width,
@@ -212,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
                     width: 0.8 * MediaQuery.of(context).size.width,
@@ -235,8 +271,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   FlatButton(
                     child: Text(
                       'Have an account? Login',
-                      style: GoogleFonts.lato(
-                          fontSize: 20.0,color:Colors.white),
+                      style:
+                          GoogleFonts.lato(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: moveToLogin,
                   ),
