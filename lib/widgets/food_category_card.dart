@@ -29,14 +29,12 @@ class FoodCategoryCard extends StatelessWidget {
       child: Card(
         elevation: 10,
         child: index == 14
-            ? Expanded(
-                child: Center(
-                    child: Text(foodName,
-                        style: TextStyle(
-                          fontFamily: 'RobotoCondensed',
-                          fontWeight: FontWeight.bold,
-                        ))),
-              )
+            ? Center(
+                child: Text(foodName,
+                    style: TextStyle(
+                      fontFamily: 'RobotoCondensed',
+                      fontWeight: FontWeight.bold,
+                    )))
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,7 +52,8 @@ class FoodCategoryCard extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 2,
-                    child: Text(foodName,textAlign: TextAlign.center,
+                    child: Text(foodName,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'RobotoCondensed',
                             fontWeight: FontWeight.bold,
