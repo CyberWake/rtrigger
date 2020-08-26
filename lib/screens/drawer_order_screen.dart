@@ -106,7 +106,7 @@ class _OrderScreenState extends State<OrderScreen> {
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
         total = total + cartItems[i]["price"] * cartItems[i]["quantity"];
-        total =0;
+        total = 0;
       });
     }
   }

@@ -9,6 +9,8 @@ import 'package:user/models/profile.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class Profile extends StatefulWidget {
+  Profile({this.isAppBar});
+  final bool isAppBar;
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -79,6 +81,11 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.isAppBar?UniversalAppBar(context, false, 'Profile'):AppBar(
+        toolbarHeight: 1,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,

@@ -129,10 +129,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               child: isLoaded
                                   ? GestureDetector(
                                 onTap: (){
-                                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (BuildContext context) => Profile()));
+                                  if(widget.screenIndex!=DrawerIndex.PROFILE) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                Profile(isAppBar: true)));
+                                  }
                                 },
                                     child: Hero(
-                                tag: url,
+                                    tag: url,
                                     child: Image.network(url)),
                                   )
                                   : Center(child: CircularProgressIndicator()),

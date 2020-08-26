@@ -145,7 +145,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.PROFILE) {
         setState(() {
-          screenView = Profile();
+          screenView = Profile(isAppBar: false);
           drawerIndex = DrawerIndex.PROFILE;
         });
       } else if (drawerIndex == DrawerIndex.CONTACTUS) {
