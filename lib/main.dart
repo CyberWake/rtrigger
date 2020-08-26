@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     return AuthProvider(
         auth: Auth(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
