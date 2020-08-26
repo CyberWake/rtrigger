@@ -102,7 +102,7 @@ class CustomGridTile extends StatelessWidget {
               loc != "null"
                   ? CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: screenHeight / 12,
+                      radius: type==CardType.Home?screenHeight / 15:screenHeight / 12,
                       child: ClipOval(
                           child: Image.asset(
                         loc,

@@ -13,6 +13,7 @@ class _ContactState extends State<Contact> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Auth auth = Auth();
   UserProfile profile;
+  var orderid = "";
   var subject = "";
   var body = "";
   var name = "";
@@ -34,7 +35,7 @@ class _ContactState extends State<Contact> {
     final message = Message()
       ..from = Address(username, mail)
       ..recipients.add('support@rtiggersapp.com')
-      ..subject = 'User Feedback!'
+      ..subject = 'User Feedback!'+ orderid
       ..text = body
       ..html = "<h1>Customer FeedBack</h1>\n" +
           "<p>" +
@@ -150,6 +151,35 @@ class _ContactState extends State<Contact> {
                                   border: InputBorder.none,
                                   labelText: 'Email Address',
                                   labelStyle: TextStyle(color: Colors.black)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 20),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.rectangle,
+                            border: new Border.all(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Order Id',
+                                  labelStyle: TextStyle(color: Colors.black)),
+                              onChanged: (value) {
+                                orderid = value;
+                              },
                             ),
                           ),
                         ),
