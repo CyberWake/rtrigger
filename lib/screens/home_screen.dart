@@ -116,6 +116,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           CircularProgressIndicator(value: downloadProgress.progress),
                       errorWidget: (context, url, error) => Icon(Icons.error),
+                      fit: BoxFit.cover,
                     ),/*Image.network(
                       url,
                       fit: BoxFit.cover,
