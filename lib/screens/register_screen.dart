@@ -77,6 +77,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     ));
           } else {
+            await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text('Verify your Email id'),
+                  content: Text('Check your emails and verify your id.'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.of(_).pop();
+                      },
+                    ),
+                  ],
+                ));
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => LoginScreen()));
             print('Registered user');
