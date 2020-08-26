@@ -47,7 +47,7 @@ dependencies:
   razorpay_flutter: 1.1.0
   google_fonts: ^1.1.0
   carousel_slider: ^2.2.1
-  
+  intl:
 
 dev_dependencies:
   flutter_test:
