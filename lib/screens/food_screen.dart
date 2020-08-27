@@ -50,7 +50,7 @@ class _FoodScreenState extends State<FoodScreen> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text("Can't get gurrent location"),
+                title: Text("Can't get current location"),
                 content:const Text('Please make sure you enable GPS and try again'),
                 actions: <Widget>[
                   FlatButton(child: Text('Ok'),
