@@ -19,9 +19,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Widget screenView;
   DrawerIndex drawerIndex;
 
-
-
-
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
@@ -29,8 +26,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
 
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

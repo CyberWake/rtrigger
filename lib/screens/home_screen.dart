@@ -97,7 +97,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ),
         body:Container(
-          color: Colors.transparent,
+          margin: EdgeInsets.symmetric(horizontal: 8),
+          color: Colors.white,
           child: ListView(
             children: [
               Padding(

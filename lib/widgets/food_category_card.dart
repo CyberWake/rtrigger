@@ -27,7 +27,7 @@ class FoodCategoryCard extends StatelessWidget {
         }
       },
       child: Card(
-        elevation: 3,
+        elevation: 10,
         child: index == 14
             ? Center(
                 child: Text(foodName,
