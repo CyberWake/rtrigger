@@ -17,7 +17,7 @@ class SanitizerAndSprayScreen extends StatelessWidget {
                 Expanded(
                     child: CustomGridTile(
                         title: 'Sanitize',
-                        loc: 'assets/img/sanitize.png',
+                        loc: 'assets/img/sanitise.jpg',
                         card: Cards.sanitize,
                         type: CardType.Sanitizer)),
                 Expanded(

@@ -68,8 +68,8 @@ class SaloonVendorListTile extends StatelessWidget {
               minWidth: screenWidth,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        SaloonServicesScreen(servicesList, category)));
+                    builder: (context) => SaloonServicesScreen(
+                        servicesList, category, uid, location, vendorName)));
               },
               child: Text('Tap To See Services'),
             )

@@ -140,8 +140,10 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       )
           :AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        toolbarHeight: 50,
+        centerTitle: true,
+        title: Text("Orders"),
+        backgroundColor: AppTheme.grey,
       ),
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 8),

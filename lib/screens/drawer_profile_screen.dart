@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:user/auth/auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
+import 'package:user/models/apptheme.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 
@@ -82,9 +83,10 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.isAppBar?UniversalAppBar(context, false, 'Profile'):AppBar(
-        toolbarHeight: 1,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+        toolbarHeight: 50,
+        centerTitle: true,
+        title: Text("Profile"),
+        backgroundColor: AppTheme.grey,
       ),
       body: SingleChildScrollView(
         child: Container(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:user/screens/register_screen.dart';
@@ -34,6 +35,7 @@ enum FormType {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   bool isLoaded = true;
   String _email;
   String _password;
@@ -160,6 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: EmailFieldValidator.validate,
                         onSaved: (String value) => _email = value,
+                        onChanged: (val){
+                          _email=val;
+                        },
                       ),
                     ),
                   ),
@@ -218,11 +223,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   FlatButton(
                     child: Text(
                       'Create an account',
-                      style: GoogleFonts.lato(
-                          fontSize: 20.0, color: Colors.white),
+                      style:
+                          GoogleFonts.lato(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: moveToRegister,
-                  )
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Reset Password for this Id',
+                      style: GoogleFonts.lato(
+                          fontSize: 14.0, color: Colors.yellowAccent.shade700),
+                    ),
+                    onPressed: () async {
+                      print(_email);
+                      try{
+                      if (_email == null || _email.length < 5) {
+                        showAlertDialog(context, "Error!",
+                            "Please mention the E-mail Id first, this feature is only for registered accounts.");
+                      } else {
+                        await resetPassword(_email);
+                        showAlertDialog(context, "Link Sent!",
+                            "Please check your email for password reset.");
+                      }
+                    }catch(e){
+                        showAlertDialog(context, "Error!", e.toString());
+                      }},
+                  ),
                 ],
               ),
             ),
@@ -263,5 +289,37 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: moveToRegister,
       ),
     ];
+  }
+
+  showAlertDialog(BuildContext context, String title, String message) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      title: Text(title),
+      content: Text(message),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }

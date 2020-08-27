@@ -13,12 +13,12 @@ class FoodCategoryList{
       "index": 1
     },
     {
-      "image": "assets/img/pizza.jpg",
+      "image": "assets/img/pizza.png",
       "foodName": "Pizza",
       "index": 2
     },
     {
-      "image": "assets/img/chicken.jpg",
+      "image": "assets/img/chicken.png",
       "foodName": "Fish & Chicken",
       "index": 3
     },
@@ -28,17 +28,17 @@ class FoodCategoryList{
       "index": 4
     },
     {
-      "image": "assets/img/shakes.jpg",
+      "image": "assets/img/shakes.png",
       "foodName": "Shakes & Juices",
       "index": 5
     },
     {
-      "image": "assets/img/shakes.jpg",
+      "image": "assets/img/softdrink.png",
       "foodName": "Soft Drinks",
       "index": 6
     },
     {
-      "image": "assets/img/burger.jpg",
+      "image": "assets/img/burger.png",
       "foodName": "Burgers &\nSandwiches",
       "index": 7
     },
@@ -48,7 +48,7 @@ class FoodCategoryList{
       "index": 8
     },
     {
-      "image": "assets/img/breakfast.jpg",
+      "image": "assets/img/breakfast.png",
       "foodName": "Breakfast",
       "index": 9
     },
@@ -58,12 +58,12 @@ class FoodCategoryList{
       "index": 10
     },
     {
-      "image": "assets/img/cookie.jpg",
+      "image": "assets/img/cookies.png",
       "foodName": "Cookies",
       "index": 11
     },
     {
-      "image": "assets/img/snack.png",
+      "image": "assets/img/snacks.png",
       "foodName": "Snacks",
       "index": 12
     },

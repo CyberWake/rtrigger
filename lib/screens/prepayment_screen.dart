@@ -158,13 +158,13 @@ class _PrePaymentState extends State<PrePayment> {
                           children: [
                             Text(
                               "Customer Name: ",
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18),
                             ),
                             Spacer(),
                             Flexible(
                                 child: Text(
                               profile.username,
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18),
                             ))
                           ],
                         ),
@@ -176,12 +176,12 @@ class _PrePaymentState extends State<PrePayment> {
                           children: [
                             Text(
                               "Order ID: ",
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18),
                             ),
                             Spacer(),
                             Text(
                               '#' + _orderNo.toString(),
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18),
                             ),
                           ],
                         ),
@@ -193,12 +193,12 @@ class _PrePaymentState extends State<PrePayment> {
                           children: [
                             Text(
                               "Total Amount: ",
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                             Spacer(),
                             Text(
                               '₹ ' + widget.total.toString(),
-                              style: TextStyle(fontSize: 25),
+                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
                             )
                           ],
                         ),

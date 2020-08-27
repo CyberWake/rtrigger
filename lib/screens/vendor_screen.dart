@@ -30,7 +30,7 @@ class _VendorScreenState extends State<VendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context,true,'All Vendors'),
+      appBar: UniversalAppBar(context,true,'All Vendors',),
       body: SafeArea(
           child: ListView.builder(
             itemBuilder: (context, index){

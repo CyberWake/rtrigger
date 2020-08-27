@@ -37,6 +37,7 @@ class _VendorFoodItemsScreenState extends State<VendorFoodItemsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Food"),
+        backgroundColor: Colors.blueGrey,
       ),
       body: SafeArea(
         child: ListView.builder(

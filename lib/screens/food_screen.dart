@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:user/models/food_category_list.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_category_card.dart';
-import 'food_cart.dart';
+import 'drawer_cart_screen.dart';
 
 class FoodScreen extends StatefulWidget {
   @override
@@ -47,15 +47,16 @@ class _FoodScreenState extends State<FoodScreen> {
     getImages();
     return Scaffold(
       appBar: UniversalAppBar(context, true, "Food Category"),
-      body: Container(
-        margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-        color: Colors.white,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 5,
-              child: GridView.count(
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 15, left: 15, right: 15),
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              GridView.count(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 crossAxisCount: 3,
                 children: _listItem
                     .map((item) => FoodCategoryCard(
@@ -65,40 +66,41 @@ class _FoodScreenState extends State<FoodScreen> {
                         ))
                     .toList(),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  //pauseAutoPlayOnTouch: Duration(seconds: 10),
-                  aspectRatio: 2.0,
+              SizedBox(height: 10,),
+              Expanded(
+                flex: 1,
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200.0,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    //pauseAutoPlayOnTouch: Duration(seconds: 10),
+                    aspectRatio: 2.0,
+                  ),
+                  items: imageArray.map((url) {
+                    return Builder(builder: (BuildContext context) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width,
+                        child: Card(
+                          color: Colors.grey[300],
+                          child: CachedNetworkImage(
+                            imageUrl: url,
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                CircularProgressIndicator(value: downloadProgress.progress),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                              fit: BoxFit.cover
+                          )
+                        ),
+                      );
+                    });
+                  }).toList(),
                 ),
-                items: imageArray.map((url) {
-                  return Builder(builder: (BuildContext context) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.30,
-                      width: MediaQuery.of(context).size.width,
-                      child: Card(
-                        color: Colors.grey[300],
-                        child: CachedNetworkImage(
-                          imageUrl: url,
-                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              CircularProgressIndicator(value: downloadProgress.progress),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                            fit: BoxFit.cover
-                        )
-                      ),
-                    );
-                  });
-                }).toList(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

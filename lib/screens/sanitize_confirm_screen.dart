@@ -608,8 +608,18 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
+                                    MaterialButton(
+                                      color: Color.fromRGBO(00, 44, 64, 1.0),
+                                      onPressed: () {
+                                       Navigator.pop(context); },
+                                      textColor: Colors.white,
+                                      child: Text('Cancel'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50.0),
+                                      ),
+                                    ),
                                     MaterialButton(
                                       color: Color.fromRGBO(00, 44, 64, 1.0),
                                       onPressed: () {
@@ -621,7 +631,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                                         .data()['vPrice'])));
                                       },
                                       textColor: Colors.white,
-                                      child: Text('Accept'),
+                                      child: Text('Confirm'),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(50.0),
                                       ),
