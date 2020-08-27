@@ -1,3 +1,4 @@
+import 'package:android_intent/android_intent.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:user/models/food_category_list.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_category_card.dart';
@@ -19,11 +22,65 @@ class FoodScreen extends StatefulWidget {
 class _FoodScreenState extends State<FoodScreen> {
   List<dynamic> _listItem = FoodCategoryList().foodItems;
   List imageArray = List();
+  final PermissionHandler permissionHandler = PermissionHandler();
+  Map<PermissionGroup, PermissionStatus> permissions;
 
+  Future<bool> requestLocationPermission({Function onPermissionDenied}) async {
+    var granted = await _requestPermission(PermissionGroup.location);
+    if (granted!=true) {
+      requestLocationPermission();
+    }
+    debugPrint('requestContactsPermission $granted');
+    return granted;
+  }
+
+  Future<bool> _requestPermission(PermissionGroup permission) async {
+    final PermissionHandler _permissionHandler = PermissionHandler();
+    var result = await _permissionHandler.requestPermissions([permission]);
+    if (result[permission] == PermissionStatus.granted) {
+      return true;
+    }
+    return false;
+  }
+
+  Future _checkGps() async {
+    if (!(await Geolocator().isLocationServiceEnabled())) {
+      if (Theme.of(context).platform == TargetPlatform.android) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Can't get gurrent location"),
+                content:const Text('Please make sure you enable GPS and try again'),
+                actions: <Widget>[
+                  FlatButton(child: Text('Ok'),
+                      onPressed: () {
+                        final AndroidIntent intent = AndroidIntent(
+                            action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+                        intent.launch();
+                        Navigator.of(context, rootNavigator: true).pop();
+                        _gpsService();
+                      })],
+              );
+            });
+      }
+    }
+  }
+  /*Check if gps service is enabled or not*/
+  Future _gpsService() async {
+    if (!(await Geolocator().isLocationServiceEnabled())) {
+      _checkGps();
+      return null;
+    } else
+      return true;
+  }
   @override
   void initState() {
-    getImages();
+    // TODO: implement initState
     super.initState();
+    requestLocationPermission();
+    _gpsService();
+    getImages();
   }
 
   Future<void> getImages() async {

@@ -42,11 +42,13 @@ dependencies:
   flutter_open_whatsapp: ^0.1.2
   geolocator: ^5.3.2+2
   mailer: ^3.0.4
+  android_intent: ^0.3.6+12
   image_cropper: ^1.2.0
   twilio_flutter: ^0.0.5
   razorpay_flutter: 1.1.0
   google_fonts: ^1.1.0
   carousel_slider: ^2.2.1
+  permission_handler: ^4.4.0+hotfix.2
   intl:
 
 dev_dependencies:

@@ -26,24 +26,19 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
 
     super.initState();
   }
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.nearlyWhite,
+      color: AppTheme.grey,
       child: SafeArea(
-        top: false,
-        bottom: false,
         child: Scaffold(
           backgroundColor: AppTheme.nearlyWhite,
-          body: Padding(
-            padding: EdgeInsets.only(top:24),
-            child: DrawerUserController(
-              /*appBar: AppBar(
-                toolbarHeight: 50,
-                title: _getTitle(drawerIndex),
-                backgroundColor: AppTheme.grey,
-              ),*/
+          body: DrawerUserController(
               screenIndex: drawerIndex,
               drawerWidth: MediaQuery.of(context).size.width * 0.75,
               onDrawerCall: (DrawerIndex drawerIndexdata) {
@@ -53,7 +48,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
               screenView: screenView,
               //we replace screen view as we need on navigate starting screens like MyHomePage, HelpScreen, FeedbackScreen, etc...
             ),
-          ),
         ),
       ),
     );
