@@ -389,7 +389,7 @@ import 'package:user/widgets/loading_bar.dart';
 class SanitizeConfirmScreen extends StatefulWidget {
   final String uid;
   final vendorPrice;
-  final pricePerFeet;
+  final double pricePerFeet;
   final Cards category;
   final String vendorName;
   final String location;

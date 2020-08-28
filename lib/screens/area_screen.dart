@@ -119,7 +119,7 @@ class _AreaScreenState extends State<AreaScreen> {
                             uid: widget.uid,
                             vendorPrice:
                                 (double.parse(areaText) * pricePerFeet).toInt(),
-                            pricePerFeet: widget.pricePerFeet,
+                            pricePerFeet: double.parse(widget.pricePerFeet),
                             category: widget.category,
                             vendorName: widget.vendorName,
                             location: widget.location)));
