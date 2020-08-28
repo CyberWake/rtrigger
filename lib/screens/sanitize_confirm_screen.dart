@@ -618,11 +618,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                     MaterialButton(
                                       color: Color.fromRGBO(00, 44, 64, 1.0),
                                       onPressed: () {
-                                        _firestore.update({
-                                          'cName': profile.username,
-                                          'cMobile': profile.phone,
-                                          'cAddress': profile.address,
-                                        });
                                         Navigator.push(
                                             context,
                                             CupertinoPageRoute(
