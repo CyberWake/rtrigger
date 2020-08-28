@@ -7,9 +7,7 @@ import 'package:user/models/categories_enum.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'dart:math' as Math;
-
 import 'package:user/widgets/loading_bar.dart';
-
 class SanitizeConfirmScreen extends StatefulWidget {
   final String uid;
   final vendorPrice;
@@ -17,7 +15,6 @@ class SanitizeConfirmScreen extends StatefulWidget {
   final Cards category;
   final String vendorName;
   final String location;
-
   SanitizeConfirmScreen(
       {@required this.uid,
       @required this.vendorPrice,
@@ -25,11 +22,9 @@ class SanitizeConfirmScreen extends StatefulWidget {
       @required this.category,
       @required this.vendorName,
       @required this.location});
-
   @override
   _SanitizeConfirmScreenState createState() => _SanitizeConfirmScreenState();
 }
-
 class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   final _myPriceTextController = TextEditingController(text: '0');
   final _orderId = Math.Random().nextInt(1000000000);
@@ -40,7 +35,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   UserProfile profile;
   Razorpay _razorpay;
   bool isLoading = true;
-
   void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
         context: context,
@@ -58,9 +52,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
               ],
             ));
   }
-
   void _handleExternalWallet(ExternalWalletResponse response) {}
-
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     return await showDialog(
         context: context,
@@ -77,7 +69,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
               ],
             ));
   }
-
   @override
   void initState() {
     auth.getProfile().whenComplete(() {
@@ -100,11 +91,9 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       category = 'Mosquito';
     else
       category = 'Others';
-
     _collectionName = 'SanitizerVendorTemp';
     _firestore =
         FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-
     _firestore.set({
       'date': DateTime.now(),
       'id': _orderId,
@@ -116,7 +105,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'category': category,
     });
   }
-
   Future<void> makePayment() async {
     var options = {
       'key': 'rzp_test_Fs6iRWL4ppk5ng',
@@ -139,12 +127,10 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       debugPrint(e);
     }
   }
-
   void dispose() {
     super.dispose();
     _razorpay.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -470,7 +456,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   void initState() {
-    auth.getProfile().whenComplete(() {
+    auth.getProfile().then((value) {
       profile = auth.profile;
       setState(() {
         isLoading = false;
@@ -494,15 +480,15 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     _collectionName = 'SanitizerVendorTemp';
     _firestore =
         FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-
     _firestore.set({
       'date': DateTime.now(),
       'id': _orderId,
       'vPrice': widget.vendorPrice,
-      'name': widget.vendorName,
+      'vName': widget.vendorName,
       'status': 'open',
-      'location': widget.location,
-      'category': category,
+      'vLocation': widget.location,
+      'vCategory': category,
+      'pricePerFeet': widget.pricePerFeet,
     });
   }
 
@@ -536,6 +522,11 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _firestore.update({
+      'cName': profile.username,
+      'cMobile': profile.phone,
+      'cAddress': profile.address,
+    });
     return Scaffold(
       appBar: UniversalAppBar(context, false, 'Order'),
       key: _scaffoldKey,
@@ -570,18 +561,19 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 2, horizontal: 8),
                                 child: Text(
-                                  snapshot.data.data()['name'],
+                                  snapshot.data.data()['vName'],
                                   style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.bold),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 2, horizontal: 8),
                                 child: Text(
-                                  snapshot.data.data()['location'] == null
+                                  snapshot.data.data()['vLocation'] == null
                                       ? 'Unknown'
-                                      : snapshot.data.data()['location'],
+                                      : snapshot.data.data()['vLocation'],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black54),
@@ -608,32 +600,44 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     MaterialButton(
                                       color: Color.fromRGBO(00, 44, 64, 1.0),
                                       onPressed: () {
-                                       Navigator.pop(context); },
+                                        Navigator.pop(context);
+                                      },
                                       textColor: Colors.white,
                                       child: Text('Cancel'),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50.0),
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
                                       ),
                                     ),
                                     MaterialButton(
                                       color: Color.fromRGBO(00, 44, 64, 1.0),
                                       onPressed: () {
+                                        _firestore.update({
+                                          'cName': profile.username,
+                                          'cMobile': profile.phone,
+                                          'cAddress': profile.address,
+                                        });
                                         Navigator.push(
                                             context,
                                             CupertinoPageRoute(
-                                                builder: (context) => PrePayment(
-                                                    total: snapshot.data
-                                                        .data()['vPrice'])));
+                                                builder: (context) =>
+                                                    PrePayment(
+                                                        total: snapshot
+                                                                .data
+                                                                .data()[
+                                                            'vPrice'])));
                                       },
                                       textColor: Colors.white,
                                       child: Text('Confirm'),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50.0),
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
                                       ),
                                     ),
                                   ],
