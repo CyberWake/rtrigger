@@ -1,5 +1,5 @@
 import 'package:android_intent/android_intent.dart';
-import'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,7 +13,8 @@ class SanitizeVendorListScreen extends StatefulWidget {
   SanitizeVendorListScreen(this.category);
 
   @override
-  _SanitizeVendorListScreenState createState() => _SanitizeVendorListScreenState();
+  _SanitizeVendorListScreenState createState() =>
+      _SanitizeVendorListScreenState();
 }
 
 class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
@@ -25,7 +26,7 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
 
   Future<bool> requestLocationPermission({Function onPermissionDenied}) async {
     var granted = await _requestPermission(PermissionGroup.location);
-    if (granted!=true) {
+    if (granted != true) {
       requestLocationPermission();
     }
     debugPrint('requestContactsPermission $granted');
@@ -49,16 +50,20 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("Can't get gurrent location"),
-                content:const Text('Please make sure you enable GPS and try again'),
+                content:
+                    const Text('Please make sure you enable GPS and try again'),
                 actions: <Widget>[
-                  FlatButton(child: Text('Ok'),
+                  FlatButton(
+                      child: Text('Ok'),
                       onPressed: () {
                         final AndroidIntent intent = AndroidIntent(
-                            action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+                            action:
+                                'android.settings.LOCATION_SOURCE_SETTINGS');
                         intent.launch();
                         Navigator.of(context, rootNavigator: true).pop();
                         _gpsService();
-                      })],
+                      })
+                ],
               );
             });
       }
@@ -87,10 +92,11 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
       collectionName = 'vendorSanitize';
     else if (widget.category == Cards.cockroach)
       collectionName = 'vendorCockroach';
-    else if (widget.category == Cards.mosquito) collectionName = 'vendorMosquito';
+    else if (widget.category == Cards.mosquito)
+      collectionName = 'vendorMosquito';
 
     return Scaffold(
-      appBar: UniversalAppBar(context,false,"Vendor List"),
+      appBar: UniversalAppBar(context, false, "Vendor List"),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance.collection(collectionName).get(),
         builder: (context, snapshot) {
@@ -103,12 +109,15 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
                     : snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return SanitizerVendorListItem(
-                      vendorName: snapshot.data.docs[index].data()['name'],
-                      location: snapshot.data.docs[index].data()['location'],
-                      pricePerFeet:
-                          snapshot.data.docs[index].data()['pricePerFeet'].toString(),
-                      category: widget.category,
-                      uid: snapshot.data.docs[index].data()['uid']);
+                    vendorName: snapshot.data.docs[index].data()['name'],
+                    location: snapshot.data.docs[index].data()['location'],
+                    pricePerFeet: snapshot.data.docs[index]
+                        .data()['pricePerFeet']
+                        .toString(),
+                    category: widget.category,
+                    uid: snapshot.data.docs[index].data()['uid'],
+                    phone: snapshot.data.docs[index].data()['phone'].toString(),
+                  );
                 });
           }
         },

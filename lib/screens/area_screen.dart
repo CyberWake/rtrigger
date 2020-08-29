@@ -8,13 +8,15 @@ class AreaScreen extends StatefulWidget {
   final String pricePerFeet;
   final String location;
   final Cards category;
+  final String phone;
 
   AreaScreen(
       {@required this.uid,
       @required this.vendorName,
       @required this.pricePerFeet,
       @required this.location,
-      @required this.category});
+      @required this.category,
+      @required this.phone});
 
   @override
   _AreaScreenState createState() => _AreaScreenState();
@@ -116,13 +118,16 @@ class _AreaScreenState extends State<AreaScreen> {
                   if (areaText != '0' && areaText.isNotEmpty) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => SanitizeConfirmScreen(
-                            uid: widget.uid,
-                            vendorPrice:
-                                (double.parse(areaText) * pricePerFeet).toInt(),
-                            pricePerFeet: double.parse(widget.pricePerFeet),
-                            category: widget.category,
-                            vendorName: widget.vendorName,
-                            location: widget.location)));
+                              uid: widget.uid,
+                              vendorPrice:
+                                  (double.parse(areaText) * pricePerFeet)
+                                      .toInt(),
+                              pricePerFeet: double.parse(widget.pricePerFeet),
+                              category: widget.category,
+                              vendorName: widget.vendorName,
+                              location: widget.location,
+                              phone: widget.phone,
+                            )));
                   } else {
                     _scaffoldKey.currentState.showSnackBar(SnackBar(
                       content: Text('Please Enter Area First'),

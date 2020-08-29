@@ -1,4 +1,4 @@
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:user/models/categories_enum.dart';
 import '../screens/area_screen.dart';
 import '../screens/area_screen.dart';
@@ -9,12 +9,14 @@ class SanitizerVendorListItem extends StatelessWidget {
   final String pricePerFeet;
   final Cards category;
   final String uid;
+  final String phone;
   SanitizerVendorListItem(
       {@required this.vendorName,
       @required this.location,
       @required this.pricePerFeet,
       @required this.category,
-      @required this.uid});
+      @required this.uid,
+      @required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +68,13 @@ class SanitizerVendorListItem extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AreaScreen(
-                        uid: uid,
-                        vendorName: vendorName,
-                        pricePerFeet: pricePerFeet,
-                        location: location,
-                        category: category)));
+                          uid: uid,
+                          vendorName: vendorName,
+                          pricePerFeet: pricePerFeet,
+                          location: location,
+                          category: category,
+                          phone: phone,
+                        )));
               },
               child: Text('ORDER NOW'),
             )

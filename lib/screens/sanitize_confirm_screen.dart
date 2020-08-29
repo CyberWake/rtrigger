@@ -393,6 +393,7 @@ class SanitizeConfirmScreen extends StatefulWidget {
   final Cards category;
   final String vendorName;
   final String location;
+  final String phone;
 
   SanitizeConfirmScreen(
       {@required this.uid,
@@ -400,7 +401,8 @@ class SanitizeConfirmScreen extends StatefulWidget {
       @required this.pricePerFeet,
       @required this.category,
       @required this.vendorName,
-      @required this.location});
+      @required this.location,
+      @required this.phone});
 
   @override
   _SanitizeConfirmScreenState createState() => _SanitizeConfirmScreenState();
@@ -438,6 +440,34 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    String category;
+    if (widget.category == Cards.cockroach)
+      category = 'Cockroach';
+    else if (widget.category == Cards.sanitize)
+      category = 'Sanitize';
+    else if (widget.category == Cards.mosquito)
+      category = 'Mosquito';
+    else
+      category = 'Others';
+
+    _firestore.set({
+      'date': DateTime.now(),
+      'id': _orderId,
+      'vPrice': widget.vendorPrice,
+      'vName': widget.vendorName,
+      'status': 'open',
+      'vLocation': widget.location,
+      'vCategory': category,
+      'pricePerFeet': widget.pricePerFeet,
+      'cName': profile.username,
+      'cMobile': profile.phone,
+      'cAddress': profile.address,
+    });
+    print(_orderId);
+    print(widget.vendorPrice);
+    print(widget.vendorName);
+    print(widget.location);
+    print(category);
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -463,33 +493,13 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       });
     });
     super.initState();
+    _collectionName = 'SanitizerVendorTemp';
+    _firestore =
+        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    String category;
-    if (widget.category == Cards.cockroach)
-      category = 'Cockroach';
-    else if (widget.category == Cards.sanitize)
-      category = 'Sanitize';
-    else if (widget.category == Cards.mosquito)
-      category = 'Mosquito';
-    else
-      category = 'Others';
-
-    _collectionName = 'SanitizerVendorTemp';
-    _firestore =
-        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-    _firestore.set({
-      'date': DateTime.now(),
-      'id': _orderId,
-      'vPrice': widget.vendorPrice,
-      'vName': widget.vendorName,
-      'status': 'open',
-      'vLocation': widget.location,
-      'vCategory': category,
-      'pricePerFeet': widget.pricePerFeet,
-    });
   }
 
   Future<void> makePayment() async {
@@ -522,11 +532,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _firestore.update({
-      'cName': profile.username,
-      'cMobile': profile.phone,
-      'cAddress': profile.address,
-    });
     return Scaffold(
       appBar: UniversalAppBar(context, false, 'Order'),
       key: _scaffoldKey,
@@ -540,119 +545,101 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder<DocumentSnapshot>(
-                future: _firestore.get(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return LoadingBar();
-                  } else {
-                    return SingleChildScrollView(
-                      child: Card(
-                        elevation: 7,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 8),
-                                child: Text(
-                                  snapshot.data.data()['vName'],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 8),
-                                child: Text(
-                                  snapshot.data.data()['vLocation'] == null
-                                      ? 'Unknown'
-                                      : snapshot.data.data()['vLocation'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Order ID : ${snapshot.data.data()['id']}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                child: Text(
-                                  'Total Price : ${snapshot.data.data()['vPrice']} Rs',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    MaterialButton(
-                                      color: Color.fromRGBO(00, 44, 64, 1.0),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      textColor: Colors.white,
-                                      child: Text('Cancel'),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                      ),
-                                    ),
-                                    MaterialButton(
-                                      color: Color.fromRGBO(00, 44, 64, 1.0),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: (context) =>
-                                                    PrePayment(
-                                                        total: snapshot
-                                                                .data
-                                                                .data()[
-                                                            'vPrice'])));
-                                      },
-                                      textColor: Colors.white,
-                                      child: Text('Confirm'),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Status - ${snapshot.data.data()['status']}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
+            child: SingleChildScrollView(
+              child: Card(
+                elevation: 7,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 8),
+                        child: Text(
+                          widget.vendorName,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    );
-                  }
-                }),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 8),
+                        child: Text(
+                          widget.location == null ? 'Unknown' : widget.location,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        child: Text(
+                          'Order ID : $_orderId',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        child: Text(
+                          'Shop Phone : ${widget.phone}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        child: Text(
+                          'Total Price : ${widget.vendorPrice} Rs',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            MaterialButton(
+                              color: Color.fromRGBO(00, 44, 64, 1.0),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              textColor: Colors.white,
+                              child: Text('Cancel'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            ),
+                            MaterialButton(
+                              color: Color.fromRGBO(00, 44, 64, 1.0),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => PrePayment(
+                                            total: widget.vendorPrice)));
+                              },
+                              textColor: Colors.white,
+                              child: Text('Confirm'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),
