@@ -450,6 +450,12 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     else
       category = 'Others';
 
+    final otp = Math.Random().nextInt(100000);
+
+//    while (otp.toString().length < 5) {
+//      otp = Math.Random().nextInt(100000);
+//    }
+
     _firestore.set({
       'date': DateTime.now(),
       'id': _orderId,
@@ -462,12 +468,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'cName': profile.username,
       'cMobile': profile.phone,
       'cAddress': profile.address,
+      'otp': otp
     });
-    print(_orderId);
-    print(widget.vendorPrice);
-    print(widget.vendorName);
-    print(widget.location);
-    print(category);
     return await showDialog(
         context: context,
         builder: (_) => AlertDialog(
