@@ -328,14 +328,13 @@ class MedicalBargainScreen extends StatefulWidget {
 }
 
 class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
-  final _collectionName = 'MedicalTemp';
+  String _collectionName;
   final _orderNo = Math.Random().nextInt(1000000000);
   DocumentReference _firestore;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _myPriceTextController = TextEditingController();
-  Auth auth=Auth();
+  Auth auth = Auth();
   UserProfile profile;
-
 
   @override
   Widget build(BuildContext context) {
@@ -464,8 +463,8 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
                                         icon: Icon(Icons.check),
                                         onPressed: () async {
                                           await _firestore.update({
-                                            'cPrice':
-                                                _myPriceTextController.text
+                                            'cPrice': int.parse(
+                                                _myPriceTextController.text)
                                           });
                                         },
                                       )
@@ -528,9 +527,13 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
                                       MaterialButton(
                                         color: Color.fromRGBO(00, 44, 64, 1.0),
                                         onPressed: snapshot.data
-                                                    .data()['vPrice']
-                                                    .toString() ==
-                                                _myPriceTextController.text
+                                                        .data()['vPrice']
+                                                        .toString() ==
+                                                    _myPriceTextController
+                                                        .text &&
+                                                snapshot.data
+                                                        .data()['vPrice'] !=
+                                                    0
                                             ? () {
                                                 if (snapshot.data
                                                         .data()['vPrice']
@@ -542,9 +545,10 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
                                                       CupertinoPageRoute(
                                                           builder: (context) =>
                                                               PrePayment(
-                                                                  total:
-                                                                  snapshot.data
-                                                                      .data()['vPrice'])));
+                                                                  total: snapshot
+                                                                          .data
+                                                                          .data()[
+                                                                      'vPrice'])));
                                                 } else {
                                                   _scaffoldKey.currentState
                                                       .showSnackBar(SnackBar(
@@ -590,11 +594,12 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
   @override
   void initState() {
     super.initState();
+    _collectionName = 'MedicalTemp';
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
-      _firestore =
-          FirebaseFirestore.instance.collection(_collectionName).doc(
-              widget.uid);
+      _firestore = FirebaseFirestore.instance
+          .collection(_collectionName)
+          .doc(widget.uid);
       _firestore.set({
         'date': DateTime.now(),
         'id': _orderNo,
