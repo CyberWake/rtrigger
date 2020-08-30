@@ -301,6 +301,8 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:user/auth/auth.dart';
+import 'package:user/models/profile.dart';
 import 'package:user/screens/prepayment_screen.dart';
 import 'dart:math' as Math;
 
@@ -331,6 +333,9 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
   DocumentReference _firestore;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _myPriceTextController = TextEditingController();
+  Auth auth=Auth();
+  UserProfile profile;
+
 
   @override
   Widget build(BuildContext context) {
@@ -585,18 +590,25 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
   @override
   void initState() {
     super.initState();
-    _firestore =
-        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-    _firestore.set({
-      'date': DateTime.now(),
-      'id': _orderNo,
-      'name': widget.name,
-      'location': widget.location,
-      'url': widget.url,
-      'description': widget.description,
-      'vPrice': 0,
-      'cPrice': 0,
-      'status': 'open',
+    auth.getProfile().whenComplete(() {
+      profile = auth.profile;
+      _firestore =
+          FirebaseFirestore.instance.collection(_collectionName).doc(
+              widget.uid);
+      _firestore.set({
+        'date': DateTime.now(),
+        'id': _orderNo,
+        'name': widget.name,
+        'location': widget.location,
+        'url': widget.url,
+        'description': widget.description,
+        'vPrice': 0,
+        'cPrice': 0,
+        'status': 'open',
+        'cname': profile.username,
+        'address': profile.address,
+        'cphone': profile.phone
+      });
     });
   }
 }
