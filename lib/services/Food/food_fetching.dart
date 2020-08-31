@@ -5,7 +5,6 @@ class FoodFetching {
   final _firestore = FirebaseFirestore.instance;
 
   Future<List<dynamic>> getFood(int index) async {
-    try {
       List<dynamic> items = [];
       var allCollection = await _firestore.collection("vendorMenu").get();
       for (var document in allCollection.docs) {
@@ -35,11 +34,6 @@ class FoodFetching {
       }
       print(items);
       return items;
-    } catch (e) {
-      print(e);
-      print("Error");
-      return [];
-    }
   }
 
   Future<double> getDistance(latitude, longitude) async {

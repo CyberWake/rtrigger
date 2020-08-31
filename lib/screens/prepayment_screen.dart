@@ -1,4 +1,6 @@
 import 'dart:math' as Math;
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,8 +11,9 @@ import 'package:user/models/profile.dart';
 
 class PrePayment extends StatefulWidget {
   final int total;
+  final items;
 
-  const PrePayment({this.total});
+  const PrePayment({this.total, this.items});
 
   @override
   _PrePaymentState createState() => _PrePaymentState();
@@ -47,6 +50,52 @@ class _PrePaymentState extends State<PrePayment> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    for (int i = 0; i < widget.items.length; i++) {
+      var orders = await FirebaseFirestore.instance
+          .collection("vendorOrder")
+          .doc(widget.items[i]['vendorId'])
+          .get();
+      int min = 100000; //min and max values act as your 6 digit range
+      int max = 999999;
+      var randomizer = new Random();
+      var otp1 = min + randomizer.nextInt(max - min);
+      var otp2 = min + randomizer.nextInt(max - min);
+      var newOrders =
+          orders.data()["newOrder"] != null ? orders.data()["newOrder"] : [];
+      var preparingOrders =
+          orders.data()["preparing"] != null ? orders.data()["preparing"] : [];
+      var readyOrders =
+          orders.data()["ready"] != null ? orders.data()["ready"] : [];
+      var pickedOrders =
+          orders.data()["picked"] != null ? orders.data()["picked"] : [];
+      var pastOrders =
+          orders.data()["past"] != null ? orders.data()["past"] : [];
+
+      newOrders.add({
+        'address': profile.address,
+        'id': _orderNo,
+        'cid': profile.userId,
+        'customer': profile.username,
+        'otp1': otp1,
+        'otp2': otp2,
+        'type': 'New Order',
+        'item': widget.items[i]['item'],
+        'price': widget.items[i]['price'],
+        'quantity': widget.items[i]['quantity']
+      });
+
+      await FirebaseFirestore.instance
+          .collection("vendorOrder")
+          .doc(widget.items[i]['vendorId'])
+          .set({
+        "preparing": preparingOrders,
+        "ready": readyOrders,
+        "picked": pickedOrders,
+        "newOrder": newOrders,
+        "past": pastOrders
+      });
+    }
+
     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -114,7 +163,7 @@ class _PrePaymentState extends State<PrePayment> {
       form.save();
 
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
-          await geolocator.checkGeolocationPermissionStatus();
+      await geolocator.checkGeolocationPermissionStatus();
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print(position);
@@ -125,7 +174,7 @@ class _PrePaymentState extends State<PrePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         elevation: 0.0,
         centerTitle: true,
@@ -193,12 +242,14 @@ class _PrePaymentState extends State<PrePayment> {
                           children: [
                             Text(
                               "Total Amount: ",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                             Spacer(),
                             Text(
                               '₹ ' + widget.total.toString(),
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
                             )
                           ],
                         ),

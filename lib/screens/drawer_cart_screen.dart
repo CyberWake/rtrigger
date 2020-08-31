@@ -241,7 +241,7 @@ class _FoodCartState extends State<FoodCart> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => PrePayment(total: totalPay)));
+                      builder: (context) => PrePayment(total: totalPay,items: cartItems)));
             },
             //Implement Route To Payment Here
             label: Column(
