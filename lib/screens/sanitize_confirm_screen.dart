@@ -450,7 +450,9 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     else
       category = 'Others';
 
-    final otp = Math.Random().nextInt(100000);
+    final time =
+        DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
+    final otp = int.parse(time);
 
 //    while (otp.toString().length < 5) {
 //      otp = Math.Random().nextInt(100000);
