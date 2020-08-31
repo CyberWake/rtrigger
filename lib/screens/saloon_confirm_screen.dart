@@ -250,7 +250,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'location': widget.location,
       'price': widget.price,
       'cDate': widget.dateTime,
-      'id': _orderId,
+      'orderID': _orderId,
       'status': 'Open',
       'vDate': 'Waiting For Response',
       'category': category,
