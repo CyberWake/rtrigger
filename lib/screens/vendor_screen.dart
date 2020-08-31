@@ -35,11 +35,11 @@ class _VendorScreenState extends State<VendorScreen> {
           child: ListView.builder(
             itemBuilder: (context, index){
               return VendorCard(
-                vendorID: vendorData[index]["vendorID"],
+                vendorID: vendorData[index]["userId"],
                 type: vendorData[index]["desc"],
                 name: vendorData[index]["name"],
                 distance: vendorData[index]["distance"],
-                image: vendorData[index]["image"],
+                image: vendorData[index]["imageUrl"],
               );
             },
             itemCount: vendorData.length,
