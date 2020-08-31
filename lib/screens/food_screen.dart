@@ -94,9 +94,7 @@ class _FoodScreenState extends State<FoodScreen> {
           setState(() {
             imageArray = value.data()['foodMenu'];
           });
-      
-      print(value.data());
-    });
+        });
   }
 
   @override

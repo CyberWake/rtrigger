@@ -10,6 +10,7 @@ class FoodItemCard extends StatefulWidget {
       this.foodTitle,
       this.time,
       this.distance,
+        this.vendorId,
       this.price,
       this.vendorName});
 
@@ -19,6 +20,7 @@ class FoodItemCard extends StatefulWidget {
   final String time;
   final String vendorName;
   final String distance;
+  final String vendorId;
 
   @override
   _FoodItemCardState createState() => _FoodItemCardState();
@@ -116,6 +118,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                             "time": widget.time,
                             "productID": productID,
                             "distance": widget.distance,
+                            "vendorId": widget.vendorId
                           };
                           setState(() {
                             isLoaded = false;

@@ -51,6 +51,7 @@ class _FoodItemsState extends State<FoodItems> {
                       foodTitle: items[index]["name"],
                       price: int.parse(items[index]["price"]),
                       vendorName: items[index]['shop'],
+                      vendorId: items[index]['vendorId'],
                     );
                   },
                   itemCount: items.length,

@@ -25,11 +25,11 @@ class FoodFetching {
             'timing': category[0]['timing'],
             'available': category[0]['available'],
             'img': category[0]['img'],
+            'vendorId':category[0]['vendorId']
           };
           items.add(map);
         }
       }
-      print("**************returned**************");
       print(items);
       return items;
     } catch (e) {
