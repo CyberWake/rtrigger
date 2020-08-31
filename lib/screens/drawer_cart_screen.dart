@@ -190,8 +190,8 @@ class _FoodCartState extends State<FoodCart> {
                               itemBuilder: (context, index) {
                                 return CartItemCard(
                                   vendorName: cartItems[index]["vendor"],
-                                  price: cartItems[index]["price"],
-                                  foodTitle: cartItems[index]["name"],
+                                  price: int.parse(cartItems[index]["price"]),
+                                  foodTitle: cartItems[index]["item"],
                                   distance: cartItems[index]["distance"],
                                   time: "10 min",
                                   image: cartItems[index]["image"],
