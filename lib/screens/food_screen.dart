@@ -12,7 +12,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:user/models/food_category_list.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/food_category_card.dart';
-import 'drawer_cart_screen.dart';
 
 class FoodScreen extends StatefulWidget {
   @override
@@ -76,10 +75,10 @@ class _FoodScreenState extends State<FoodScreen> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     requestLocationPermission();
     _gpsService();
+    print("Food screen");
     getImages();
   }
 

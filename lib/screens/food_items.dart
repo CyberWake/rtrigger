@@ -25,6 +25,7 @@ class _FoodItemsState extends State<FoodItems> {
   }
 
   void getFoodItems() async {
+    print("Fetching");
     var fetchedData = await foodFetching.getFood(widget.index);
     setState(() {
       items = fetchedData;
@@ -48,7 +49,7 @@ class _FoodItemsState extends State<FoodItems> {
                               .toInt()
                               .toString() +
                           ' km',
-                      foodTitle: items[index]["name"],
+                      foodTitle: items[index]["item"],
                       price: int.parse(items[index]["price"]),
                       vendorName: items[index]['shop'],
                       vendorId: items[index]['vendorId'],
