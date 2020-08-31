@@ -135,7 +135,7 @@ class _PrePaymentState extends State<PrePayment> {
 
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.total * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - #' + _orderNo.toString(),
