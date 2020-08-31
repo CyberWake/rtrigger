@@ -254,6 +254,8 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'status': 'Open',
       'vDate': 'Waiting For Response',
       'category': category,
+      'cname': profile.username,
+      'phone': profile.phone,
     });
   }
 
