@@ -19,7 +19,7 @@ class FoodItemCard extends StatefulWidget {
   final int price;
   final String time;
   final String vendorName;
-  final String distance;
+  final int distance;
   final String vendorId;
 
   @override

@@ -10,16 +10,25 @@ class FoodFetching {
       for (var document in allCollection.docs) {
         if (document.data()["combos"][index]["type"] == index) {
           var category = document.data()["combos"][index]["items"];
-          print(category);
           if(category.length!=0){
-            final distanceInMetre =
-            await getDistance(double.parse(category[0]['lat']), double.parse(category[0]['long']));
-            final distance = distanceInMetre / 1000;
-            print("Category");
-            category["distance"] = distance;
-            print(category);
-            items.add(category);
+            for(var eachItem in category){
+              var distanceInMetre = await getDistance(eachItem["lat"], eachItem["long"]);
+              var distance = distanceInMetre/1000;
+              eachItem["distance"] = distance.toInt();
+              items.add(eachItem);
+            }
           }
+//          if(category.length!=0){
+//            print("Start calculating distance...");
+//            var distanceInMetre = await getDistance(category[0]['lat'], category[0]['long']);
+//            print("Found distance in m...");
+//            var distance = distanceInMetre / 1000;
+//            print("Category");
+//            category[0]["distance"] = distance;
+//            print(category);
+//            items.add(category);
+//            print(items);
+//          }
 //          final map = {
 //            'distance': distance,
 //            'price': category[index]['price'],
@@ -41,6 +50,7 @@ class FoodFetching {
   }
 
   Future<double> getDistance(latitude, longitude) async {
+    print("Inside distance function...");
     final myLocation = await Geolocator().getCurrentPosition();
     final myLatitude = myLocation.latitude;
     final myLongitude = myLocation.longitude;

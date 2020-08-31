@@ -44,14 +44,11 @@ class _FoodItemsState extends State<FoodItems> {
                   itemBuilder: (context, index) {
                     return FoodItemCard(
                       image: items[index]["img"],
-                      time: items[index]["prep"].toString(),
-                      distance: (items[index]['distance'] as double)
-                              .toInt()
-                              .toString() +
-                          ' km',
+                      time: items[index]["prep"],
+                      distance: items[index]["distance"],
                       foodTitle: items[index]["item"],
                       price: int.parse(items[index]["price"]),
-                      vendorName: items[index]['shop'],
+                      vendorName: items[index]['vendorName'],
                       vendorId: items[index]['vendorId'],
                     );
                   },
