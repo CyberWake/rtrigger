@@ -31,7 +31,6 @@ class _CartItemCardState extends State<CartItemCard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.image);
   }

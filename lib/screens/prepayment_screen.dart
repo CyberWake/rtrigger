@@ -28,6 +28,7 @@ class _PrePaymentState extends State<PrePayment> {
   String address;
   int phoneno;
   int _orderNo;
+  Position position;
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     await showDialog(
@@ -72,8 +73,10 @@ class _PrePaymentState extends State<PrePayment> {
           orders.data()["past"] != null ? orders.data()["past"] : [];
 
       newOrders.add({
+        'clat':position.latitude,
+        'clong':position.longitude,
         'address': profile.address,
-        'id': _orderNo,
+        'id': _orderNo.toString(),
         'cid': profile.userId,
         'customer': profile.username,
         'otp1': otp1,
@@ -164,8 +167,10 @@ class _PrePaymentState extends State<PrePayment> {
 
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
       await geolocator.checkGeolocationPermissionStatus();
-      Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      setState(() async{
+        position = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      });
       print(position);
       makePayment();
     }
