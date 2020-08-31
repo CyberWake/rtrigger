@@ -78,6 +78,7 @@ class _PrePaymentState extends State<PrePayment> {
         'address': profile.address,
         'id': _orderNo.toString(),
         'cid': profile.userId,
+        'cphone':phoneno,
         'customer': profile.username,
         'otp1': otp1,
         'otp2': otp2,
@@ -283,8 +284,10 @@ class _PrePaymentState extends State<PrePayment> {
                             initialValue: phoneno.toString(),
                             keyboardType: TextInputType.number,
                             onSaved: (value) {
-                              phoneno = int.parse(value);
-                            },
+                              setState(() {
+                                phoneno = int.parse(value);
+                              });
+                              },
                             validator: (value) {
                               if (value.isEmpty ||
                                   int.parse(value) < 6000000000 ||
