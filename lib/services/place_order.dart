@@ -33,7 +33,9 @@ class PlaceOrder{
     final _firestore = FirebaseFirestore.instance;
 
     try{
-
+      await _firestore.collection("vendorOrderMedical").doc(vendorID).update({
+        "active": FieldValue.arrayUnion([order]),
+      });
     }
     catch(e){
       print(e);
@@ -57,7 +59,15 @@ class PlaceOrder{
     final _firestore = FirebaseFirestore.instance;
 
     try{
-
+      await _firestore.collection("vendorSanitize").doc(vendorID).set({
+        "latitude": order["latitude"],
+        "longitude": order["longitude"],
+        "location": order["location"],
+        "name": order["name"],
+        "phone": order["phone"],
+        "pricePerFeet": order["pricePerFeet"],
+        "uid": order["uid"],
+      });
     }
     catch(e){
       print(e);
