@@ -79,6 +79,7 @@ class _FoodCartState extends State<FoodCart> {
         isLoading = false;
       });
     });
+    getPerKmCharge();
     getCartData();
     super.initState();
     _razorpay = Razorpay();
@@ -126,7 +127,7 @@ class _FoodCartState extends State<FoodCart> {
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
         totalCart = totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
-        totalDelivery = totalDelivery + int.parse(cartItems[i]["distance"].substring(0, cartItems[i]["distance"].length - 3)) * _perKmCharge;
+        totalDelivery = totalDelivery + cartItems[i]["distance"] * _perKmCharge;
       });
     }
     totalPay = totalCart+totalDelivery;
@@ -189,11 +190,11 @@ class _FoodCartState extends State<FoodCart> {
                             child: ListView.builder(
                               itemBuilder: (context, index) {
                                 return CartItemCard(
-                                  vendorName: cartItems[index]["vendor"],
+                                  vendorName: cartItems[index]["vendorName"],
                                   price: int.parse(cartItems[index]["price"]),
                                   foodTitle: cartItems[index]["item"],
                                   distance: cartItems[index]["distance"],
-                                  time: "10 min",
+                                  time: "${cartItems[index]["prep"]} mins",
                                   image: cartItems[index]["image"],
                                   quantity: cartItems[index]["quantity"],
                                   productID: cartItems[index]["productID"],
