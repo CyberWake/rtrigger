@@ -79,13 +79,17 @@ class _FoodCartState extends State<FoodCart> {
         isLoading = false;
       });
     });
-    getPerKmCharge();
-    getCartData();
+    actualAwaitInit();
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void actualAwaitInit() async{
+    await getPerKmCharge();
+    getCartData();
   }
 
   void getPerKmCharge() async {
@@ -122,6 +126,7 @@ class _FoodCartState extends State<FoodCart> {
     // totalDelivery => Delivery charges
     // totalPay => Payable amount
     totalCart = 0;
+    totalDelivery = 0;
     print("calculating Total");
 
     for (int i = 0; i < cartItems.length; i++) {
@@ -190,11 +195,11 @@ class _FoodCartState extends State<FoodCart> {
                             child: ListView.builder(
                               itemBuilder: (context, index) {
                                 return CartItemCard(
-                                  vendorName: cartItems[index]["vendorName"],
-                                  price: int.parse(cartItems[index]["price"]),
-                                  foodTitle: cartItems[index]["item"],
+                                  vendorName: cartItems[index]["vendor"],
+                                  price: cartItems[index]["price"],
+                                  foodTitle: cartItems[index]["name"],
                                   distance: cartItems[index]["distance"],
-                                  time: "${cartItems[index]["prep"]} mins",
+                                  time: "${cartItems[index]["time"]} mins",
                                   image: cartItems[index]["image"],
                                   quantity: cartItems[index]["quantity"],
                                   productID: cartItems[index]["productID"],

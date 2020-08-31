@@ -34,7 +34,6 @@ class _CartItemCardState extends State<CartItemCard> {
     // TODO: implement initState
     super.initState();
     print(widget.image);
-    print('I am running');
   }
 
 
