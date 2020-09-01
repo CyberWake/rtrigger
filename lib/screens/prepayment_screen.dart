@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/apptheme.dart';
 import 'package:user/models/profile.dart';
@@ -21,6 +22,7 @@ class PrePayment extends StatefulWidget {
 
 class _PrePaymentState extends State<PrePayment> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TwilioFlutter twilioFlutter;// declare it in class
   Auth auth = Auth();
   UserProfile profile;
   Razorpay _razorpay;
@@ -29,6 +31,8 @@ class _PrePaymentState extends State<PrePayment> {
   int phoneno;
   int _orderNo;
   Position position;
+
+
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     await showDialog(
@@ -51,6 +55,12 @@ class _PrePaymentState extends State<PrePayment> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+
+    twilioFlutter.sendSMS(
+        toNumber:
+        '+917080855524',
+        messageBody: "Your order has been submitted successfully.");
+
     for (int i = 0; i < widget.items.length; i++) {
       var orders = await FirebaseFirestore.instance
           .collection("vendorOrder")
@@ -118,6 +128,14 @@ class _PrePaymentState extends State<PrePayment> {
 
   @override
   void initState() {
+    twilioFlutter = TwilioFlutter(                          // use this is initState
+        accountSid: 'ACf92727637c508823923593bdecca8214',
+        // replace *** with Account SID
+        authToken: '3d485cb371e4c710c683d0445ab487c1',
+        // replace xxx with Auth Token
+        twilioNumber: '+14063456569' //
+    );
+
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
       address = profile.address;
@@ -168,10 +186,8 @@ class _PrePaymentState extends State<PrePayment> {
 
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
       await geolocator.checkGeolocationPermissionStatus();
-      setState(() async{
-        position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      });
+      position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print(position);
       makePayment();
     }

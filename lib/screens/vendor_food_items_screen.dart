@@ -46,7 +46,7 @@ class _VendorFoodItemsScreenState extends State<VendorFoodItemsScreen> {
               image: foodItems[index]["img"],
               distance: foodItems[index]["distance"],
               time: foodItems[index]["prep"],
-              foodTitle: foodItems[index]["name"],
+              foodTitle: foodItems[index]["item"],
               price: int.parse(foodItems[index]["price"]),
               vendorName: foodItems[index]["shop"],
             );
