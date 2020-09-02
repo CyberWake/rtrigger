@@ -508,7 +508,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.vendorPrice * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +

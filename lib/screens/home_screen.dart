@@ -34,7 +34,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     await auth.getProfile().whenComplete(() {
       profile = auth.profile;
       userName = profile.username;
-      print(userName);
     });
   }
   getCurrentDate() {

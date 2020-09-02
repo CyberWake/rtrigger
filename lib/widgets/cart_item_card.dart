@@ -18,7 +18,7 @@ class CartItemCard extends StatefulWidget {
   final int price;
   final String time;
   final String vendorName;
-  final String distance;
+  final int distance;
   final int quantity;
   final String productID;
   final Function onTap;
@@ -31,7 +31,6 @@ class _CartItemCardState extends State<CartItemCard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.image);
   }
@@ -68,7 +67,7 @@ class _CartItemCardState extends State<CartItemCard> {
                           fontSize: 20), textAlign: TextAlign.center,),
                   Divider(),
                   Text(
-                    "Rs. ${widget.price} | ${widget.distance}",
+                    "Rs. ${widget.price} | ${widget.distance} KM",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),

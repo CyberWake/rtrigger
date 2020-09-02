@@ -5,44 +5,52 @@ class FoodFetching {
   final _firestore = FirebaseFirestore.instance;
 
   Future<List<dynamic>> getFood(int index) async {
-    try {
       List<dynamic> items = [];
       var allCollection = await _firestore.collection("vendorMenu").get();
       for (var document in allCollection.docs) {
-        if (document.get("combos")[index]["type"] == index) {
-          var category = document.get("combos")[index]["items"];
-          final distanceInMetre =
-              await getDistance(category[0]['lat'], category[0]['long']);
-          final distance = distanceInMetre / 1000;
-          print("Category");
-          print(category);
-          final map = {
-            'distance': distance,
-            'price': category[0]['price'],
-            'category': "Snacks",
-            'prep': category[0]['prep'],
-            'desc': "Delicious",
-            'shop': category[0]['shop'],
-            'productID':category[0]['productID'],
-            'name': category[0]['item'],
-            'timing': category[0]['timing'],
-            'available': category[0]['available'],
-            'img': category[0]['img'],
-            'vendorId':category[0]['vendorId']
-          };
-          items.add(map);
+        if (document.data()["combos"][index]["type"] == index) {
+          var category = document.data()["combos"][index]["items"];
+          if(category.length!=0){
+            for(var eachItem in category){
+              var distanceInMetre = await getDistance(eachItem["lat"], eachItem["long"]);
+              var distance = distanceInMetre/1000;
+              eachItem["distance"] = distance.toInt();
+              items.add(eachItem);
+            }
+          }
+//          if(category.length!=0){
+//            print("Start calculating distance...");
+//            var distanceInMetre = await getDistance(category[0]['lat'], category[0]['long']);
+//            print("Found distance in m...");
+//            var distance = distanceInMetre / 1000;
+//            print("Category");
+//            category[0]["distance"] = distance;
+//            print(category);
+//            items.add(category);
+//            print(items);
+//          }
+//          final map = {
+//            'distance': distance,
+//            'price': category[index]['price'],
+//            'category': "Snacks",
+//            'prep': category[index]['prep'],
+//            'desc': "Delicious",
+//            'shop': category[index]['shop'],
+//            'productID':category[0]['productID'],
+//            'name': category[0]['item'],
+//            'timing': category[0]['timing'],
+//            'available': category[0]['available'],
+//            'img': category[0]['img'],
+//            'vendorId':category[0]['vendorId']
+//          };
         }
       }
       print(items);
       return items;
-    } catch (e) {
-      print(e);
-      print("Error");
-      return [];
-    }
   }
 
   Future<double> getDistance(latitude, longitude) async {
+    print("Inside distance function...");
     final myLocation = await Geolocator().getCurrentPosition();
     final myLatitude = myLocation.latitude;
     final myLongitude = myLocation.longitude;

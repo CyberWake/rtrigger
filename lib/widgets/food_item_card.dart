@@ -19,7 +19,7 @@ class FoodItemCard extends StatefulWidget {
   final int price;
   final String time;
   final String vendorName;
-  final String distance;
+  final int distance;
   final String vendorId;
 
   @override
@@ -67,7 +67,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
                           fontSize: 20), textAlign: TextAlign.center,),
                   Divider(),
                   Text(
-                    "₹ ${widget.price} | ${widget.distance}",
+                    "₹ ${widget.price} | ${widget.distance} KM",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),

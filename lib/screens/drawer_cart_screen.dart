@@ -79,12 +79,17 @@ class _FoodCartState extends State<FoodCart> {
         isLoading = false;
       });
     });
-    getCartData();
+    actualAwaitInit();
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void actualAwaitInit() async{
+    await getPerKmCharge();
+    getCartData();
   }
 
   void getPerKmCharge() async {
@@ -121,12 +126,13 @@ class _FoodCartState extends State<FoodCart> {
     // totalDelivery => Delivery charges
     // totalPay => Payable amount
     totalCart = 0;
+    totalDelivery = 0;
     print("calculating Total");
 
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
         totalCart = totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
-        totalDelivery = totalDelivery + int.parse(cartItems[i]["distance"].substring(0, cartItems[i]["distance"].length - 3)) * _perKmCharge;
+        totalDelivery = totalDelivery + cartItems[i]["distance"] * _perKmCharge;
       });
     }
     totalPay = totalCart+totalDelivery;
@@ -193,7 +199,7 @@ class _FoodCartState extends State<FoodCart> {
                                   price: cartItems[index]["price"],
                                   foodTitle: cartItems[index]["name"],
                                   distance: cartItems[index]["distance"],
-                                  time: "10 min",
+                                  time: "${cartItems[index]["time"]} mins",
                                   image: cartItems[index]["image"],
                                   quantity: cartItems[index]["quantity"],
                                   productID: cartItems[index]["productID"],
@@ -241,7 +247,7 @@ class _FoodCartState extends State<FoodCart> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => PrePayment(total: totalPay)));
+                      builder: (context) => PrePayment(total: totalPay,items: cartItems)));
             },
             //Implement Route To Payment Here
             label: Column(
