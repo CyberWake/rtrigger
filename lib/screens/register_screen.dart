@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'assets/img/background1.png',
+                  'assets/img/background.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -283,10 +283,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   FlatButton(
+                    color: Colors.blueGrey,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       'Have an account? Login',
                       style:
-                          GoogleFonts.lato(fontSize: 20.0, color: Colors.white),
+                          GoogleFonts.lato(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold),
                     ),
                     onPressed: moveToLogin,
                   ),

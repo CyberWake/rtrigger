@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'assets/img/background1.png',
+                  'assets/img/background.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -229,10 +229,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: moveToRegister,
                   ),
                   FlatButton(
+                    color: Colors.blueGrey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       'Reset Password for this Id',
                       style: GoogleFonts.lato(
-                          fontSize: 14.0, color: Colors.yellowAccent.shade700),
+                          fontSize: 14.0, color: Colors.black),
                     ),
                     onPressed: () async {
                       print(_email);

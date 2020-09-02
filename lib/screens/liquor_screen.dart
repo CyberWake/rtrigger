@@ -48,7 +48,6 @@ class _LiquorScreenState extends State<LiquorScreen> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 30),
                   //flex: 10,
