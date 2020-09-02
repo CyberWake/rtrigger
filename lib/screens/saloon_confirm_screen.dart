@@ -90,7 +90,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Order ID : ${snapshot.data.data()['id']}',
+                              'Order ID : ${snapshot.data.data()['orderID']}',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
