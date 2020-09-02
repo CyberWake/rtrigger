@@ -137,23 +137,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Text(
                     'Register',
                     style:
-                        GoogleFonts.lato(fontSize: 38.0, color: Colors.white),
+                        GoogleFonts.lato(fontSize: 28.0, color: Colors.white),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -173,15 +173,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.phone,
                         textAlign: TextAlign.center,
@@ -207,15 +207,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -234,15 +234,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -262,10 +262,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],

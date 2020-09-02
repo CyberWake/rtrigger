@@ -105,8 +105,8 @@ class CustomGridTile extends StatelessWidget {
                 height: 15,
               ),
               Container(
-                height: MediaQuery.of(context).size.width / 4,
-                width: MediaQuery.of(context).size.width / 4,
+                height: type == CardType.Home?MediaQuery.of(context).size.width / 4.8:MediaQuery.of(context).size.width / 4,
+                width: type == CardType.Home?MediaQuery.of(context).size.width / 4.8:MediaQuery.of(context).size.width / 4,
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: type == CardType.Home

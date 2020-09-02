@@ -106,33 +106,45 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Row(
                 children: [
                   Expanded(
-                      child: CustomGridTile(
-                          title: 'Medicine',
-                          loc: 'assets/img/medicine.png',
-                          card: Cards.medicine,
-                          type: CardType.Home)),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(
+                            title: 'Medicine',
+                            loc: 'assets/img/medicine.png',
+                            card: Cards.medicine,
+                            type: CardType.Home),
+                      )),
                   Expanded(
-                      child: CustomGridTile(
-                          title: 'Food',
-                          loc: 'assets/img/food.png',
-                          card: Cards.food,
-                          type: CardType.Home)),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(
+                            title: 'Food',
+                            loc: 'assets/img/food.png',
+                            card: Cards.food,
+                            type: CardType.Home),
+                      )),
                 ],
               ),
               Row(
                 children: [
                   Expanded(
-                      child: CustomGridTile(
-                          title: 'Liqour',
-                          loc: 'assets/img/liquor.png',
-                          card: Cards.liqour,
-                          type: CardType.Home)),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(
+                            title: 'Liqour',
+                            loc: 'assets/img/liquor.png',
+                            card: Cards.liqour,
+                            type: CardType.Home),
+                      )),
                   Expanded(
-                      child: CustomGridTile(
-                          title: 'Saloon and Beauty Parlour',
-                          loc: 'assets/img/salon.png',
-                          card: Cards.saloon,
-                          type: CardType.Home)),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(
+                            title: 'Saloon and Beauty Parlour',
+                            loc: 'assets/img/salon.png',
+                            card: Cards.saloon,
+                            type: CardType.Home),
+                      )),
                 ],
               ),
               Container(
@@ -142,11 +154,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * .5,
-                      child: CustomGridTile(
-                          title: 'Santizer and Spray',
-                          loc: 'assets/img/sanitize.png',
-                          card: Cards.spray,
-                          type: CardType.Home),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(
+                            title: 'Santizer and Spray',
+                            loc: 'assets/img/sanitize.png',
+                            card: Cards.spray,
+                            type: CardType.Home),
+                      ),
                     ),
                   ],
                 ),

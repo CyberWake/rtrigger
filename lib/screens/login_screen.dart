@@ -125,16 +125,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
+                    height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   Text(
                     'LOGIN',
                     style:
-                        GoogleFonts.lato(fontSize: 38.0, color: Colors.white),
+                        GoogleFonts.lato(fontSize: 28.0, color: Colors.white),
                     //style: TextStyle(fontSize: 38.0, color: Colors.white),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   /* SizedBox(
                     height: 58,
@@ -143,12 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.04,
                   ), */
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: '  Enter Email id',
                           hintStyle: GoogleFonts.lato(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               color: Color.fromRGBO(00, 44, 64, 1)),
                           border: InputBorder.none,
                         ),
@@ -172,12 +172,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -185,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: '  Enter Your Password',
                           hintStyle: GoogleFonts.lato(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               color: Color.fromRGBO(00, 44, 64, 1)),
                           border: InputBorder.none,
                         ),
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                    width: 0.8 * MediaQuery.of(context).size.width,
+                    width: 0.75 * MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],
