@@ -54,6 +54,7 @@ class _LiquorScreenState extends State<LiquorScreen> {
                   child: Column(
                     children: [
                       GridView.builder(
+                        padding: EdgeInsets.all(10),
                           itemCount: 4,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -62,10 +63,13 @@ class _LiquorScreenState extends State<LiquorScreen> {
                                   crossAxisCount: 2),
                           itemBuilder: (_, index) {
                             //if (index < 4)
-                            return FoodCategoryCard(
-                              image: _listItem[index]["image"],
-                              index: _listItem[index]["index"] + 15,
-                              foodName: _listItem[index]["foodName"],
+                            return Container(
+                              margin: EdgeInsets.all(10),
+                              child: FoodCategoryCard(
+                                image: _listItem[index]["image"],
+                                index: _listItem[index]["index"] + 15,
+                                foodName: _listItem[index]["foodName"],
+                              ),
                             );
                           }),
                       SizedBox(height: 2,),
@@ -74,8 +78,8 @@ class _LiquorScreenState extends State<LiquorScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            height: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.width * 0.4,
                             child: FoodCategoryCard(
                               image: _listItem[4]["image"],
                               index: _listItem[4]["index"] + 15,

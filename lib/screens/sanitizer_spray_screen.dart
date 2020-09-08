@@ -45,27 +45,36 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
             Row(
               children: [
                 Expanded(
-                    child: CustomGridTile(
-                        title: 'Sanitize',
-                        loc: 'assets/img/sanitise.jpg',
-                        card: Cards.sanitize,
-                        type: CardType.Sanitizer)),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: CustomGridTile(
+                          title: 'Sanitize',
+                          loc: 'assets/img/sanitise.jpg',
+                          card: Cards.sanitize,
+                          type: CardType.Sanitizer),
+                    )),
                 Expanded(
-                    child: CustomGridTile(
-                        title: 'Mosquito',
-                        loc: 'assets/img/mosquito.jpg',
-                        card: Cards.mosquito,
-                        type: CardType.Sanitizer)),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: CustomGridTile(
+                          title: 'Mosquito',
+                          loc: 'assets/img/mosquito.jpg',
+                          card: Cards.mosquito,
+                          type: CardType.Sanitizer),
+                    )),
               ],
             ),
             Row(
               children: [
                 Expanded(
-                    child: CustomGridTile(
-                        title: 'Cockroach',
-                        loc: 'assets/img/cockroch.jpg',
-                        card: Cards.cockroach,
-                        type: CardType.Sanitizer)),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: CustomGridTile(
+                          title: 'Cockroach',
+                          loc: 'assets/img/cockroch.jpg',
+                          card: Cards.cockroach,
+                          type: CardType.Sanitizer),
+                    )),
                 Expanded(child: Container()),
               ],
             ),

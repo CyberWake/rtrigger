@@ -28,6 +28,8 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   Auth auth = Auth();
   UserProfile profile;
   Razorpay _razorpay;
+  String username;
+  int number;
   bool isLoading = true;
   final _collectionName = 'vendorSaloonTemp';
   DocumentReference _firestore;
@@ -222,6 +224,8 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
+      username = profile.username;
+      number = profile.phone;
       setState(() {
         isLoading = false;
       });
@@ -254,8 +258,8 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'status': 'Open',
       'vDate': 'Waiting For Response',
       'category': category,
-      'cname': profile.username,
-      'phone': profile.phone,
+      'cname': username,
+      'phone': number,
     });
   }
 

@@ -42,17 +42,25 @@ class _SaloonScreenState extends State<SaloonScreen> {
             Row(
               children: [
                 Expanded(
-                    child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon)),
+                    child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon))),
                 Expanded(
-                    child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon)),
+                    child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon))),
               ],
             ),
             Row(
               children: [
                 Expanded(
-                    child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon)),
+                    child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon))),
                 Expanded(
-                    child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
+                    child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon))),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.width/3,),
