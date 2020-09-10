@@ -144,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ), */
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -173,6 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -200,6 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],
@@ -219,6 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                       onPressed: () => validateAndSubmit(context),
                     ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.08,
                   ),
                   FlatButton(
                     child: Text(

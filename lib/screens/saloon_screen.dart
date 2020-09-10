@@ -37,33 +37,40 @@ class _SaloonScreenState extends State<SaloonScreen> {
       appBar: UniversalAppBar(context,false,"Saloon/Beauty Parlour Category"),
       body: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
-        child: ListView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                    child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon))),
-                Expanded(
-                    child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon))),
+                Container(
+                        height: MediaQuery.of(context).size.width * 0.4325,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                        child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon)),
+                Container(
+                        height: MediaQuery.of(context).size.width * 0.4325,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                        child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon)),
               ],
             ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                    child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon))),
-                Expanded(
-                    child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon))),
+                Container(
+                        height: MediaQuery.of(context).size.width * 0.4325,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                        child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon)),
+                Container(
+                        height: MediaQuery.of(context).size.width * 0.4325,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                        child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.width/3,),
+            SizedBox(height: MediaQuery.of(context).size.width*0.2,),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200.0,

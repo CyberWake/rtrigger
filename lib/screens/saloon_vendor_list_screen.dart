@@ -108,14 +108,20 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return SaloonVendorListTile(
-                      category: widget.category,
-                      vendorName: snapshot.data[index]['name'],
-                      kmFar: snapshot.data[index]['distance'],
-                      location: snapshot.data[index]['location'],
-                      uid: snapshot.data[index]['uid'],
-                      servicesList: snapshot.data[index]['services']);
-                });
+                  if (snapshot.data[index]['distance'] < 10) {
+                    return SaloonVendorListTile(
+                        category: widget.category,
+                        vendorName: snapshot.data[index]['name'],
+                        kmFar: snapshot.data[index]['distance'],
+                        location: snapshot.data[index]['location'],
+                        uid: snapshot.data[index]['uid'],
+                        servicesList: snapshot.data[index]['services']);
+                  }
+                  else {
+                    return null;
+                  }
+                }
+            );
           }
         },
       ),

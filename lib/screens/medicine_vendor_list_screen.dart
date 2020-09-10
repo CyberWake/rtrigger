@@ -96,12 +96,15 @@ class _MedicineVendorListScreenState extends State<MedicineVendorListScreen> {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return MedicineVendorListTile(
-                    uid: snapshot.data[index]['uid'],
-                    vendorName: snapshot.data[index]['name'],
-                    location: snapshot.data[index]['location'],
-                    kmFar: snapshot.data[index]['distance'],
-                  );
+                  if(snapshot.data[index]['distance']<10){
+                    return MedicineVendorListTile(
+                      uid: snapshot.data[index]['uid'],
+                      vendorName: snapshot.data[index]['name'],
+                      location: snapshot.data[index]['location'],
+                      kmFar: snapshot.data[index]['distance'],
+                    );
+                  }
+                  return null;
                 });
           }
         },

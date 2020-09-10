@@ -97,31 +97,66 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
 
     return Scaffold(
       appBar: UniversalAppBar(context, false, "Vendor List"),
-      body: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection(collectionName).get(),
+      body: FutureBuilder<List<Map>>(
+        future: listOfVendors(),//FirebaseFirestore.instance.collection(collectionName).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return LoadingBar();
           else {
             return ListView.builder(
-                itemCount: snapshot.data.docs.length == 0
+                itemCount: snapshot.data.length == 0
                     ? 0
-                    : snapshot.data.docs.length,
+                    : snapshot.data.length,
                 itemBuilder: (context, index) {
                   return SanitizerVendorListItem(
-                    vendorName: snapshot.data.docs[index].data()['name'],
-                    location: snapshot.data.docs[index].data()['location'],
-                    pricePerFeet: snapshot.data.docs[index]
-                        .data()['pricePerFeet']
+                    vendorName: snapshot.data[index]['name'],
+                    location: snapshot.data[index]['location'],
+                    pricePerFeet: snapshot.data[index]['pricePerFeet']
                         .toString(),
                     category: widget.category,
-                    uid: snapshot.data.docs[index].data()['uid'],
-                    phone: snapshot.data.docs[index].data()['phone'].toString(),
+                    uid: snapshot.data[index]['uid'],
+                    phone: snapshot.data[index]['phone'].toString(),
                   );
                 });
           }
         },
       ),
     );
+  }
+  Future<List<Map>> listOfVendors() async {
+    final myLocation = await Geolocator().getCurrentPosition();
+    final myLatitude = myLocation.latitude;
+    final myLongitude = myLocation.longitude;
+    List<Map> list = [];
+
+    final snapshot =
+    await FirebaseFirestore.instance.collection(collectionName).get();
+
+    for (var sanitizerVendor in snapshot.docs) {
+      final latitude = sanitizerVendor.data()['latitude'] as double;
+      final longitude = sanitizerVendor.data()['longitude'] as double;
+
+      final distanceInMeter =
+      await getDistance(myLatitude, myLongitude, latitude, longitude);
+
+      final distance = distanceInMeter / 1000;
+      final item = {
+        'uid': sanitizerVendor.data()['uid'],
+        'distance': distance,
+        'name': sanitizerVendor.data()['name'],
+        'location': sanitizerVendor.data()['location'],
+        'pricePerFeet': sanitizerVendor.data()['pricePerFeet'],
+        'phone': sanitizerVendor.data()['phone'],
+      };
+      list.add(item);
+    }
+    return list;
+  }
+
+  Future<double> getDistance(
+      myLatitude, myLongitude, latitude, longitude) async {
+    final distance = await Geolocator()
+        .distanceBetween(myLatitude, myLongitude, latitude, longitude);
+    return distance;
   }
 }

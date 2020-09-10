@@ -42,15 +42,18 @@ class _FoodItemsState extends State<FoodItems> {
             ? Container(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return FoodItemCard(
-                      image: items[index]["img"],
-                      time: items[index]["prep"],
-                      distance: items[index]["distance"],
-                      foodTitle: items[index]["item"],
-                      price: int.parse(items[index]["price"]),
-                      vendorName: items[index]['vendorName'],
-                      vendorId: items[index]['vendorId'],
-                    );
+                    if(items[index]['distance']>10){
+                      return FoodItemCard(
+                        image: items[index]["img"],
+                        time: items[index]["prep"],
+                        distance: items[index]["distance"],
+                        foodTitle: items[index]["item"],
+                        price: int.parse(items[index]["price"]),
+                        vendorName: items[index]['vendorName'],
+                        vendorId: items[index]['vendorId'],
+                      );
+                    }
+                    return null;
                   },
                   itemCount: items.length,
                 ),

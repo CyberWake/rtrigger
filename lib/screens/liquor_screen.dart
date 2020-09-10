@@ -40,29 +40,26 @@ class _LiquorScreenState extends State<LiquorScreen> {
     return Scaffold(
       appBar: UniversalAppBar(context, true, "Liquor Category"),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 30),
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 30),
-                  //flex: 10,
-                  child: Column(
-                    children: [
-                      GridView.builder(
-                        padding: EdgeInsets.all(10),
-                          itemCount: 4,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          itemBuilder: (_, index) {
-                            //if (index < 4)
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 30),
+                //flex: 10,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GridView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                        itemCount: 4,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemBuilder: (_, index) {
+                          //if (index < 4){
                             return Container(
                               margin: EdgeInsets.all(10),
                               child: FoodCategoryCard(
@@ -71,61 +68,62 @@ class _LiquorScreenState extends State<LiquorScreen> {
                                 foodName: _listItem[index]["foodName"],
                               ),
                             );
-                          }),
-                      SizedBox(height: 2,),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: MediaQuery.of(context).size.width * 0.4,
-                            child: FoodCategoryCard(
-                              image: _listItem[4]["image"],
-                              index: _listItem[4]["index"] + 15,
-                              foodName: _listItem[4]["foodName"],
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                          //}
+
+                        }),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          //margin: EdgeInsets.only(bottom: 30),
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          height: MediaQuery.of(context).size.width * 0.35,
+                          child: FoodCategoryCard(
+                            image: _listItem[4]["image"],
+                            index: _listItem[4]["index"] + 15,
+                            foodName: _listItem[4]["foodName"],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    //pauseAutoPlayOnTouch: Duration(seconds: 10),
-                    aspectRatio: 2.0,
-                  ),
-                  items: imageArray.map((url) {
-                    return Builder(builder: (BuildContext context) {
-                      return Container(
-                        margin: EdgeInsets.only(top:10,bottom: 10),
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          color: Colors.grey[300],
-                          child: CachedNetworkImage(
-                            imageUrl: url,
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                CircularProgressIndicator(value: downloadProgress.progress),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),/*Image.network(
+              ),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  //pauseAutoPlayOnTouch: Duration(seconds: 10),
+                  aspectRatio: 2.0,
+                ),
+                items: imageArray.map((url) {
+                  return Builder(builder: (BuildContext context) {
+                    return Container(
+                      margin: EdgeInsets.only(top:10,bottom: 10),
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      width: MediaQuery.of(context).size.width,
+                      child: Card(
+                        color: Colors.grey[300],
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),/*Image.network(
                       url,
                       fit: BoxFit.cover,
                     ),*/
-                        ),
-                      );
-                    });
-                  }).toList(),
-                ),
-              ],
-            ),
+                      ),
+                    );
+                  });
+                }).toList(),
+              ),
+            ],
           ),
         ),
       ),

@@ -98,113 +98,121 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         body:Container(
           margin: EdgeInsets.symmetric(horizontal: 8),
           color: Colors.white,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(
-                            title: 'Medicine',
-                            loc: 'assets/img/medicine.png',
-                            card: Cards.medicine,
-                            type: CardType.Home),
-                      )),
-                  Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(
-                            title: 'Food',
-                            loc: 'assets/img/food.png',
-                            card: Cards.food,
-                            type: CardType.Home),
-                      )),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(
-                            title: 'Liqour',
-                            loc: 'assets/img/liquor.png',
-                            card: Cards.liqour,
-                            type: CardType.Home),
-                      )),
-                  Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(
-                            title: 'Saloon and Beauty Parlour',
-                            loc: 'assets/img/salon.png',
-                            card: Cards.saloon,
-                            type: CardType.Home),
-                      )),
-                ],
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * .5,
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: CustomGridTile(
-                            title: 'Santizer and Spray',
-                            loc: 'assets/img/sanitize.png',
-                            card: Cards.spray,
-                            type: CardType.Home),
-                      ),
-                    ),
+                      height: MediaQuery.of(context).size.width * 0.392,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                          child: CustomGridTile(
+                              title: 'Medicine',
+                              loc: 'assets/img/medicine.png',
+                              card: Cards.medicine,
+                              type: CardType.Home),
+                        ),
+                    Container(
+                      height: MediaQuery.of(context).size.width * 0.392,
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                          child: CustomGridTile(
+                              title: 'Food',
+                              loc: 'assets/img/food.png',
+                              card: Cards.food,
+                              type: CardType.Home),
+                        ),
                   ],
                 ),
-              ),
-              SizedBox(height: 10,),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  //pauseAutoPlayOnTouch: Duration(seconds: 10),
-                  aspectRatio: 2.0,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.width * 0.392,
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                          child: CustomGridTile(
+                              title: 'Liqour',
+                              loc: 'assets/img/liquor.png',
+                              card: Cards.liqour,
+                              type: CardType.Home),
+                        ),
+                    Container(
+                      height: MediaQuery.of(context).size.width * 0.392,
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                          child: CustomGridTile(
+                              title: 'Saloon and Beauty Parlour',
+                              loc: 'assets/img/salon.png',
+                              card: Cards.saloon,
+                              type: CardType.Home),
+                        ),
+                  ],
                 ),
-                items: imageArray.map((url) {
-                  return Builder(builder: (BuildContext context) {
-                    return Container(
-                      margin: EdgeInsets.only(top:10,bottom: 10),
-                      height: MediaQuery.of(context).size.height * 0.30,
-                      width: MediaQuery.of(context).size.width,
-                      child: Card(
-                        color: Colors.grey[300],
-                        child: CachedNetworkImage(
-                          imageUrl: url,
-                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              CircularProgressIndicator(value: downloadProgress.progress),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                          fit: BoxFit.cover,
-                        ),/*Image.network(
-                      url,
-                      fit: BoxFit.cover,
-                    ),*/
+                Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.width * 0.4395,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: CustomGridTile(
+                              title: 'Santizer and Spray',
+                              loc: 'assets/img/sanitize.png',
+                              card: Cards.spray,
+                              type: CardType.Home),
+                        ),
                       ),
-                    );
-                  });
-                }).toList(),
-              ),
-            ],
-          )
-          ,
-        )
-      ,
+                    ],
+                  ),
+                ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200.0,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    //pauseAutoPlayOnTouch: Duration(seconds: 10),
+                    aspectRatio: 2.0,
+                  ),
+                  items: imageArray.map((url) {
+                    return Builder(builder: (BuildContext context) {
+                      return Container(
+                        margin: EdgeInsets.only(top:10,bottom: 10),
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width,
+                        child: Card(
+                          color: Colors.grey[300],
+                          child: CachedNetworkImage(
+                            imageUrl: url,
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                CircularProgressIndicator(value: downloadProgress.progress),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),/*Image.network(
+                        url,
+                        fit: BoxFit.cover,
+                      ),*/
+                        ),
+                      );
+                    });
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
     );
   }
 }

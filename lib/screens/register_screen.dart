@@ -149,6 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -177,6 +178,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -211,6 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -238,6 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -262,10 +266,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.105,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],

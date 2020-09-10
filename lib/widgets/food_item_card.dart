@@ -37,119 +37,116 @@ class _FoodItemCardState extends State<FoodItemCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
+      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              flex: 2,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 60,
-                  child: ClipOval(
-                      child: Image.network(
-                    widget.image,
-                    fit: BoxFit.cover,
-                  ))),
-            ),
-            Expanded(
-              flex: 3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(widget.foodTitle.toUpperCase(),
-                      style: TextStyle(
-                          fontFamily: 'RobotoCondensed',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20), textAlign: TextAlign.center,),
-                  Divider(),
-                  Text(
-                    "₹ ${widget.price} | ${widget.distance} KM",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
-                  ),
-                  Divider(),
-                  FittedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(widget.time),
-                        SizedBox(width: 10,),
-                        Text("(${widget.vendorName})"),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+            CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 30,
+                child: ClipOval(
+                    child: Image.network(
+                      widget.image,
+                      fit: BoxFit.cover,
+                    ))),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(widget.foodTitle.toUpperCase(),
+                  style: TextStyle(
+                      fontFamily: 'RobotoCondensed',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20), textAlign: TextAlign.center,),
+                Text(
+                  "₹ ${widget.price} | ${widget.distance} KM",
+                  style: TextStyle(color: Colors.green, fontSize: 16),
+                ),
+
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.remove),
-                        onPressed: () {
-                          if (quantity > 0) {
-                            setState(() {
-                              quantity -= 1;
-                            });
-                          }
-                        },
-                      ),
-                      Text("$quantity"),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          if (quantity < 10) {
-                            setState(() {
-                              quantity += 1;
-                            });
-                          }
-                        },
-                      ),
-                      FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          var cartItem = {
-                            "image": widget.image,
-                            "name": widget.foodTitle,
-                            "price": widget.price,
-                            "quantity": quantity,
-                            "vendor": widget.vendorName,
-                            "time": widget.time,
-                            "productID": productID,
-                            "distance": widget.distance,
-                            "vendorId": widget.vendorId
-                          };
-                          setState(() {
-                            isLoaded = false;
-                          });
-                          cart.addToCart(
-                              userID: _userID, item: [cartItem]).then((value) {
-                            setState(() {
-                              isLoaded = true;
-                            });
-                            if (value) {
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text("Item added to cart"),
-                              ));
-                            } else {
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    "Unable to add item, Please try again later"),
-                              ));
-                            }
-                          });
-                        },
-                        child: isLoaded
-                            ? CartButton(
-                                title: "Add to Cart",
-                              )
-                            : Center(child: CircularProgressIndicator()),
-                      ),
+                      Text(widget.time),
+                      SizedBox(width: 10,),
+                      Text("(${widget.vendorName})"),
                     ],
                   ),
-                ],
-              ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                        if (quantity > 0) {
+                          setState(() {
+                            quantity -= 1;
+                          });
+                        }
+                      },
+                    ),
+                    Text("$quantity"),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        if (quantity < 10) {
+                          setState(() {
+                            quantity += 1;
+                          });
+                        }
+                      },
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {
+                        var cartItem = {
+                          "image": widget.image,
+                          "name": widget.foodTitle,
+                          "price": widget.price,
+                          "quantity": quantity,
+                          "vendor": widget.vendorName,
+                          "time": widget.time,
+                          "productID": productID,
+                          "distance": widget.distance,
+                          "vendorId": widget.vendorId
+                        };
+                        setState(() {
+                          isLoaded = false;
+                        });
+                        cart.addToCart(
+                            userID: _userID, item: [cartItem]).then((value) {
+                          setState(() {
+                            isLoaded = true;
+                          });
+                          if (value) {
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text("Item added to cart"),
+                            ));
+                          } else {
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "Unable to add item, Please try again later"),
+                            ));
+                          }
+                        });
+                      },
+                      child: isLoaded
+                          ? CartButton(
+                        title: "Add to Cart",
+                      )
+                          : Center(child: CircularProgressIndicator()),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

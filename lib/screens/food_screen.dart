@@ -90,10 +90,10 @@ class _FoodScreenState extends State<FoodScreen> {
         .doc('VRxueMwcdcW4VmDR721r')
         .get()
         .then((value) {
-          setState(() {
-            imageArray = value.data()['foodMenu'];
-          });
+          imageArray = value.data()['foodMenu'];
         });
+    setState(() {
+    });
   }
 
   @override

@@ -111,12 +111,10 @@ class CustomGridTile extends StatelessWidget {
                   backgroundColor: Colors.white,
                   radius: type == CardType.Home
                       ? screenHeight / 15
-                      : screenHeight / 12,
-                  child: ClipOval(
-                    child: Image.asset(
-                      loc,
-                      fit: BoxFit.cover,
-                    ),
+                      : screenHeight / 10,
+                  child: Image.asset(
+                    loc,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 decoration: BoxDecoration(
