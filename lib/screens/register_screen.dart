@@ -270,11 +270,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.11,
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
+                    height: MediaQuery.of(context).size.width*0.09,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -286,21 +286,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? Text(
                               'Create an account',
                               style: GoogleFonts.lato(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                                  fontSize: 20.0, fontWeight: FontWeight.normal),
                             )
                           : Center(child: CircularProgressIndicator()),
                       onPressed: () => validateAndSubmit(context),
                     ),
                   ),
-                  FlatButton(
-                    color: Colors.blueGrey,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      'Have an account? Login',
-                      style:
-                          GoogleFonts.lato(color: Colors.black,fontSize: 20.0,fontWeight: FontWeight.bold),
+                  SizedBox(height:10),
+                  Container(
+                    width: 0.5 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width*0.09,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Colors.lime[800],
+                      color: Colors.blueGrey,
                     ),
-                    onPressed: moveToLogin,
+                    child: FlatButton(
+                      child: Text(
+                        'Have an account? Login',
+                        style:
+                        GoogleFonts.lato(color: Colors.black,fontSize: 14.0,fontWeight: FontWeight.normal),
+                      ),
+                      onPressed: moveToLogin,
+                    ),
                   ),
                 ],
               ),
