@@ -109,7 +109,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.width * 0.392,
+                      height: MediaQuery.of(context).size.width * 0.35,
                           width: MediaQuery.of(context).size.width * 0.35,
                           margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                           child: CustomGridTile(
@@ -119,7 +119,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               type: CardType.Home),
                         ),
                     Container(
-                      height: MediaQuery.of(context).size.width * 0.392,
+                      height: MediaQuery.of(context).size.width * 0.35,
                       width: MediaQuery.of(context).size.width * 0.35,
                       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                           child: CustomGridTile(
@@ -134,7 +134,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.width * 0.392,
+                      height: MediaQuery.of(context).size.width * 0.35,
                       width: MediaQuery.of(context).size.width * 0.35,
                       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                           child: CustomGridTile(
@@ -144,7 +144,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               type: CardType.Home),
                         ),
                     Container(
-                      height: MediaQuery.of(context).size.width * 0.392,
+                      height: MediaQuery.of(context).size.width * 0.35,
                       width: MediaQuery.of(context).size.width * 0.35,
                       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                           child: CustomGridTile(
@@ -162,7 +162,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.width * 0.4395,
+                        height: MediaQuery.of(context).size.width * 0.38,
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Container(
                           margin: EdgeInsets.all(10),
@@ -175,6 +175,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 CarouselSlider(
                   options: CarouselOptions(

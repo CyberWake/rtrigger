@@ -145,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width*0.105,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -175,6 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width*0.105,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -203,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width*0.105,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],
@@ -215,6 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Login',
                               style: GoogleFonts.lato(
                                 fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
                               ),
                             )
                           : Center(

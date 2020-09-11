@@ -48,7 +48,7 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.4325,
+                        height: MediaQuery.of(context).size.width * 0.35,
                         width: MediaQuery.of(context).size.width * 0.35,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
@@ -58,7 +58,7 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                             type: CardType.Sanitizer),
                       ),
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.4325,
+                        height: MediaQuery.of(context).size.width * 0.35,
                         width: MediaQuery.of(context).size.width * 0.35,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
@@ -73,7 +73,7 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.4325,
+                        height: MediaQuery.of(context).size.width * 0.35,
                         width: MediaQuery.of(context).size.width * 0.35,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
@@ -85,7 +85,7 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                   Container(),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.width*0.2,),
+              SizedBox(height: MediaQuery.of(context).size.width*0.35,),
               CarouselSlider(
                 options: CarouselOptions(
                   height: 200.0,
