@@ -11,7 +11,9 @@ import 'package:user/widgets/appbar_subcategory_screens.dart';
 
 class Profile extends StatefulWidget {
   Profile({this.isAppBar});
+
   final bool isAppBar;
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -22,6 +24,8 @@ class _ProfileState extends State<Profile> {
   Auth auth = Auth();
   UserProfile profile;
   String url = "";
+  String city = "";
+  String state = "";
   String fileName = '';
   String newName = "";
   String address = "";
@@ -45,7 +49,9 @@ class _ProfileState extends State<Profile> {
           username: newName.isEmpty ? profile.username : newName,
           imageUrl: url.isEmpty ? profile.imageUrl : url,
           phone: phoneno == 0 ? profile.phone : phoneno,
-          address: address.isEmpty ? profile.address : address));
+          address: address.isEmpty ? profile.address : address,
+          city: city.isEmpty ? profile.city : city,
+          state: state.isEmpty ? profile.state : state));
       setState(() {
         isLoaded = true;
       });
@@ -82,12 +88,14 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.isAppBar?UniversalAppBar(context, false, 'Profile'):AppBar(
-        toolbarHeight: 50,
-        centerTitle: true,
-        title: Text("Profile"),
-        backgroundColor: AppTheme.grey,
-      ),
+      appBar: widget.isAppBar
+          ? UniversalAppBar(context, false, 'Profile')
+          : AppBar(
+              toolbarHeight: 50,
+              centerTitle: true,
+              title: Text("Profile"),
+              backgroundColor: AppTheme.grey,
+            ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -192,6 +200,34 @@ class _ProfileState extends State<Profile> {
                                   }
                                   return null;
                                 }),
+
+                            TextFormField(
+                                decoration:
+                                InputDecoration(labelText: 'City'),
+                                initialValue: profile.city,
+                                onSaved: (value) {
+                                  city = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter your city name.';
+                                  }
+                                  return null;
+                                }),
+                            TextFormField(
+                                decoration:
+                                InputDecoration(labelText: 'State'),
+                                initialValue: profile.state,
+                                onSaved: (value) {
+                                  state = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter state.';
+                                  }
+                                  return null;
+                                }),
+
                           ]),
                         )),
                     isLoaded

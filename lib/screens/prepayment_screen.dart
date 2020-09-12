@@ -22,17 +22,17 @@ class PrePayment extends StatefulWidget {
 
 class _PrePaymentState extends State<PrePayment> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TwilioFlutter twilioFlutter;// declare it in class
+  TwilioFlutter twilioFlutter; // declare it in class
   Auth auth = Auth();
   UserProfile profile;
   Razorpay _razorpay;
   bool isLoading = true;
   String address;
+  String city;
+  String state;
   int phoneno;
   int _orderNo;
   Position position;
-
-
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     await showDialog(
@@ -55,10 +55,8 @@ class _PrePaymentState extends State<PrePayment> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-
     twilioFlutter.sendSMS(
-        toNumber:
-        '+917080855524',
+        toNumber: '+917080855524',
         messageBody: "Your order has been submitted successfully.");
 
     for (int i = 0; i < widget.items.length; i++) {
@@ -83,12 +81,14 @@ class _PrePaymentState extends State<PrePayment> {
           orders.data()["past"] != null ? orders.data()["past"] : [];
 
       newOrders.add({
-        'clat':position.latitude,
-        'clong':position.longitude,
-        'address': profile.address,
+        'clat': position.latitude,
+        'clong': position.longitude,
+        'address': address,
+        'city': city,
+        'state': state,
         'id': _orderNo.toString(),
         'cid': profile.userId,
-        'cphone':phoneno,
+        'cphone': phoneno,
         'customer': profile.username,
         'otp1': otp1,
         'otp2': otp2,
@@ -128,18 +128,21 @@ class _PrePaymentState extends State<PrePayment> {
 
   @override
   void initState() {
-    twilioFlutter = TwilioFlutter(                          // use this is initState
+    twilioFlutter = TwilioFlutter(
+        // use this is initState
         accountSid: 'ACf92727637c508823923593bdecca8214',
         // replace *** with Account SID
         authToken: '3d485cb371e4c710c683d0445ab487c1',
         // replace xxx with Auth Token
         twilioNumber: '+14063456569' //
-    );
+        );
 
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
       address = profile.address;
       phoneno = profile.phone;
+      city = profile.city;
+      state = profile.state;
       _orderNo = Math.Random().nextInt(100000000);
       setState(() {
         isLoading = false;
@@ -296,6 +299,38 @@ class _PrePaymentState extends State<PrePayment> {
                           height: 20,
                         ),
                         TextFormField(
+                            decoration: InputDecoration(labelText: 'City'),
+                            initialValue: city,
+                            textCapitalization: TextCapitalization.words,
+                            onSaved: (value) {
+                              city = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter a your city name.';
+                              }
+                              return null;
+                            }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                            decoration: InputDecoration(labelText: 'State'),
+                            initialValue: state,
+                            textCapitalization: TextCapitalization.words,
+                            onSaved: (value) {
+                              state = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter your state name.';
+                              }
+                              return null;
+                            }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
                             decoration: InputDecoration(labelText: 'Phone'),
                             initialValue: phoneno.toString(),
                             keyboardType: TextInputType.number,
@@ -303,7 +338,7 @@ class _PrePaymentState extends State<PrePayment> {
                               setState(() {
                                 phoneno = int.parse(value);
                               });
-                              },
+                            },
                             validator: (value) {
                               if (value.isEmpty ||
                                   int.parse(value) < 6000000000 ||

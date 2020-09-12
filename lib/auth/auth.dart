@@ -58,6 +58,8 @@ class Auth implements BaseAuth {
     var auth = FirebaseFirestore.instance;
     await auth.collection('users').doc(user.uid).get().then((value) {
       profile = UserProfile(
+        state: value.data()['state'],
+          city: value.data()['city'],
           username: value.data()['username'],
           email: value.data()['email'],
           userId: value.data()['userId'],
@@ -77,6 +79,8 @@ class Auth implements BaseAuth {
         'email': newProfile.email,
         'userId': newProfile.userId,
         'phone': newProfile.phone,
+        'city': newProfile.city,
+        'state': newProfile.state,
         'address': newProfile.address,
         'imageUrl': newProfile.imageUrl
       });
@@ -145,6 +149,8 @@ class Auth implements BaseAuth {
       'userId': uid,
       'phone': phone,
       'address': "Address",
+      'city':"Delhi",
+      'state':"Delhi",
       'imageUrl':
           "https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg"
     });

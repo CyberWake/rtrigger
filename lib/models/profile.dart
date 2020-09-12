@@ -7,9 +7,13 @@ class UserProfile {
   final String address;
   final int phone;
   final String imageUrl;
+  final String city;
+  final String state;
 
   UserProfile(
-      {@required this.username,
+      {@required this.city,
+      @required this.state,
+      @required this.username,
       @required this.userId,
       @required this.email,
       @required this.address,
