@@ -31,7 +31,6 @@ class _LiquorScreenState extends State<LiquorScreen> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getImages();
   }

@@ -27,7 +27,6 @@ class _SaloonScreenState extends State<SaloonScreen> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getImages();
   }
@@ -38,7 +37,7 @@ class _SaloonScreenState extends State<SaloonScreen> {
       body: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -70,7 +69,7 @@ class _SaloonScreenState extends State<SaloonScreen> {
                         child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.width*0.34,),
+            Spacer(),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200.0,

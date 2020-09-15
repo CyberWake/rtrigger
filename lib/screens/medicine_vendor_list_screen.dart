@@ -77,7 +77,6 @@ class _MedicineVendorListScreenState extends State<MedicineVendorListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     requestLocationPermission();
     _gpsService();
@@ -96,7 +95,7 @@ class _MedicineVendorListScreenState extends State<MedicineVendorListScreen> {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  if(snapshot.data[index]['distance']<10){
+                  if (snapshot.data[index]['distance'] < 10) {
                     return MedicineVendorListTile(
                       uid: snapshot.data[index]['uid'],
                       vendorName: snapshot.data[index]['name'],
@@ -135,7 +134,9 @@ class _MedicineVendorListScreenState extends State<MedicineVendorListScreen> {
         'name': medicineVendor.data()['name'],
         'location': medicineVendor.data()['location'],
       };
-      list.add(item);
+      if (distance <= 10) {
+        list.add(item);
+      }
     }
     return list;
   }

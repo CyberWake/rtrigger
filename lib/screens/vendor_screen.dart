@@ -9,18 +9,21 @@ class VendorScreen extends StatefulWidget {
 }
 
 class _VendorScreenState extends State<VendorScreen> {
-
   VendorFetching vendorFetching = VendorFetching();
   List<dynamic> vendorData = [];
+  bool isLoaded = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getVendorData();
+    getVendorData().whenComplete(() {
+      setState(() {
+        isLoaded = true;
+      });
+    });
   }
 
-  void getVendorData() async{
+  Future<void> getVendorData() async {
     var fetchedData = await vendorFetching.getVendors();
     setState(() {
       vendorData = fetchedData;
@@ -30,21 +33,38 @@ class _VendorScreenState extends State<VendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context,true,'All Vendors',),
-      body: SafeArea(
-          child: ListView.builder(
-            itemBuilder: (context, index){
-              return VendorCard(
-                vendorID: vendorData[index]["userId"],
-                type: vendorData[index]["desc"],
-                name: vendorData[index]["name"],
-                distance: vendorData[index]["distance"],
-                image: vendorData[index]["imageUrl"],
-              );
-            },
-            itemCount: vendorData.length,
-          )
-      ),
-    );
+        appBar: UniversalAppBar(
+          context,
+          true,
+          'All Vendors',
+        ),
+        body: isLoaded
+            ? SafeArea(
+                child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return VendorCard(
+                    vendorID: vendorData[index]["userId"],
+                    type: vendorData[index]["desc"],
+                    name: vendorData[index]["name"],
+                    distance: vendorData[index]["distance"].toString(),
+                    image: vendorData[index]["imageUrl"],
+                  );
+                },
+                itemCount: vendorData.length,
+              ))
+            : Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text("Please Wait...")
+                  ],
+                ),
+              ));
   }
 }

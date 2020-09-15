@@ -10,6 +10,7 @@ import 'package:user/widgets/sanitizer_vendor_list_item.dart';
 
 class SanitizeVendorListScreen extends StatefulWidget {
   final Cards category;
+
   SanitizeVendorListScreen(this.category);
 
   @override
@@ -80,7 +81,6 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     requestLocationPermission();
     _gpsService();
@@ -98,21 +98,20 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
     return Scaffold(
       appBar: UniversalAppBar(context, false, "Vendor List"),
       body: FutureBuilder<List<Map>>(
-        future: listOfVendors(),//FirebaseFirestore.instance.collection(collectionName).get(),
+        future: listOfVendors(),
+        //FirebaseFirestore.instance.collection(collectionName).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return LoadingBar();
           else {
             return ListView.builder(
-                itemCount: snapshot.data.length == 0
-                    ? 0
-                    : snapshot.data.length,
+                itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
                 itemBuilder: (context, index) {
                   return SanitizerVendorListItem(
                     vendorName: snapshot.data[index]['name'],
                     location: snapshot.data[index]['location'],
-                    pricePerFeet: snapshot.data[index]['pricePerFeet']
-                        .toString(),
+                    pricePerFeet:
+                        snapshot.data[index]['pricePerFeet'].toString(),
                     category: widget.category,
                     uid: snapshot.data[index]['uid'],
                     phone: snapshot.data[index]['phone'].toString(),
@@ -123,6 +122,7 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
       ),
     );
   }
+
   Future<List<Map>> listOfVendors() async {
     final myLocation = await Geolocator().getCurrentPosition();
     final myLatitude = myLocation.latitude;
@@ -130,25 +130,27 @@ class _SanitizeVendorListScreenState extends State<SanitizeVendorListScreen> {
     List<Map> list = [];
 
     final snapshot =
-    await FirebaseFirestore.instance.collection(collectionName).get();
+        await FirebaseFirestore.instance.collection(collectionName).get();
 
     for (var sanitizerVendor in snapshot.docs) {
       final latitude = sanitizerVendor.data()['latitude'] as double;
       final longitude = sanitizerVendor.data()['longitude'] as double;
 
       final distanceInMeter =
-      await getDistance(myLatitude, myLongitude, latitude, longitude);
+          await getDistance(myLatitude, myLongitude, latitude, longitude);
 
       final distance = distanceInMeter / 1000;
       final item = {
         'uid': sanitizerVendor.data()['uid'],
-        'distance': distance,
+        'distance': distance.toInt(),
         'name': sanitizerVendor.data()['name'],
         'location': sanitizerVendor.data()['location'],
         'pricePerFeet': sanitizerVendor.data()['pricePerFeet'],
         'phone': sanitizerVendor.data()['phone'],
       };
-      list.add(item);
+      if (distance <= 10) {
+        list.add(item);
+      }
     }
     return list;
   }

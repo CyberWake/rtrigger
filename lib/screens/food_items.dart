@@ -24,7 +24,7 @@ class _FoodItemsState extends State<FoodItems> {
     getFoodItems();
   }
 
-  void getFoodItems() async {
+  Future<void> getFoodItems() async {
     print("Fetching");
     var fetchedData = await foodFetching.getFood(widget.index);
     setState(() {
@@ -42,7 +42,7 @@ class _FoodItemsState extends State<FoodItems> {
             ? Container(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    if(items[index]['distance']>10){
+                    if(items[index]['distance']<=10){
                       return FoodItemCard(
                         image: items[index]["img"],
                         time: items[index]["prep"],

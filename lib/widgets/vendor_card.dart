@@ -43,7 +43,7 @@ class VendorCard extends StatelessWidget {
                           fontSize: 20)),
                   Divider(),
                   Text(
-                    distance,
+                    distance +" km",
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   Divider(),

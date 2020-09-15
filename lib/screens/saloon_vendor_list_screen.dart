@@ -10,6 +10,7 @@ import 'package:user/widgets/saloon_vendor_listtile.dart';
 
 class SaloonVendorListScreen extends StatefulWidget {
   final Cards category;
+
   SaloonVendorListScreen(this.category);
 
   @override
@@ -23,7 +24,7 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
 
   Future<bool> requestLocationPermission({Function onPermissionDenied}) async {
     var granted = await _requestPermission(PermissionGroup.location);
-    if (granted!=true) {
+    if (granted != true) {
       requestLocationPermission();
     }
     debugPrint('requestContactsPermission $granted');
@@ -47,21 +48,26 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("Can't get current location"),
-                content:const Text('Please make sure you enable GPS and try again'),
+                content:
+                    const Text('Please make sure you enable GPS and try again'),
                 actions: <Widget>[
-                  FlatButton(child: Text('Ok'),
+                  FlatButton(
+                      child: Text('Ok'),
                       onPressed: () {
                         final AndroidIntent intent = AndroidIntent(
-                            action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+                            action:
+                                'android.settings.LOCATION_SOURCE_SETTINGS');
                         intent.launch();
                         Navigator.of(context, rootNavigator: true).pop();
                         _gpsService();
-                      })],
+                      })
+                ],
               );
             });
       }
     }
   }
+
   /*Check if gps service is enabled or not*/
   Future _gpsService() async {
     if (!(await Geolocator().isLocationServiceEnabled())) {
@@ -70,6 +76,7 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
     } else
       return true;
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -77,6 +84,7 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
     requestLocationPermission();
     _gpsService();
   }
+
   @override
   Widget build(BuildContext context) {
     switch (widget.category) {
@@ -98,7 +106,7 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
     }
 
     return Scaffold(
-      appBar: UniversalAppBar(context,false,"Vendor List"),
+      appBar: UniversalAppBar(context, false, "Vendor List"),
       body: FutureBuilder<List<Map>>(
         future: listOfVendors(),
         builder: (context, snapshot) {
@@ -116,12 +124,10 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
                         location: snapshot.data[index]['location'],
                         uid: snapshot.data[index]['uid'],
                         servicesList: snapshot.data[index]['services']);
-                  }
-                  else {
+                  } else {
                     return null;
                   }
-                }
-            );
+                });
           }
         },
       ),
@@ -153,7 +159,9 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
         'location': saloonVendor.data()['location'],
         'services': saloonVendor.data()['services'] as List,
       };
-      list.add(item);
+      if (distance <= 10) {
+        list.add(item);
+      }
     }
     return list;
   }

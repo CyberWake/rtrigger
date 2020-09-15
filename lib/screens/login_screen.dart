@@ -144,13 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ), */
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
+                    height: MediaQuery.of(context).size.width * 0.105,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -164,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: EmailFieldValidator.validate,
                         onSaved: (String value) => _email = value,
-                        onChanged: (val){
-                          _email=val;
+                        onChanged: (val) {
+                          _email = val;
                         },
                       ),
                     ),
@@ -175,13 +174,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
+                    height: MediaQuery.of(context).size.width * 0.105,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
@@ -204,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
+                    height: MediaQuery.of(context).size.width * 0.105,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -244,23 +242,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       'Reset Password for this Id',
-                      style: GoogleFonts.lato(
-                          fontSize: 14.0, color: Colors.black),
+                      style:
+                          GoogleFonts.lato(fontSize: 14.0, color: Colors.black),
                     ),
                     onPressed: () async {
                       print(_email);
-                      try{
-                      if (_email == null || _email.length < 5) {
-                        showAlertDialog(context, "Error!",
-                            "Please mention the E-mail Id first, this feature is only for registered accounts.");
-                      } else {
-                        await resetPassword(_email);
-                        showAlertDialog(context, "Link Sent!",
-                            "Please check your email for password reset.");
-                      }
-                    }catch(e){
+                      try {
+                        if (_email == null || _email.length < 5) {
+                          showAlertDialog(context, "Error!",
+                              "Please mention the E-mail Id first, this feature is only for registered accounts.");
+                        } else {
+                          await resetPassword(_email);
+                          showAlertDialog(context, "Link Sent!",
+                              "Please check your email for password reset.");
+                        }
+                      } catch (e) {
                         showAlertDialog(context, "Error!", e.toString());
-                      }},
+                      }
+                    },
                   ),
                 ],
               ),

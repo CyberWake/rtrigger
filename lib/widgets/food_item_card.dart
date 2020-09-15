@@ -10,7 +10,7 @@ class FoodItemCard extends StatefulWidget {
       this.foodTitle,
       this.time,
       this.distance,
-        this.vendorId,
+      this.vendorId,
       this.price,
       this.vendorName});
 
@@ -37,7 +37,7 @@ class _FoodItemCardState extends State<FoodItemCard> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
-      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -52,34 +52,37 @@ class _FoodItemCardState extends State<FoodItemCard> {
                 radius: 30,
                 child: ClipOval(
                     child: Image.network(
-                      widget.image,
-                      fit: BoxFit.cover,
-                    ))),
+                  widget.image,
+                  fit: BoxFit.cover,
+                ))),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(widget.foodTitle.toUpperCase(),
+                Text(
+                  widget.foodTitle.toUpperCase(),
                   style: TextStyle(
                       fontFamily: 'RobotoCondensed',
                       fontWeight: FontWeight.bold,
-                      fontSize: 20), textAlign: TextAlign.center,),
+                      fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
                 Text(
                   "₹ ${widget.price} | ${widget.distance} KM",
                   style: TextStyle(color: Colors.green, fontSize: 16),
                 ),
-
                 FittedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(widget.time),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text("(${widget.vendorName})"),
                     ],
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -121,8 +124,8 @@ class _FoodItemCardState extends State<FoodItemCard> {
                         setState(() {
                           isLoaded = false;
                         });
-                        cart.addToCart(
-                            userID: _userID, item: [cartItem]).then((value) {
+                        cart.addToCart(userID: _userID, item: [cartItem]).then(
+                            (value) {
                           setState(() {
                             isLoaded = true;
                           });
@@ -140,8 +143,8 @@ class _FoodItemCardState extends State<FoodItemCard> {
                       },
                       child: isLoaded
                           ? CartButton(
-                        title: "Add to Cart",
-                      )
+                              title: "Add to Cart",
+                            )
                           : Center(child: CircularProgressIndicator()),
                     ),
                   ],
