@@ -39,18 +39,23 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoaded = true;
   String _email;
   String _password;
+  bool c1 = true;
+  bool c2 = true;
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
     if (form.validate()) {
       form.save();
+      print("Saved");
       return true;
     }
+    print("Not saved");
     return false;
   }
 
   Future<void> validateAndSubmit(BuildContext context) async {
     if (validateAndSave()) {
+      print("LOGIN");
       final BaseAuth auth = AuthProvider.of(context).auth;
       setState(() {
         isLoaded = false;
@@ -95,8 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
         context, MaterialPageRoute(builder: (context) => RegisterScreen()));
   }
 
-  bool c1=true;
-  bool c2=true;
 
   @override
   Widget build(BuildContext context) {
@@ -139,21 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
-                  /* SizedBox(
-                    height: 58,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                  ), */
-                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster1.jpg?alt=media&token=36bba5d3-c572-41bb-bb38-6e48885749c7
-                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster3.jpg?alt=media&token=0b166eac-7fe2-4c8e-ad0e-9a3ee74bc9bd
-                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster2.jpg?alt=media&token=71724615-ce3c-493f-abc9-8f5a1b11ae84
-                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster.jpg?alt=media&token=3f501143-4732-45da-abf3-cc1ffa6f2093
-
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width * 0.105,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.106,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -163,9 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
-                          hintText: c1
-                              ? 'Enter your Email id'
-                              : "Please Enter an Email id",
+                          contentPadding: EdgeInsets.zero,
+                          hintText:
+                          c1 ? 'Enter Email id' : "Enter correct Email id",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -173,13 +166,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderSide:
                               BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                              fontSize: 18.0,
-                              color: Color.fromRGBO(00, 44, 64, 1)),
+                            fontSize: 20.0,
+                            color: Color.fromRGBO(00, 44, 64, 1),
+                          ),
                           border: InputBorder.none,
                         ),
-                        validator: EmailFieldValidator.validate,
-                        onSaved: (String value) => _email = value,
-                        onChanged: (value) {
+                        validator: (value) {
                           if (value.isEmpty) {
                             setState(() {
                               c1 = false;
@@ -188,19 +180,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               c1 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
+                        onSaved: (String value) => _email = value,
                       ),
                     ),
                   ),
+
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.105,
-                    alignment: Alignment.center,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -210,6 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           hintText: c2
                               ? 'Enter your Password'
                               : "Please Enter a Password",
@@ -220,12 +217,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderSide:
                               BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                              fontSize: 18.0,
-                              color: Color.fromRGBO(00, 44, 64, 1)),
+                            fontSize: 20.0,
+                            color: Color.fromRGBO(00, 44, 64, 1),
+                          ),
                           border: InputBorder.none,
                         ),
                         obscureText: true,
-                        validator:(value) {
+                        validator: (value) {
                           if (value.isEmpty) {
                             setState(() {
                               c2 = false;
@@ -234,6 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               c2 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
@@ -247,26 +246,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.105,
-                    alignment: Alignment.center,
+                    //alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],
                       color: Color.fromRGBO(173, 173, 117, 1),
                     ),
                     child: FlatButton(
-                      key: Key('signIn'),
                       child: isLoaded
                           ? Text(
                               'Login',
                               style: GoogleFonts.lato(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.normal),
                             )
-                          : Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                      onPressed: () => validateAndSubmit(context),
+                          : Center(child: CircularProgressIndicator()),
+                      onPressed: () {
+                        print("Pressed");
+                        validateAndSubmit(context);
+                      },
                     ),
                   ),
                   SizedBox(

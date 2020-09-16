@@ -153,7 +153,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('username'),
                         decoration: InputDecoration(
-                          hintText: c1 ? '  Enter Name' : "Please enter Name",
+                          contentPadding: EdgeInsets.zero,
+                          hintText: c1 ? '  Enter Name' : "Please Enter Name",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -161,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderSide:
                                   BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 19.0,
+                            fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
@@ -175,6 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               c1 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
@@ -200,6 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('Phone no.'),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           hintText: c2
                               ? ' Enter Phone number'
                               : "Enter correct Phone number",
@@ -210,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderSide:
                                   BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 19.0,
+                            fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
@@ -226,6 +229,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               c2 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
@@ -250,6 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           hintText:
                               c3 ? 'Enter Email id' : "Enter correct Email id",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
@@ -259,7 +264,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderSide:
                                   BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 19.0,
+                            fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
@@ -273,6 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               c3 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
@@ -297,6 +303,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           hintText: c4
                               ? 'Enter your Password'
                               : "Please Enter a Password",
@@ -307,7 +314,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderSide:
                                   BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 19.0,
+                            fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
@@ -322,6 +329,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               c4 = true;
                             });
+                            return null;
                           }
                           return "";
                         },
