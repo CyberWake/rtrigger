@@ -22,7 +22,6 @@ class FoodCart extends StatefulWidget {
 class _FoodCartState extends State<FoodCart> {
   Auth auth = Auth();
   UserProfile profile;
-  Razorpay _razorpay;
   final _userID = FirebaseAuth.instance.currentUser.uid;
   Cart cart = Cart();
   var cartItems = [];
@@ -32,43 +31,6 @@ class _FoodCartState extends State<FoodCart> {
   bool isLoading = true;
   int _perKmCharge = 1;
   final _firestore = FirebaseFirestore.instance;
-
-  void _handlePaymentError(PaymentFailureResponse response) async {
-    return await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text('An Error occured!'),
-              content:
-                  Text(response.code.toString() + ' - ' + response.message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(_).pop();
-                  },
-                ),
-              ],
-            ));
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {}
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    return await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text('Payment Successful.'),
-              content: Text(response.paymentId),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(_).pop();
-                  },
-                ),
-              ],
-            ));
-  }
 
   @override
   void initState() {
@@ -80,41 +42,13 @@ class _FoodCartState extends State<FoodCart> {
         isLoading = false;
       });
     });
-
-
     super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   Future<void> getPerKmCharge() async {
     // Fetching per km charges for delivery charge calculation.
     var temp = await _firestore.collection("deliveryRate").doc("rates").get();
     _perKmCharge = temp.get("rate");
-  }
-
-  Future<void> makePayment() async {
-    var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
-      'amount': totalCart * 100, //in paise so * 100
-      'name': 'Rtiggers',
-      'description':
-          'Order Payment for id - ' + profile.username + totalCart.toString(),
-      'prefill': {'contact': profile.phone.toString(), 'email': profile.email},
-      "method": {
-        "netbanking": true,
-        "card": true,
-        "wallet": false,
-        "upi": true,
-      },
-    };
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      debugPrint(e);
-    }
   }
 
   void calculateTotal() {
@@ -147,7 +81,6 @@ class _FoodCartState extends State<FoodCart> {
   @override
   void dispose() {
     super.dispose();
-    _razorpay.clear();
   }
 
   @override

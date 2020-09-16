@@ -35,6 +35,61 @@ class _PrePaymentState extends State<PrePayment> {
   Position position;
 
   void _handlePaymentError(PaymentFailureResponse response) async {
+    twilioFlutter.sendSMS(
+        toNumber: '+917080855524',
+        messageBody: "Your order has been submitted successfully.");
+
+    for (int i = 0; i < widget.items.length; i++) {
+      var orders = await FirebaseFirestore.instance
+          .collection("vendorOrder")
+          .doc(widget.items[i]['vendorId'])
+          .get();
+      int min = 100000; //min and max values act as your 6 digit range
+      int max = 999999;
+      var randomizer = new Random();
+      var otp1 = min + randomizer.nextInt(max - min);
+      var otp2 = min + randomizer.nextInt(max - min);
+      var newOrders =
+      orders.data()["newOrder"] != null ? orders.data()["newOrder"] : [];
+      var preparingOrders =
+      orders.data()["preparing"] != null ? orders.data()["preparing"] : [];
+      var readyOrders =
+      orders.data()["ready"] != null ? orders.data()["ready"] : [];
+      var pickedOrders =
+      orders.data()["picked"] != null ? orders.data()["picked"] : [];
+      var pastOrders =
+      orders.data()["past"] != null ? orders.data()["past"] : [];
+
+      newOrders.add({
+        'clat': position.latitude,
+        'clong': position.longitude,
+        'address': address,
+        'city': city,
+        'state': state,
+        'id': _orderNo.toString(),
+        'cid': profile.userId,
+        'cphone': phoneno,
+        'customer': profile.username,
+        'otp1': otp1,
+        'otp2': otp2,
+        'type': 'New Order',
+        'item': widget.items[i]['name'],
+        'price': widget.items[i]['price'],
+        'quantity': widget.items[i]['quantity']
+      });
+
+      await FirebaseFirestore.instance
+          .collection("vendorOrder")
+          .doc(widget.items[i]['vendorId'])
+          .set({
+        "preparing": preparingOrders,
+        "ready": readyOrders,
+        "picked": pickedOrders,
+        "newOrder": newOrders,
+        "past": pastOrders
+      });
+    }
+
     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -228,7 +283,7 @@ class _PrePaymentState extends State<PrePayment> {
                           height: 25,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Customer Name: ",

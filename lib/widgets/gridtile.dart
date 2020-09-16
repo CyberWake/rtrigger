@@ -97,20 +97,20 @@ class CustomGridTile extends StatelessWidget {
               .push(CupertinoPageRoute(builder: (_) => getNextScreen()));
         },
         child: Padding(
-          padding: const EdgeInsets.only(top: 15, left: 2, right: 2),
+          padding: const EdgeInsets.only(top: 12, left: 2, right: 2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
-                flex: 9,
+                flex: 10,
                 child: Container(
                   height: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4.8
+                      ? MediaQuery.of(context).size.width / 4.5
                       : MediaQuery.of(context).size.width / 4,
                   width: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4.8
+                      ? MediaQuery.of(context).size.width / 4.5
                       : MediaQuery.of(context).size.width / 4,
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(loc), fit: BoxFit.fitHeight)),
@@ -118,7 +118,8 @@ class CustomGridTile extends StatelessWidget {
               ),
               Expanded(
                 flex: 5,
-                child: Center(
+                child: Container(
+                  alignment: Alignment.topCenter,
                   child: Text(title,
                       textAlign: TextAlign.center,
                       style: TextStyle(

@@ -49,6 +49,7 @@ class Cart{
   Future<List<dynamic>> getCartItems(String userID) async{
 
     try{
+      print(userID);
       var cartItems = await _firestore.collection("cart").doc(userID).get();
       List<dynamic> products = cartItems.get("products");
       if(products!=null){

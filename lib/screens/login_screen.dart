@@ -95,6 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
         context, MaterialPageRoute(builder: (context) => RegisterScreen()));
   }
 
+  bool c1=true;
+  bool c2=true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ), */
+                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster1.jpg?alt=media&token=36bba5d3-c572-41bb-bb38-6e48885749c7
+                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster3.jpg?alt=media&token=0b166eac-7fe2-4c8e-ad0e-9a3ee74bc9bd
+                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster2.jpg?alt=media&token=71724615-ce3c-493f-abc9-8f5a1b11ae84
+                  //https://firebasestorage.googleapis.com/v0/b/rtigger-user.appspot.com/o/images%2Frtiger-poster.jpg?alt=media&token=3f501143-4732-45da-abf3-cc1ffa6f2093
+
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.105,
@@ -155,7 +163,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Email id',
+                          hintText: c1
+                              ? 'Enter your Email id'
+                              : "Please Enter an Email id",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                              BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
                               fontSize: 18.0,
                               color: Color.fromRGBO(00, 44, 64, 1)),
@@ -163,8 +179,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: EmailFieldValidator.validate,
                         onSaved: (String value) => _email = value,
-                        onChanged: (val) {
-                          _email = val;
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              c1 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c1 = true;
+                            });
+                          }
+                          return "";
                         },
                       ),
                     ),
@@ -185,14 +210,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Your Password',
+                          hintText: c2
+                              ? 'Enter your Password'
+                              : "Please Enter a Password",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                              BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
                               fontSize: 18.0,
                               color: Color.fromRGBO(00, 44, 64, 1)),
                           border: InputBorder.none,
                         ),
                         obscureText: true,
-                        validator: PasswordFieldValidator.validate,
+                        validator:(value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              c2 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c2 = true;
+                            });
+                          }
+                          return "";
+                        },
                         onSaved: (String value) => _password = value,
                       ),
                     ),

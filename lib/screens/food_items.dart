@@ -16,21 +16,27 @@ class FoodItems extends StatefulWidget {
 class _FoodItemsState extends State<FoodItems> {
   FoodFetching foodFetching = FoodFetching();
   List<dynamic> items = [];
-  bool isLoaded = false;
+  bool isLoaded = true;
 
   @override
   void initState() {
+    setState((){
+      isLoaded=false;
+    });
+    getFoodItems().whenComplete((){
+      setState((){
+      isLoaded=true;
+      });
+    });
     super.initState();
-    getFoodItems();
-  }
+    }
 
   Future<void> getFoodItems() async {
     print("Fetching");
     var fetchedData = await foodFetching.getFood(widget.index);
     setState(() {
       items = fetchedData;
-      isLoaded = true;
-    });
+      });
   }
 
   @override
@@ -42,7 +48,7 @@ class _FoodItemsState extends State<FoodItems> {
             ? Container(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    if(items[index]['distance']<=10){
+                    if(items[index]["distance"]<=10){
                       return FoodItemCard(
                         image: items[index]["img"],
                         time: items[index]["prep"],

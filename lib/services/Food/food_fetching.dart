@@ -8,6 +8,7 @@ class FoodFetching {
     List<dynamic> items = [];
     var allCollection = await _firestore.collection("vendorMenu").get();
     for (var document in allCollection.docs) {
+      if(document.data()["combos"][0]["type"] == 0 && index<14){
       if (document.data()["combos"][index]["type"] == index) {
         var category = document.data()["combos"][index]["items"];
         if (category.length != 0) {
@@ -15,13 +16,31 @@ class FoodFetching {
             var distanceInMetre =
                 await getDistance(eachItem["lat"], eachItem["long"]);
             var distance = distanceInMetre / 1000;
+            print(eachItem);
             eachItem["distance"] = distance.toInt();
             if (distance <= 10) {
               items.add(eachItem);
             }
           }
         }
+      }else{
+        if (document.data()["combos"][index-15]["type"] == index) {
+          var category = document.data()["combos"][index-15]["items"];
+          if (category.length != 0) {
+            for (var eachItem in category) {
+              var distanceInMetre =
+              await getDistance(eachItem["lat"], eachItem["long"]);
+              var distance = distanceInMetre / 1000;
+              print(eachItem);
+              eachItem["distance"] = distance.toInt();
+              if (distance <= 10) {
+                items.add(eachItem);
+              }
+            }
+          }
+        }
       }
+    }
     }
     print(items);
     if (items.length != 0) {

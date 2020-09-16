@@ -5,18 +5,6 @@ import 'package:user/auth/auth.dart';
 import 'package:user/auth/authorizationProvider.dart';
 import 'package:user/screens/login_screen.dart';
 
-class EmailFieldValidator {
-  static String validate(String value) {
-    return value.isEmpty ? 'Email can\'t be empty' : null;
-  }
-}
-
-class PasswordFieldValidator {
-  static String validate(String value) {
-    return value.isEmpty ? 'Password can\'t be empty' : null;
-  }
-}
-
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({this.onSignedIn});
 
@@ -38,6 +26,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password;
   String _name;
   int _phone;
+  bool c1 = true;
+  bool c2 = true;
+  bool c3 = true;
+  bool c4 = true;
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
@@ -80,17 +72,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
             await showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                  title: Text('Verify your Email id'),
-                  content: Text('Check your emails and verify your id.'),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.of(_).pop();
-                      },
-                    ),
-                  ],
-                ));
+                      title: Text('Verify your Email id'),
+                      content: Text('Check your emails and verify your id.'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            Navigator.of(_).pop();
+                          },
+                        ),
+                      ],
+                    ));
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => LoginScreen()));
             print('Registered user');
@@ -137,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.039,
                   ),
                   Text(
                     'Register',
@@ -149,26 +141,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.106,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         key: Key('username'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Name',
+                          hintText: c1 ? '  Enter Name' : "Please enter Name",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 20.0,
+                            fontSize: 19.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
                         ),
-                        validator: EmailFieldValidator.validate,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              c1 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c1 = true;
+                            });
+                          }
+                          return "";
+                        },
                         textCapitalization: TextCapitalization.words,
                         onSaved: (String value) => _name = value,
                       ),
@@ -179,21 +188,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.106,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.phone,
                         textAlign: TextAlign.center,
                         key: Key('Phone no.'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Phone no.',
+                          hintText: c2
+                              ? ' Enter Phone number'
+                              : "Enter correct Phone number",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 20.0,
+                            fontSize: 19.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
@@ -202,9 +219,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value.isEmpty ||
                               int.parse(value) < 6000000000 ||
                               int.parse(value) > 9999999999) {
-                            return 'Please enter valid phone number';
+                            setState(() {
+                              c2 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c2 = true;
+                            });
                           }
-                          return null;
+                          return "";
                         },
                         onSaved: (value) => _phone = int.parse(value),
                       ),
@@ -215,26 +238,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.106,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Email id',
+                          hintText:
+                              c3 ? 'Enter Email id' : "Enter correct Email id",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 20.0,
+                            fontSize: 19.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
                         ),
-                        validator: EmailFieldValidator.validate,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              c3 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c3 = true;
+                            });
+                          }
+                          return "";
+                        },
                         onSaved: (String value) => _email = value,
                       ),
                     ),
@@ -244,27 +285,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.105,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.106,
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                    child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
-                          hintText: '  Enter Your Password',
+                          hintText: c4
+                              ? 'Enter your Password'
+                              : "Please Enter a Password",
+                          errorStyle: TextStyle(fontSize: 0, height: 0),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
-                            fontSize: 20.0,
+                            fontSize: 19.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
                           ),
                           border: InputBorder.none,
                         ),
                         obscureText: true,
-                        validator: PasswordFieldValidator.validate,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              c4 = false;
+                            });
+                          } else {
+                            setState(() {
+                              c4 = true;
+                            });
+                          }
+                          return "";
+                        },
                         onSaved: (String value) => _password = value,
                       ),
                     ),
@@ -274,8 +334,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Container(
                     width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.09,
-                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.width * 0.09,
+                    //alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       // color: Colors.lime[800],
@@ -286,16 +346,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? Text(
                               'Create an account',
                               style: GoogleFonts.lato(
-                                  fontSize: 20.0, fontWeight: FontWeight.normal),
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.normal),
                             )
                           : Center(child: CircularProgressIndicator()),
                       onPressed: () => validateAndSubmit(context),
                     ),
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height: 10),
                   Container(
                     width: 0.5 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width*0.09,
+                    height: MediaQuery.of(context).size.width * 0.09,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -305,8 +366,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: FlatButton(
                       child: Text(
                         'Have an account? Login',
-                        style:
-                        GoogleFonts.lato(color: Colors.black,fontSize: 14.0,fontWeight: FontWeight.normal),
+                        style: GoogleFonts.lato(
+                            color: Colors.black,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal),
                       ),
                       onPressed: moveToLogin,
                     ),
