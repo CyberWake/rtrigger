@@ -100,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
         context, MaterialPageRoute(builder: (context) => RegisterScreen()));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.106,
                     //alignment: Alignment.center,
                     //padding: EdgeInsets.only(top: 4),
@@ -156,15 +155,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
+                          contentPadding: EdgeInsets.only(bottom: 5),
                           hintText:
-                          c1 ? 'Enter Email id' : "Enter correct Email id",
+                             "Enter Email ID",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(15)),
+                                  BorderRadius.all(Radius.circular(15)),
                               borderSide:
-                              BorderSide(color: Colors.red, width: 3)),
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
@@ -188,12 +187,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.105,
                     //alignment: Alignment.center,
                     //padding: EdgeInsets.only(top: 4),
@@ -206,16 +204,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          hintText: c2
-                              ? 'Enter your Password'
-                              : "Please Enter a Password",
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          hintText: "Password",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(15)),
+                                  BorderRadius.all(Radius.circular(15)),
                               borderSide:
-                              BorderSide(color: Colors.red, width: 3)),
+                                  BorderSide(color: Colors.red, width: 3)),
                           hintStyle: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Color.fromRGBO(00, 44, 64, 1),
@@ -244,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.105,
                     //alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -272,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   FlatButton(
                     child: Text(
-                      'Create an account',
+                      'Create account',
                       style:
                           GoogleFonts.lato(fontSize: 20.0, color: Colors.white),
                     ),
@@ -283,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      'Reset Password for this Id',
+                      'Reset Password',
                       style:
                           GoogleFonts.lato(fontSize: 14.0, color: Colors.black),
                     ),

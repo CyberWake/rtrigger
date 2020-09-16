@@ -43,13 +43,13 @@ class _SaloonScreenState extends State<SaloonScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                     margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                         child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon)),
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                     margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                         child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon)),
               ],
@@ -58,13 +58,13 @@ class _SaloonScreenState extends State<SaloonScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                     margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                         child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon)),
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                     margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                         child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
               ],

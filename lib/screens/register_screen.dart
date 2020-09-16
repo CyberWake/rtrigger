@@ -140,59 +140,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width * 0.106,
-                    //alignment: Alignment.center,
-                    //padding: EdgeInsets.only(top: 4),
+                    width: 0.6 * MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width * 0.104,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
-                    child: Center(
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        key: Key('username'),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          hintText: c1 ? '  Enter Name' : "Please Enter Name",
-                          errorStyle: TextStyle(fontSize: 0, height: 0),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 3)),
-                          hintStyle: GoogleFonts.lato(
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(00, 44, 64, 1),
-                          ),
-                          border: InputBorder.none,
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      key: Key('username'),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(bottom: 5),
+                        hintText: "Enter Name",
+                        errorStyle: TextStyle(fontSize: 0, height: 0),
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 3)),
+                        hintStyle: GoogleFonts.lato(
+                          fontSize: 20.0,
+                          color: Color.fromRGBO(00, 44, 64, 1),
                         ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            setState(() {
-                              c1 = false;
-                            });
-                          } else {
-                            setState(() {
-                              c1 = true;
-                            });
-                            return null;
-                          }
-                          return "";
-                        },
-                        textCapitalization: TextCapitalization.words,
-                        onSaved: (String value) => _name = value,
+                        border: InputBorder.none,
                       ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          setState(() {
+                            c1 = false;
+                          });
+                        } else {
+                          setState(() {
+                            c1 = true;
+                          });
+                          return null;
+                        }
+                        return "";
+                      },
+                      textCapitalization: TextCapitalization.words,
+                      onSaved: (String value) => _name = value,
                     ),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.106,
-                    //alignment: Alignment.center,
-                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -202,10 +195,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('Phone no.'),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          hintText: c2
-                              ? ' Enter Phone number'
-                              : "Enter correct Phone number",
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          hintText: "Phone number",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -241,7 +232,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.106,
                     //alignment: Alignment.center,
                     //padding: EdgeInsets.only(top: 4),
@@ -254,9 +245,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('email'),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
+                          contentPadding: EdgeInsets.only(bottom: 5),
                           hintText:
-                              c3 ? 'Enter Email id' : "Enter correct Email id",
+                              "Email id",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -290,10 +281,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.106,
-                    //alignment: Alignment.center,
-                    //padding: EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
@@ -303,10 +292,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         key: Key('password'),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          hintText: c4
-                              ? 'Enter your Password'
-                              : "Please Enter a Password",
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          hintText:  "Password",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -341,7 +328,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: MediaQuery.of(context).size.height * 0.11,
                   ),
                   Container(
-                    width: 0.75 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.09,
                     //alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -352,9 +339,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: FlatButton(
                       child: isLoaded
                           ? Text(
-                              'Create an account',
+                              'Create account',
                               style: GoogleFonts.lato(
-                                  fontSize: 20.0,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.normal),
                             )
                           : Center(child: CircularProgressIndicator()),
@@ -363,12 +350,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    width: 0.5 * MediaQuery.of(context).size.width,
+                    width: 0.6 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.09,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      // color: Colors.lime[800],
                       color: Colors.blueGrey,
                     ),
                     child: FlatButton(

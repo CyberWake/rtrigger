@@ -102,14 +102,14 @@ class CustomGridTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
-                flex: 10,
+                flex: 11,
                 child: Container(
                   height: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4.5
-                      : MediaQuery.of(context).size.width / 4,
+                      ? MediaQuery.of(context).size.width / 4.3
+                      : MediaQuery.of(context).size.width / 3.9,
                   width: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4.5
-                      : MediaQuery.of(context).size.width / 4,
+                      ? MediaQuery.of(context).size.width / 4.3
+                      : MediaQuery.of(context).size.width / 3.9,
                   margin: EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                       image: DecorationImage(

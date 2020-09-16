@@ -48,8 +48,8 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
                             title: 'Sanitize',
@@ -58,8 +58,8 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                             type: CardType.Sanitizer),
                       ),
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
                             title: 'Mosquito',
@@ -73,8 +73,8 @@ class _SanitizerAndSprayScreenState extends State<SanitizerAndSprayScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                        height: MediaQuery.of(context).size.width * 0.35,
-                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.width * 0.33,
+                        width: MediaQuery.of(context).size.width * 0.33,
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(
                             title: 'Cockroach',
