@@ -26,7 +26,7 @@ class _FoodScreenState extends State<FoodScreen> {
 
   Future<bool> requestLocationPermission({Function onPermissionDenied}) async {
     var granted = await _requestPermission(PermissionGroup.location);
-    if (granted!=true) {
+    if (granted != true) {
       requestLocationPermission();
     }
     debugPrint('requestContactsPermission $granted');
@@ -50,21 +50,26 @@ class _FoodScreenState extends State<FoodScreen> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("Can't get current location"),
-                content:const Text('Please make sure you enable GPS and try again'),
+                content:
+                    const Text('Please make sure you enable GPS and try again'),
                 actions: <Widget>[
-                  FlatButton(child: Text('Ok'),
+                  FlatButton(
+                      child: Text('Ok'),
                       onPressed: () {
                         final AndroidIntent intent = AndroidIntent(
-                            action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+                            action:
+                                'android.settings.LOCATION_SOURCE_SETTINGS');
                         intent.launch();
                         Navigator.of(context, rootNavigator: true).pop();
                         _gpsService();
-                      })],
+                      })
+                ],
               );
             });
       }
     }
   }
+
   /*Check if gps service is enabled or not*/
   Future _gpsService() async {
     if (!(await Geolocator().isLocationServiceEnabled())) {
@@ -73,6 +78,7 @@ class _FoodScreenState extends State<FoodScreen> {
     } else
       return true;
   }
+
   @override
   void initState() {
     super.initState();
@@ -90,10 +96,9 @@ class _FoodScreenState extends State<FoodScreen> {
         .doc('VRxueMwcdcW4VmDR721r')
         .get()
         .then((value) {
-          imageArray = value.data()['foodMenu'];
-        });
-    setState(() {
+      imageArray = value.data()['foodMenu'];
     });
+    setState(() {});
   }
 
   @override
@@ -102,59 +107,57 @@ class _FoodScreenState extends State<FoodScreen> {
     return Scaffold(
       appBar: UniversalAppBar(context, true, "Food Category"),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              GridView.count(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
-                children: _listItem
-                    .map((item) => FoodCategoryCard(
-                          image: item["image"],
-                          index: item["index"],
-                          foodName: item["foodName"],
-                        ))
-                    .toList(),
+        child: Column(
+          children: [
+            GridView.count(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              crossAxisCount: 3,
+              children: _listItem
+                  .map((item) => FoodCategoryCard(
+                        image: item["image"],
+                        index: item["index"],
+                        foodName: item["foodName"],
+                      ))
+                  .toList(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                //pauseAutoPlayOnTouch: Duration(seconds: 10),
+                aspectRatio: 2.0,
               ),
-              SizedBox(height: 10,),
-              Expanded(
-                flex: 1,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    //pauseAutoPlayOnTouch: Duration(seconds: 10),
-                    aspectRatio: 2.0,
-                  ),
-                  items: imageArray.map((url) {
-                    return Builder(builder: (BuildContext context) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          color: Colors.grey[300],
-                          child: CachedNetworkImage(
+              items: imageArray.map((url) {
+                return Builder(builder: (BuildContext context) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.30,
+                    width: MediaQuery.of(context).size.width,
+                    child: Card(
+                        color: Colors.grey[300],
+                        child: CachedNetworkImage(
                             imageUrl: url,
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                CircularProgressIndicator(value: downloadProgress.progress),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                              fit: BoxFit.cover
-                          )
-                        ),
-                      );
-                    });
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover)),
+                  );
+                });
+              }).toList(),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
         ),
       ),
     );

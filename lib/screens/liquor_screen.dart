@@ -61,6 +61,7 @@ class _LiquorScreenState extends State<LiquorScreen> {
                           //if (index < 4){
                             return Container(
                               margin: EdgeInsets.all(10),
+                              //padding: EdgeInsets.only(top: 8),
                               child: FoodCategoryCard(
                                 image: _listItem[index]["image"],
                                 index: _listItem[index]["index"] + 15,
@@ -122,6 +123,7 @@ class _LiquorScreenState extends State<LiquorScreen> {
                   });
                 }).toList(),
               ),
+              SizedBox(height: 20,)
             ],
           ),
         ),

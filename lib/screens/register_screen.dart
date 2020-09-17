@@ -246,8 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: Key('email'),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 5),
-                          hintText:
-                              "Email id",
+                          hintText: "Email id",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -293,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: Key('password'),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 5),
-                          hintText:  "Password",
+                          hintText: "Password",
                           errorStyle: TextStyle(fontSize: 0, height: 0),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -350,7 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    width: 0.6 * MediaQuery.of(context).size.width,
+                    width: 0.3 * MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.09,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -359,7 +358,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     child: FlatButton(
                       child: Text(
-                        'Have an account? Login',
+                        'Login',
                         style: GoogleFonts.lato(
                             color: Colors.black,
                             fontSize: 14.0,

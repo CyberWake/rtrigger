@@ -42,7 +42,7 @@ abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
 
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String username,int phone);
+      String email, String password, String username, int phone);
 
   Future<String> currentUser();
 
@@ -58,7 +58,7 @@ class Auth implements BaseAuth {
     var auth = FirebaseFirestore.instance;
     await auth.collection('users').doc(user.uid).get().then((value) {
       profile = UserProfile(
-        state: value.data()['state'],
+          state: value.data()['state'],
           city: value.data()['city'],
           username: value.data()['username'],
           email: value.data()['email'],
@@ -108,15 +108,14 @@ class Auth implements BaseAuth {
 
   @override
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String username,int phone) async {
+      String email, String password, String username, int phone) async {
     try {
       final user = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       await user.user.sendEmailVerification();
-        await addUserDetails(email, username, user.user.uid,phone);
-        await setCart();
-        return user.user?.uid;
-
+      await addUserDetails(email, username, user.user.uid, phone);
+      await setCart();
+      return user.user?.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -132,6 +131,7 @@ class Auth implements BaseAuth {
     final _firestore = FirebaseFirestore.instance;
     final userID = FirebaseAuth.instance.currentUser.uid;
     await _firestore.collection("cart").doc(userID).set({"products": []});
+    await _firestore.collection("userOrders").doc(userID).set({"orders": []});
   }
 
   @override
@@ -140,7 +140,8 @@ class Auth implements BaseAuth {
     return user?.uid;
   }
 
-  Future<void> addUserDetails(String email, String username, String uid,int phone) async {
+  Future<void> addUserDetails(
+      String email, String username, String uid, int phone) async {
     var auth1 = FirebaseFirestore.instance;
     var _db = auth1.collection('users').doc(uid);
     _db.set({
@@ -149,8 +150,8 @@ class Auth implements BaseAuth {
       'userId': uid,
       'phone': phone,
       'address': "Address",
-      'city':"Delhi",
-      'state':"Delhi",
+      'city': "Delhi",
+      'state': "Delhi",
       'imageUrl':
           "https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg"
     });

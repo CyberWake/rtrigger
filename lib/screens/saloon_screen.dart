@@ -13,6 +13,7 @@ class SaloonScreen extends StatefulWidget {
 
 class _SaloonScreenState extends State<SaloonScreen> {
   List imageArray = List();
+
   Future<void> getImages() async {
     var auth = FirebaseFirestore.instance;
     await auth
@@ -25,15 +26,17 @@ class _SaloonScreenState extends State<SaloonScreen> {
       });
     });
   }
+
   @override
   void initState() {
     super.initState();
     getImages();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UniversalAppBar(context,false,"Saloon/Beauty Parlour Category"),
+      appBar: UniversalAppBar(context, false, "Saloon/Beauty Parlour Category"),
       body: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
         child: Column(
@@ -43,30 +46,46 @@ class _SaloonScreenState extends State<SaloonScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.33,
-                        width: MediaQuery.of(context).size.width * 0.33,
-                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                        child: CustomGridTile(title:'Male', loc:'assets/img/male.jpg', card:Cards.male,  type:CardType.Saloon)),
+                    height: MediaQuery.of(context).size.width * 0.33,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    child: CustomGridTile(
+                        title: 'Male',
+                        loc: 'assets/img/male.jpg',
+                        card: Cards.male,
+                        type: CardType.Saloon)),
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.33,
-                        width: MediaQuery.of(context).size.width * 0.33,
-                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                        child: CustomGridTile(title:'Female', loc:'assets/img/female.jpg', card:Cards.female,type:CardType.Saloon)),
+                    height: MediaQuery.of(context).size.width * 0.33,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    child: CustomGridTile(
+                        title: 'Female',
+                        loc: 'assets/img/female.jpg',
+                        card: Cards.female,
+                        type: CardType.Saloon)),
               ],
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.33,
-                        width: MediaQuery.of(context).size.width * 0.33,
-                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                        child: CustomGridTile(title:'Unisex', loc:'assets/img/unisex.png', card:Cards.unisex,type: CardType.Saloon)),
+                    height: MediaQuery.of(context).size.width * 0.33,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    child: CustomGridTile(
+                        title: 'Unisex',
+                        loc: 'assets/img/unisex.png',
+                        card: Cards.unisex,
+                        type: CardType.Saloon)),
                 Container(
-                        height: MediaQuery.of(context).size.width * 0.33,
-                        width: MediaQuery.of(context).size.width * 0.33,
-                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                        child: CustomGridTile(title:'Spa', loc:'assets/img/spa.jpg', card:Cards.spa,type: CardType.Saloon)),
+                    height: MediaQuery.of(context).size.width * 0.33,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    child: CustomGridTile(
+                        title: 'Spa',
+                        loc: 'assets/img/spa.jpg',
+                        card: Cards.spa,
+                        type: CardType.Saloon)),
               ],
             ),
             Spacer(),
@@ -83,18 +102,20 @@ class _SaloonScreenState extends State<SaloonScreen> {
               items: imageArray.map((url) {
                 return Builder(builder: (BuildContext context) {
                   return Container(
-                    margin: EdgeInsets.only(top:10,bottom: 10),
+                    margin: EdgeInsets.only(top: 10, bottom: 10),
                     height: MediaQuery.of(context).size.height * 0.30,
                     width: MediaQuery.of(context).size.width,
                     child: Card(
                       color: Colors.grey[300],
                       child: CachedNetworkImage(
                         imageUrl: url,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
-                      ),/*Image.network(
+                      ), /*Image.network(
                       url,
                       fit: BoxFit.cover,
                     ),*/
@@ -103,10 +124,12 @@ class _SaloonScreenState extends State<SaloonScreen> {
                 });
               }).toList(),
             ),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
     );
   }
 }
-

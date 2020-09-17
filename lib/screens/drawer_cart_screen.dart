@@ -133,6 +133,8 @@ class _FoodCartState extends State<FoodCart> {
                                 image: cartItems[index]["image"],
                                 quantity: cartItems[index]["quantity"],
                                 productID: cartItems[index]["productID"],
+                                type: "Cart",
+                                status: "In Cart",
                                 onTap: () async {
                                   Cart cart = Cart();
                                   var deleteResult = await cart.deleteFromCart(
@@ -140,7 +142,6 @@ class _FoodCartState extends State<FoodCart> {
                                       productID: cartItems[index]["productID"]);
                                   if (deleteResult == true) {
                                     getCartData();
-                                    //calculateTotal();
                                   }
                                 },
                               );

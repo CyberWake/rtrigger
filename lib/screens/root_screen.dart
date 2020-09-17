@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user/screens/login_screen.dart';
 import 'package:user/screens/navigating_home_screen.dart';
 import 'package:user/models/varialbes.dart';
 import 'package:user/screens/register_screen.dart';
@@ -40,7 +41,7 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.notDetermined:
         return _buildWaitingScreen();
       case AuthStatus.notSignedIn:
-        return RegisterScreen(
+        return LoginScreen(
           onSignedIn: _signedIn,
         );
       case AuthStatus.signedIn:

@@ -35,31 +35,36 @@ class FoodCategoryCard extends StatelessWidget {
                       fontFamily: 'RobotoCondensed',
                       fontWeight: FontWeight.bold,
                     )))
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 33,
-                        child: ClipOval(
-                            child: Image.asset(
+            : Container(
+                padding: EdgeInsets.only(top: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 4.5,
+                        height: MediaQuery.of(context).size.width / 4.5,
+                        margin: EdgeInsets.only(bottom: 1),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
                           index == 13 ? 'assets/img/oo.png' : image,
-                          fit: BoxFit.cover,
                         ))),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(foodName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'RobotoCondensed',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13)),
-                  ),
-                ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(foodName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'RobotoCondensed',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13)),
+                    ),
+                  ],
+                ),
               ),
       ),
     );

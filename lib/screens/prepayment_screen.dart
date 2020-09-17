@@ -27,69 +27,23 @@ class _PrePaymentState extends State<PrePayment> {
   UserProfile profile;
   Razorpay _razorpay;
   bool isLoading = true;
+  bool isLoaded = true;
   String address;
   String city;
   String state;
   int phoneno;
   int _orderNo;
   Position position;
+  String finalDate = '';
+
+  getCurrentDate() {
+    var date = new DateTime.now().toString();
+    var dateParse = DateTime.parse(date);
+    var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
+    finalDate = formattedDate.toString();
+  }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
-    twilioFlutter.sendSMS(
-        toNumber: '+917080855524',
-        messageBody: "Your order has been submitted successfully.");
-
-    for (int i = 0; i < widget.items.length; i++) {
-      var orders = await FirebaseFirestore.instance
-          .collection("vendorOrder")
-          .doc(widget.items[i]['vendorId'])
-          .get();
-      int min = 100000; //min and max values act as your 6 digit range
-      int max = 999999;
-      var randomizer = new Random();
-      var otp1 = min + randomizer.nextInt(max - min);
-      var otp2 = min + randomizer.nextInt(max - min);
-      var newOrders =
-      orders.data()["newOrder"] != null ? orders.data()["newOrder"] : [];
-      var preparingOrders =
-      orders.data()["preparing"] != null ? orders.data()["preparing"] : [];
-      var readyOrders =
-      orders.data()["ready"] != null ? orders.data()["ready"] : [];
-      var pickedOrders =
-      orders.data()["picked"] != null ? orders.data()["picked"] : [];
-      var pastOrders =
-      orders.data()["past"] != null ? orders.data()["past"] : [];
-
-      newOrders.add({
-        'clat': position.latitude,
-        'clong': position.longitude,
-        'address': address,
-        'city': city,
-        'state': state,
-        'id': _orderNo.toString(),
-        'cid': profile.userId,
-        'cphone': phoneno,
-        'customer': profile.username,
-        'otp1': otp1,
-        'otp2': otp2,
-        'type': 'New Order',
-        'item': widget.items[i]['name'],
-        'price': widget.items[i]['price'],
-        'quantity': widget.items[i]['quantity']
-      });
-
-      await FirebaseFirestore.instance
-          .collection("vendorOrder")
-          .doc(widget.items[i]['vendorId'])
-          .set({
-        "preparing": preparingOrders,
-        "ready": readyOrders,
-        "picked": pickedOrders,
-        "newOrder": newOrders,
-        "past": pastOrders
-      });
-    }
-
     await showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -148,10 +102,46 @@ class _PrePaymentState extends State<PrePayment> {
         'otp1': otp1,
         'otp2': otp2,
         'type': 'New Order',
-        'item': widget.items[i]['item'],
+        'item': widget.items[i]['name'],
         'price': widget.items[i]['price'],
         'quantity': widget.items[i]['quantity']
       });
+      var userorders = await FirebaseFirestore.instance
+          .collection("userOrders")
+          .doc(profile.userId)
+          .get();
+      List<dynamic> userOrders = userorders.data()["orders"] != null
+          ? userorders.data()["orders"]
+          : [];
+
+      userOrders.insert(0, {
+        'clat': position.latitude,
+        'clong': position.longitude,
+        'address': address,
+        'city': city,
+        'state': state,
+        'vendor': widget.items[i]['vendor'],
+        'distance': widget.items[i]['distance'],
+        'time': widget.items[i]["time"],
+        'image': widget.items[i]["image"],
+        'productID': widget.items[i]["productID"],
+        'id': _orderNo.toString(),
+        'cid': profile.userId,
+        'date': finalDate,
+        'cphone': phoneno,
+        'customer': profile.username,
+        'status': "Sent",
+        'otp1': otp1,
+        'otp2': otp2,
+        'item': widget.items[i]['name'],
+        'price': widget.items[i]['price'],
+        'quantity': widget.items[i]['quantity']
+      });
+
+      await FirebaseFirestore.instance
+          .collection("userOrders")
+          .doc(profile.userId)
+          .set({"orders": userOrders});
 
       await FirebaseFirestore.instance
           .collection("vendorOrder")
@@ -237,22 +227,25 @@ class _PrePaymentState extends State<PrePayment> {
     _razorpay.clear();
   }
 
-  void validateAndSave() async {
+  Future<void> validateAndSave() async {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-
+      print("Fetching Location");
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
       await geolocator.checkGeolocationPermissionStatus();
       position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+      print("Location");
       print(position);
-      makePayment();
+      print("Payment");
+      await makePayment();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    getCurrentDate();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -417,22 +410,32 @@ class _PrePaymentState extends State<PrePayment> {
             elevation: 5,
             backgroundColor: AppTheme.dark_grey,
             onPressed: () {
-              validateAndSave();
+              setState(() {
+                isLoaded = false;
+              });
+              print("Processing");
+              validateAndSave().whenComplete(() {
+                setState(() {
+                  isLoaded = true;
+                });
+              });
             },
             //Implement Route To Payment Here
-            label: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "Total: ₹ " + widget.total.toString(),
-                  style: TextStyle(color: Colors.green),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text("Make Payment".toUpperCase()),
-              ],
-            ),
+            label: isLoaded
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Total: ₹ " + widget.total.toString(),
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Make Payment".toUpperCase()),
+                    ],
+                  )
+                : Center(child: CircularProgressIndicator()),
           ),
         ),
       ),
