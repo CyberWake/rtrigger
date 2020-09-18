@@ -108,8 +108,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.width * 0.35,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.width * 0.335,
+                    width: MediaQuery.of(context).size.width * 0.335,
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: CustomGridTile(
                         title: 'Medicine',
@@ -118,8 +118,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         type: CardType.Home),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.width * 0.35,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.width * 0.335,
+                    width: MediaQuery.of(context).size.width * 0.335,
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: CustomGridTile(
                         title: 'Food',
@@ -133,8 +133,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.width * 0.35,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.width * 0.335,
+                    width: MediaQuery.of(context).size.width * 0.335,
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: CustomGridTile(
                         title: 'Liqour',
@@ -143,8 +143,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         type: CardType.Home),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.width * 0.35,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.width * 0.335,
+                    width: MediaQuery.of(context).size.width * 0.335,
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: CustomGridTile(
                         title: 'Saloon and\nBeauty Parlour',
@@ -161,8 +161,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.width * 0.38,
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.width * 0.365,
+                      width: MediaQuery.of(context).size.width * 0.385,
                       child: Container(
                         margin: EdgeInsets.all(10),
                         child: CustomGridTile(

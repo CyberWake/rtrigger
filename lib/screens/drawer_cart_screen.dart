@@ -47,8 +47,55 @@ class _FoodCartState extends State<FoodCart> {
 
   Future<void> getPerKmCharge() async {
     // Fetching per km charges for delivery charge calculation.
-    var temp = await _firestore.collection("deliveryRate").doc("rates").get();
-    _perKmCharge = temp.get("rate");
+    var temp = await _firestore
+        .collection("deliveryRate")
+        .doc("rates")
+        .get()
+        .then((value) {
+      return value.data();
+    });
+    int time = TimeOfDay.now().hour;
+    print(time);
+    if (time >= 6 && time < 9) {
+      _perKmCharge = int.parse(temp["six"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 9 && time < 12) {
+      _perKmCharge = int.parse(temp["nine"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 12 && time < 15) {
+      _perKmCharge = int.parse(temp["twelve"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 15 && time < 18) {
+      _perKmCharge = int.parse(temp["fifteen"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 18 && time < 21) {
+      _perKmCharge = int.parse(temp["eighteen"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 21) {
+      _perKmCharge = int.parse(temp["twenty_one"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 0 && time < 3) {
+      _perKmCharge = int.parse(temp["zero"]);
+      print(_perKmCharge);
+      return;
+    }
+    if (time >= 3 && time < 6) {
+      _perKmCharge = int.parse(temp["three"]);
+      print(_perKmCharge);
+      return;
+    }
   }
 
   void calculateTotal() {
@@ -61,6 +108,7 @@ class _FoodCartState extends State<FoodCart> {
 
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
+        print(_perKmCharge);
         totalCart =
             totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
         totalDelivery = totalDelivery + cartItems[i]["distance"] * _perKmCharge;

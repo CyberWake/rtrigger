@@ -418,6 +418,8 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   UserProfile profile;
   Razorpay _razorpay;
   bool isLoading = true;
+  var time;
+  var otp;
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
@@ -450,9 +452,6 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     else
       category = 'Others';
 
-    final time =
-        DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
-    final otp = int.parse(time);
 
 //    while (otp.toString().length < 5) {
 //      otp = Math.Random().nextInt(100000);
@@ -494,6 +493,9 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       profile = auth.profile;
       setState(() {
         isLoading = false;
+        time =
+            DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
+        otp = int.parse(time);
       });
     });
     super.initState();
@@ -563,7 +565,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 2, horizontal: 8),
                         child: Text(
-                          widget.vendorName,
+                          widget.vendorName + "  OTP: "+otp.toString(),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
@@ -624,11 +626,46 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                             MaterialButton(
                               color: Color.fromRGBO(00, 44, 64, 1.0),
                               onPressed: () {
+                                makePayment();
+                                /*String category;
+                                if (widget.category == Cards.cockroach)
+                                  category = 'Cockroach';
+                                else if (widget.category == Cards.sanitize)
+                                  category = 'Sanitize';
+                                else if (widget.category == Cards.mosquito)
+                                  category = 'Mosquito';
+                                else
+                                  category = 'Others';
+
+                                final time = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString()
+                                    .substring(0, 6);
+                                final otp = int.parse(time);
+
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => PrePayment(
-                                            total: widget.vendorPrice)));
+                                              total: widget.vendorPrice,
+                                              items: [
+                                                {
+                                                  'date': DateTime.now(),
+                                                  'id': _orderId,
+                                                  'vPrice': widget.vendorPrice,
+                                                  'vName': widget.vendorName,
+                                                  'status': 'open',
+                                                  'vLocation': widget.location,
+                                                  'vCategory': category,
+                                                  'pricePerFeet':
+                                                      widget.pricePerFeet,
+                                                  'cName': profile.username,
+                                                  'cMobile': profile.phone,
+                                                  'cAddress': profile.address,
+                                                  'otp': otp
+                                                }
+                                              ],
+                                            )));*/
                               },
                               textColor: Colors.white,
                               child: Text('Confirm'),
