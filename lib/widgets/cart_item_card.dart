@@ -45,21 +45,25 @@ class _CartItemCardState extends State<CartItemCard> {
     return Card(
       elevation: 5,
       child: Container(
-        height: MediaQuery.of(context).size.height/4,
+        height: MediaQuery.of(context).size.height / 4,
         padding: EdgeInsets.all(10),
         child: Row(
           children: [
-            Expanded(
-              flex: 2,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 60,
-                  child: ClipOval(
-                      child: Image.network(
-                    widget.image,
-                    fit: BoxFit.cover,
-                  ))),
-            ),
+            widget.image.isNotEmpty
+                ? Expanded(
+                    flex: 2,
+                    child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 60,
+                        child: ClipOval(
+                            child: Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                        ))),
+                  )
+                : SizedBox(
+                    width: 10,
+                  ),
             Expanded(
               flex: 3,
               child: Column(

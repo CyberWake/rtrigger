@@ -17,6 +17,7 @@ class SaloonConfirmScreen extends StatefulWidget {
   final uid;
   final DateTime dateTime;
   final Cards category;
+
   SaloonConfirmScreen(this.service, this.price, this.uid, this.dateTime,
       this.name, this.location, this.category);
 
@@ -27,6 +28,7 @@ class SaloonConfirmScreen extends StatefulWidget {
 class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   Auth auth = Auth();
   UserProfile profile;
+  DocumentReference _firestore1;
   Razorpay _razorpay;
   String username;
   int number;
@@ -34,6 +36,16 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   final _collectionName = 'vendorSaloonTemp';
   DocumentReference _firestore;
   final _orderId = Math.Random().nextInt(1000000000);
+  String finalDate = '';
+  var otp;
+  var time;
+
+  getCurrentDate() {
+    var date = widget.dateTime.toString();
+    var dateParse = DateTime.parse(date);
+    var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
+    finalDate = formattedDate.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +216,40 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-     await showDialog(
+    var userorders = await FirebaseFirestore.instance
+        .collection("userOrders")
+        .doc(profile.userId)
+        .get();
+    print("2");
+    List<dynamic> userOrders =
+    userorders.data()["orders"] != null ? userorders.data()["orders"] : [];
+    print(userOrders);
+    print("3");
+
+    userOrders.insert(0, {
+      'vendor': widget.name,
+      'distance': 2,
+      'image': "",
+      'id': _orderId.toString(),
+      'cid': profile.userId,
+      'date': finalDate,
+      'customer': profile.username,
+      'status': "Booked",
+      'otp1': otp,
+      'otp2': otp,
+      'productID': _orderId.toString(),
+      'item': widget.service,
+      'price': widget.price,
+      'quantity': 1
+    });
+    print("4");
+    print(userOrders);
+
+    await _firestore1.set({"orders": userOrders});
+    print("5");
+
+
+    await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('Payment Successful.'),
@@ -224,9 +269,14 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   void initState() {
     auth.getProfile().whenComplete(() {
       profile = auth.profile;
-      username = profile.username;
-      number = profile.phone;
       setState(() {
+        username = profile.username;
+        number = profile.phone;
+        _firestore1 = FirebaseFirestore.instance
+            .collection("userOrders")
+            .doc(profile.userId);
+        time = DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
+        otp = int.parse(time);
         isLoading = false;
       });
     });
@@ -254,6 +304,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'location': widget.location,
       'price': widget.price,
       'cDate': widget.dateTime,
+      'otp': otp,
       'orderID': _orderId,
       'status': 'Open',
       'vDate': 'Waiting For Response',
@@ -262,10 +313,10 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'phone': number,
     });
   }
-
+//rzp_live_LAc1m0adUgWrmv
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_live_LAc1m0adUgWrmv',
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
       'amount': widget.price * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +

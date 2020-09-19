@@ -414,12 +414,21 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _collectionName;
   DocumentReference _firestore;
+  DocumentReference _firestore1;
   Auth auth = Auth();
   UserProfile profile;
   Razorpay _razorpay;
   bool isLoading = true;
   var time;
   var otp;
+  String finalDate = '';
+
+  getCurrentDate() {
+    var date = new DateTime.now().toString();
+    var dateParse = DateTime.parse(date);
+    var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
+    finalDate = formattedDate.toString();
+  }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     return await showDialog(
@@ -452,10 +461,41 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     else
       category = 'Others';
 
-
 //    while (otp.toString().length < 5) {
 //      otp = Math.Random().nextInt(100000);
 //    }
+
+    var userorders = await FirebaseFirestore.instance
+        .collection("userOrders")
+        .doc(profile.userId)
+        .get();
+    print("2");
+    List<dynamic> userOrders =
+        userorders.data()["orders"] != null ? userorders.data()["orders"] : [];
+    print(userOrders);
+    print("3");
+
+    userOrders.insert(0, {
+      'vendor': widget.vendorName,
+      'distance': 2,
+      'image': "",
+      'id': _orderId.toString(),
+      'cid': profile.userId,
+      'date': finalDate,
+      'customer': profile.username,
+      'status': "Sent",
+      'otp1': otp,
+      'otp2': otp,
+      'productID': _orderId.toString(),
+      'item': category,
+      'price': widget.vendorPrice,
+      'quantity': 1
+    });
+    print("4");
+    print(userOrders);
+
+    await _firestore1.set({"orders": userOrders});
+    print("5");
 
     _firestore.set({
       'date': DateTime.now(),
@@ -471,7 +511,9 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'cAddress': profile.address,
       'otp': otp
     });
-    return await showDialog(
+    print("1");
+
+    await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('Payment Successful.'),
@@ -489,12 +531,15 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   @override
   void initState() {
-    auth.getProfile().then((value) {
+    getCurrentDate();
+    auth.getProfile().whenComplete(() {
       profile = auth.profile;
       setState(() {
+        _firestore1 = FirebaseFirestore.instance
+            .collection("userOrders")
+            .doc(profile.userId);
         isLoading = false;
-        time =
-            DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
+        time = DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
         otp = int.parse(time);
       });
     });
@@ -510,7 +555,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_live_LAc1m0adUgWrmv',
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
       'amount': widget.vendorPrice * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +
@@ -565,7 +610,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 2, horizontal: 8),
                         child: Text(
-                          widget.vendorName + "  OTP: "+otp.toString(),
+                          widget.vendorName + "  OTP: " + otp.toString(),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),

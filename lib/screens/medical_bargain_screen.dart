@@ -576,7 +576,7 @@ class _MedicalBargainScreenState extends State<MedicalBargainScreen> {
                                                             CupertinoPageRoute(
                                                                 builder: (context) =>
                                                                     PrePayment(
-                                                                        total: snapshot
+                                                                        type: "Medical",total: snapshot
                                                                             .data
                                                                             .data()['vPrice'])));
                                                       } else {

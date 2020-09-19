@@ -14,8 +14,9 @@ class PrePayment extends StatefulWidget {
   final int total;
   final items;
   final int drate;
+  final String type;
 
-  const PrePayment({this.total, this.items,this.drate});
+  const PrePayment({this.total, this.items,this.drate,this.type});
 
   @override
   _PrePaymentState createState() => _PrePaymentState();

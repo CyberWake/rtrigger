@@ -116,7 +116,7 @@ class _SaloonVendorListScreenState extends State<SaloonVendorListScreen> {
             return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  if (snapshot.data[index]['distance'] < 10) {
+                  if (snapshot.data[index]['distance'] <= 10) {
                     return SaloonVendorListTile(
                         category: widget.category,
                         vendorName: snapshot.data[index]['name'],
