@@ -13,8 +13,9 @@ import 'package:user/models/profile.dart';
 class PrePayment extends StatefulWidget {
   final int total;
   final items;
+  final int drate;
 
-  const PrePayment({this.total, this.items});
+  const PrePayment({this.total, this.items,this.drate});
 
   @override
   _PrePaymentState createState() => _PrePaymentState();
@@ -95,12 +96,15 @@ class _PrePaymentState extends State<PrePayment> {
         'address': address,
         'city': city,
         'state': state,
+        'date':"",
+        'paid':"no",
         'id': _orderNo.toString(),
         'cid': profile.userId,
         'cphone': phoneno,
         'customer': profile.username,
         'otp1': otp1,
         'otp2': otp2,
+        'dprice':widget.drate,
         'type': 'New Order',
         'item': widget.items[i]['name'],
         'price': widget.items[i]['price'],
