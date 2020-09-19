@@ -37,7 +37,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   DocumentReference _firestore;
   final _orderId = Math.Random().nextInt(1000000000);
   String finalDate = '';
-  var otp;
+  var otp = 111111;
   var time;
 
   getCurrentDate() {
@@ -49,154 +49,166 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: UniversalAppBar(context, false, 'Confirm Appointment'),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: _firestore.snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingBar();
-          } else {
-            final extractedDateTime =
-                (snapshot.data.data()['cDate'] as Timestamp).toDate();
-            final customerDateTime =
-                DateFormat.yMMMEd().add_jm().format(extractedDateTime);
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+            appBar: UniversalAppBar(context, false, 'Confirm Appointment'),
+            body: StreamBuilder<DocumentSnapshot>(
+              stream: _firestore.snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingBar();
+                } else {
+                  final extractedDateTime =
+                      (snapshot.data.data()['cDate'] as Timestamp).toDate();
+                  final customerDateTime =
+                      DateFormat.yMMMEd().add_jm().format(extractedDateTime);
 
-            return SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 18,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 8),
-                            child: Text(
-                              snapshot.data.data()['name'].toString(),
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 8),
-                            child: Text(
-                              snapshot.data.data()['location'] == null
-                                  ? 'Unknown'
-                                  : snapshot.data.data()['location'],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
+                  return SingleChildScrollView(
+                    child: Container(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          elevation: 18,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Order ID : ${snapshot.data.data()['orderID']}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Text(
-                              'Price : ${snapshot.data.data()['price']} Rs',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Text(
-                              'Service : ${snapshot.data.data()['service']}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Text(
-                              'Your Date and Time : $customerDateTime',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Text(
-                              snapshot.data.data()['vDate'] ==
-                                      'Waiting For Response'
-                                  ? '${snapshot.data.data()['name'].toString()} Time : Waiting For Response'
-                                  : '${snapshot.data.data()['name'].toString()} Time : ${DateFormat.yMMMEd().add_jm().format((snapshot.data.data()['vDate'] as Timestamp).toDate())}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                MaterialButton(
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    await _firestore
-                                        .update({'status': 'Closed'});
-                                  },
-                                  child: Text('Cancel'),
-                                  color: Colors.blueGrey,
-                                  textColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 8),
+                                  child: Text(
+                                    snapshot.data.data()['name'].toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                MaterialButton(
-                                  onPressed: snapshot.data.data()['vDate'] ==
-                                          'Waiting For Response'
-                                      ? null
-                                      : () async {
-                                           makePayment();
-                                        },
-                                  child: Text('Accept'),
-                                  color: Colors.blueGrey,
-                                  textColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 8),
+                                  child: Text(
+                                    snapshot.data.data()['location'] == null
+                                        ? 'Unknown'
+                                        : snapshot.data.data()['location'],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black54),
                                   ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Order ID : ${snapshot.data.data()['orderID']}',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    'Price : ${snapshot.data.data()['price']} Rs',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    'Service : ${snapshot.data.data()['service']}',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    'Your Date and Time : $customerDateTime',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    snapshot.data.data()['vDate'] ==
+                                            'Waiting For Response'
+                                        ? '${snapshot.data.data()['name'].toString()} Time : Waiting For Response'
+                                        : '${snapshot.data.data()['name'].toString()} Time : ${DateFormat.yMMMEd().add_jm().format((snapshot.data.data()['vDate'] as Timestamp).toDate())}',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pop();
+                                          await _firestore
+                                              .update({'status': 'Closed'});
+                                        },
+                                        child: Text('Cancel'),
+                                        color: Colors.blueGrey,
+                                        textColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                        ),
+                                      ),
+                                      MaterialButton(
+                                        onPressed:
+                                            snapshot.data.data()['vDate'] ==
+                                                    'Waiting For Response'
+                                                ? null
+                                                : () async {
+                                                    makePayment();
+                                                  },
+                                        child: Text('Accept'),
+                                        color: Colors.blueGrey,
+                                        textColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  'Status - ${snapshot.data.data()['status']}',
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                           ),
-                          Text(
-                            'Status - ${snapshot.data.data()['status']}',
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            );
-          }
-        },
-      ),
-    );
+                  );
+                }
+              },
+            ),
+          );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
-     await showDialog(
+    await showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('An Error occured!'),
@@ -222,7 +234,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
         .get();
     print("2");
     List<dynamic> userOrders =
-    userorders.data()["orders"] != null ? userorders.data()["orders"] : [];
+        userorders.data()["orders"] != null ? userorders.data()["orders"] : [];
     print(userOrders);
     print("3");
 
@@ -247,7 +259,6 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
 
     await _firestore1.set({"orders": userOrders});
     print("5");
-
 
     await showDialog(
         context: context,
@@ -279,40 +290,41 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
         otp = int.parse(time);
         isLoading = false;
       });
+      String category;
+
+      if (widget.category == Cards.male)
+        category = 'Male';
+      else if (widget.category == Cards.female)
+        category = 'Female';
+      else if (widget.category == Cards.unisex)
+        category = 'Unisex';
+      else if (widget.category == Cards.spa) category = 'Spa';
+
+      _firestore = FirebaseFirestore.instance
+          .collection(_collectionName)
+          .doc(widget.uid);
+      _firestore.set({
+        'name': widget.name,
+        'service': widget.service,
+        'location': widget.location,
+        'price': widget.price,
+        'cDate': widget.dateTime,
+        'otp': otp,
+        'orderID': _orderId,
+        'status': 'Open',
+        'vDate': 'Waiting For Response',
+        'category': category,
+        'cname': username,
+        'phone': number,
+      });
     });
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
-    String category;
-
-    if (widget.category == Cards.male)
-      category = 'Male';
-    else if (widget.category == Cards.female)
-      category = 'Female';
-    else if (widget.category == Cards.unisex)
-      category = 'Unisex';
-    else if (widget.category == Cards.spa) category = 'Spa';
-
-    _firestore =
-        FirebaseFirestore.instance.collection(_collectionName).doc(widget.uid);
-    _firestore.set({
-      'name': widget.name,
-      'service': widget.service,
-      'location': widget.location,
-      'price': widget.price,
-      'cDate': widget.dateTime,
-      'otp': otp,
-      'orderID': _orderId,
-      'status': 'Open',
-      'vDate': 'Waiting For Response',
-      'category': category,
-      'cname': username,
-      'phone': number,
-    });
   }
+
 //rzp_live_LAc1m0adUgWrmv
   Future<void> makePayment() async {
     var options = {
