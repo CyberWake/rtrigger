@@ -20,23 +20,24 @@ class _FoodItemsState extends State<FoodItems> {
 
   @override
   void initState() {
-    setState((){
-      isLoaded=false;
+    setState(() {
+      isLoaded = false;
     });
-    getFoodItems().whenComplete((){
-      setState((){
-      isLoaded=true;
+    getFoodItems().whenComplete(() {
+      setState(() {
+        isLoaded = true;
       });
     });
     super.initState();
-    }
+  }
 
   Future<void> getFoodItems() async {
     print("Fetching");
-    var fetchedData = await foodFetching.getFood(widget.index);
-    setState(() {
-      items = fetchedData;
+    var fetchedData = await foodFetching.getFood(widget.index).then((value) {
+      setState(() {
+        items = value;
       });
+    });
   }
 
   @override
@@ -48,7 +49,7 @@ class _FoodItemsState extends State<FoodItems> {
             ? Container(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    if(items[index]["distance"]<=10){
+                    if (items[index]["distance"] <= 10) {
                       return FoodItemCard(
                         image: items[index]["img"],
                         time: items[index]["prep"],

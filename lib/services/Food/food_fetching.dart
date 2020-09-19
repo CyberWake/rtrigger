@@ -6,30 +6,42 @@ class FoodFetching {
 
   Future<List<dynamic>> getFood(int index) async {
     List<dynamic> items = [];
+    print(index);
     var allCollection = await _firestore.collection("vendorMenu").get();
-    for (var document in allCollection.docs) {
-      if(document.data()["combos"][0]["type"] == 0 && index<14){
-      if (document.data()["combos"][index]["type"] == index) {
-        var category = document.data()["combos"][index]["items"];
-        if (category.length != 0) {
-          for (var eachItem in category) {
-            var distanceInMetre =
-                await getDistance(eachItem["lat"], eachItem["long"]);
-            var distance = distanceInMetre / 1000;
-            print(eachItem);
-            eachItem["distance"] = distance.toInt();
-            if (distance <= 10) {
-              items.add(eachItem);
-            }
-          }
-        }
-      }else{
-        if (document.data()["combos"][index-15]["type"] == index) {
-          var category = document.data()["combos"][index-15]["items"];
+    for (int i = 0; i < allCollection.docs.length; i++) {
+      print(allCollection.docs[i].id);
+      if (index < 14) {
+        print(allCollection.docs[i].id);
+        if (allCollection.docs[i].data()["combos"][index]["type"] == index) {
+          var category = allCollection.docs[i].data()["combos"][index]["items"];
           if (category.length != 0) {
             for (var eachItem in category) {
               var distanceInMetre =
-              await getDistance(eachItem["lat"], eachItem["long"]);
+                  await getDistance(eachItem["lat"], eachItem["long"]);
+              var distance = distanceInMetre / 1000;
+              print(eachItem);
+              eachItem["distance"] = distance.toInt();
+              if (distance <= 10) {
+                items.add(eachItem);
+              }
+            }
+          }
+        }
+      } else {
+        print("else");
+        print(allCollection.docs[i].data()["combos"][index - 15]["type"]);
+        if (allCollection.docs[i].data()["combos"][index - 15]["type"] ==
+            index) {
+          print("1");
+          print(allCollection.docs[i].id);
+          List<dynamic> category =
+              allCollection.docs[i].data()["combos"][index - 15]["items"];
+          print(category);
+          if (category.length != 0) {
+            for (var eachItem in category) {
+              print("2");
+              var distanceInMetre =
+                  await getDistance(eachItem["lat"], eachItem["long"]);
               var distance = distanceInMetre / 1000;
               print(eachItem);
               eachItem["distance"] = distance.toInt();
@@ -41,13 +53,13 @@ class FoodFetching {
         }
       }
     }
-    }
-    print(items);
-    if (items.length != 0) {
-      return items;
-    } else {
-      return [];
-    }
+      print(items);
+      if (items.length != 0) {
+        return items;
+      } else {
+        return [];
+      }
+
   }
 
   Future<double> getDistance(latitude, longitude) async {
