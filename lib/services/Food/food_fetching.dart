@@ -11,18 +11,21 @@ class FoodFetching {
     for (int i = 0; i < allCollection.docs.length; i++) {
       print(allCollection.docs[i].id);
       if (index < 14) {
-        print(allCollection.docs[i].id);
-        if (allCollection.docs[i].data()["combos"][index]["type"] == index) {
-          var category = allCollection.docs[i].data()["combos"][index]["items"];
-          if (category.length != 0) {
-            for (var eachItem in category) {
-              var distanceInMetre =
-                  await getDistance(eachItem["lat"], eachItem["long"]);
-              var distance = distanceInMetre / 1000;
-              print(eachItem);
-              eachItem["distance"] = distance.toInt();
-              if (distance <= 10) {
-                items.add(eachItem);
+        if (allCollection.docs[i].data()["combos"][0]["type"] == 0) {
+          print(allCollection.docs[i].id);
+          if (allCollection.docs[i].data()["combos"][index]["type"] == index) {
+            var category =
+                allCollection.docs[i].data()["combos"][index]["items"];
+            if (category.length != 0) {
+              for (var eachItem in category) {
+                var distanceInMetre =
+                    await getDistance(eachItem["lat"], eachItem["long"]);
+                var distance = distanceInMetre / 1000;
+                print(eachItem);
+                eachItem["distance"] = distance.toInt();
+                if (distance <= 10) {
+                  items.add(eachItem);
+                }
               }
             }
           }
@@ -53,13 +56,12 @@ class FoodFetching {
         }
       }
     }
-      print(items);
-      if (items.length != 0) {
-        return items;
-      } else {
-        return [];
-      }
-
+    print(items);
+    if (items.length != 0) {
+      return items;
+    } else {
+      return [];
+    }
   }
 
   Future<double> getDistance(latitude, longitude) async {
