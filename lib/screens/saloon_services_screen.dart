@@ -9,6 +9,7 @@ class SaloonServicesScreen extends StatelessWidget {
   final String uid;
   final String location;
   final String vendorName;
+
   SaloonServicesScreen(
       this.services, this.category, this.uid, this.location, this.vendorName);
 

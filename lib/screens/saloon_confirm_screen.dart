@@ -31,6 +31,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   DocumentReference _firestore1;
   Razorpay _razorpay;
   String username;
+  String userid;
   int number;
   bool isLoading = true;
   final _collectionName = 'vendorSaloonTemp';
@@ -39,12 +40,13 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
   String finalDate = '';
   var otp = 111111;
   var time;
+  String fixedDate;
 
-  getCurrentDate() {
-    var date = widget.dateTime.toString();
+  String getCurrentDate(DateTime dateTime) {
+    var date = dateTime.toString();
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
-    finalDate = formattedDate.toString();
+    return formattedDate.toString();
   }
 
   @override
@@ -63,6 +65,13 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
                       (snapshot.data.data()['cDate'] as Timestamp).toDate();
                   final customerDateTime =
                       DateFormat.yMMMEd().add_jm().format(extractedDateTime);
+
+                  fixedDate =
+                      snapshot.data.data()['vDate'] == 'Waiting For Response'
+                          ? getCurrentDate(widget.dateTime)
+                          : getCurrentDate(
+                              (snapshot.data.data()['vDate'] as Timestamp)
+                                  .toDate());
 
                   return SingleChildScrollView(
                     child: Container(
@@ -159,7 +168,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
                                     children: [
                                       MaterialButton(
                                         onPressed: () async {
-                                          Navigator.of(context).pop();
+                                          //Navigator.of(context).pop();
                                           await _firestore
                                               .update({'status': 'Closed'});
                                         },
@@ -177,7 +186,14 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
                                                     'Waiting For Response'
                                                 ? null
                                                 : () async {
-                                                    makePayment();
+                                                    makePayment()
+                                                        .whenComplete(() async {
+                                                      await _firestore.update({
+                                                        'cDate': snapshot.data
+                                                                .data()['vDate']
+                                                            as Timestamp
+                                                      });
+                                                    });
                                                   },
                                         child: Text('Accept'),
                                         color: Colors.blueGrey,
@@ -244,7 +260,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'image': "",
       'id': _orderId.toString(),
       'cid': profile.userId,
-      'date': finalDate,
+      'date': fixedDate,
       'customer': profile.username,
       'status': "Booked",
       'otp1': otp,
@@ -283,6 +299,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       setState(() {
         username = profile.username;
         number = profile.phone;
+        userid =profile.userId;
         _firestore1 = FirebaseFirestore.instance
             .collection("userOrders")
             .doc(profile.userId);
@@ -304,6 +321,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
           .collection(_collectionName)
           .doc(widget.uid);
       _firestore.set({
+        'cid':userid,
         'name': widget.name,
         'service': widget.service,
         'location': widget.location,
