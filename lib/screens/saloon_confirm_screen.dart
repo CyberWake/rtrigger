@@ -262,7 +262,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       'cid': profile.userId,
       'date': fixedDate,
       'customer': profile.username,
-      'status': "Booked",
+      'status': "Successful",
       'otp1': otp,
       'otp2': otp,
       'productID': _orderId.toString(),
@@ -299,7 +299,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
       setState(() {
         username = profile.username;
         number = profile.phone;
-        userid =profile.userId;
+        userid = profile.userId;
         _firestore1 = FirebaseFirestore.instance
             .collection("userOrders")
             .doc(profile.userId);
@@ -321,7 +321,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
           .collection(_collectionName)
           .doc(widget.uid);
       _firestore.set({
-        'cid':userid,
+        'cid': userid,
         'name': widget.name,
         'service': widget.service,
         'location': widget.location,
@@ -343,10 +343,10 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-//rzp_live_LAc1m0adUgWrmv
+//rzp_test_Fs6iRWL4ppk5ng
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.price * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +

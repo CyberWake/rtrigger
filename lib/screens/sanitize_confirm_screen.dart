@@ -483,7 +483,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
       'cid': profile.userId,
       'date': finalDate,
       'customer': profile.username,
-      'status': "Sent",
+      'status': "Successful",
       'otp1': otp,
       'otp2': otp,
       'productID': _orderId.toString(),
@@ -552,10 +552,10 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-
+//rzp_test_Fs6iRWL4ppk5ng
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.vendorPrice * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +
