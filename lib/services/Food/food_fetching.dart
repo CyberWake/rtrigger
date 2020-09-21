@@ -18,13 +18,15 @@ class FoodFetching {
                 allCollection.docs[i].data()["combos"][index]["items"];
             if (category.length != 0) {
               for (var eachItem in category) {
-                var distanceInMetre =
-                    await getDistance(eachItem["lat"], eachItem["long"]);
-                var distance = distanceInMetre / 1000;
-                print(eachItem);
-                eachItem["distance"] = distance.toInt();
-                if (distance <= 10) {
-                  items.add(eachItem);
+                if (eachItem["available"]) {
+                  var distanceInMetre =
+                      await getDistance(eachItem["lat"], eachItem["long"]);
+                  var distance = distanceInMetre / 1000;
+                  print(eachItem);
+                  eachItem["distance"] = distance.toInt();
+                  if (distance <= 10) {
+                    items.add(eachItem);
+                  }
                 }
               }
             }
@@ -43,13 +45,15 @@ class FoodFetching {
           if (category.length != 0) {
             for (var eachItem in category) {
               print("2");
-              var distanceInMetre =
-                  await getDistance(eachItem["lat"], eachItem["long"]);
-              var distance = distanceInMetre / 1000;
-              print(eachItem);
-              eachItem["distance"] = distance.toInt();
-              if (distance <= 10) {
-                items.add(eachItem);
+              if (eachItem["available"]) {
+                var distanceInMetre =
+                    await getDistance(eachItem["lat"], eachItem["long"]);
+                var distance = distanceInMetre / 1000;
+                print(eachItem);
+                eachItem["distance"] = distance.toInt();
+                if (distance <= 10) {
+                  items.add(eachItem);
+                }
               }
             }
           }

@@ -256,7 +256,7 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
 
     userOrders.insert(0, {
       'vendor': widget.name,
-      'distance': 2,
+      'distance': 0,
       'image': "",
       'id': _orderId.toString(),
       'cid': profile.userId,

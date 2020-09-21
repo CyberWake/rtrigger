@@ -477,7 +477,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
     userOrders.insert(0, {
       'vendor': widget.vendorName,
-      'distance': 2,
+      'distance': 0,
       'image': "",
       'id': _orderId.toString(),
       'cid': profile.userId,

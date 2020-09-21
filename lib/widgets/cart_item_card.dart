@@ -77,10 +77,15 @@ class _CartItemCardState extends State<CartItemCard> {
                         fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
-                  Text(
-                    "Rs. ${widget.price} | ${widget.distance} KM",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
-                  ),
+                  widget.distance != 0
+                      ? Text(
+                          "₹ ${widget.price} | ${widget.distance} KM",
+                          style: TextStyle(color: Colors.green, fontSize: 16),
+                        )
+                      : Text(
+                          "₹ ${widget.price}",
+                          style: TextStyle(color: Colors.green, fontSize: 16),
+                        ),
                   widget.type == "Cart"
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
