@@ -93,7 +93,7 @@ class CustomGridTile extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(loc), fit:type == CardType.Home
-                          ?BoxFit.cover:BoxFit.cover)),
+                          ?BoxFit.fitHeight:BoxFit.fitHeight)),
                 ),
               ),
               Expanded(
