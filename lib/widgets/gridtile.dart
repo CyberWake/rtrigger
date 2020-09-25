@@ -23,31 +23,6 @@ class CustomGridTile extends StatelessWidget {
 
   CustomGridTile({this.title, this.loc, this.card, this.type});
 
-  /*getNextScreen() {
-    switch (type) {
-      case CardType.Medicine:
-        return MedicineScreen();
-        break;
-      case CardType.Food:
-        return FoodScreen();
-        break;
-      case CardType.Liqour:
-        return LiquorScreen();
-        break;
-      case CardType.Sanitizer:if(card==Cards.sanitize||card==Cards.mosquito||card==Cards.cockroach){
-                                return SaloonVendorListScreen(card);
-                              }
-                              return SaloonScreen();
-                              break;
-      case CardType.Saloon:if(card==Cards.male||card==Cards.male||card==Cards.male){
-                              return SanitizeVendorListScreen(card);
-                            }
-                            return SaloonScreen();
-
-        break;
-
-    }
-  }*/
   getNextScreen() {
     switch (type) {
       case CardType.Sanitizer:
@@ -91,6 +66,9 @@ class CustomGridTile extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Card(
       elevation: 20,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+      ),
       child: InkWell(
         onTap: () {
           Navigator.of(context)
@@ -106,16 +84,16 @@ class CustomGridTile extends StatelessWidget {
                     ?11:15,
                 child: Container(
                   height: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4
+                      ? MediaQuery.of(context).size.width / 4.2
                       : MediaQuery.of(context).size.width / 3.4,
                   width: type == CardType.Home
-                      ? MediaQuery.of(context).size.width / 4
+                      ? MediaQuery.of(context).size.width / 4.2
                       : MediaQuery.of(context).size.width / 3.4,
                   margin: EdgeInsets.only(bottom: 5),
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(loc), fit:type == CardType.Home
-                          ?BoxFit.fill:BoxFit.fill)),
+                          ?BoxFit.cover:BoxFit.cover)),
                 ),
               ),
               Expanded(
