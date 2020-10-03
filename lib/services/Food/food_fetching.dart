@@ -24,6 +24,7 @@ class FoodFetching {
                   var distance = distanceInMetre / 1000;
                   print(eachItem);
                   eachItem["distance"] = distance.toInt();
+                  print(distance);
                   if (distance <= 10) {
                     items.add(eachItem);
                   }

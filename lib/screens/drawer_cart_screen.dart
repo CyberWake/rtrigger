@@ -104,15 +104,19 @@ class _FoodCartState extends State<FoodCart> {
     // totalPay => Payable amount
     totalCart = 0;
     totalDelivery = 0;
-    print("calculating Total");
-
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
-        print(_perKmCharge);
         totalCart =
             totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
-        totalDelivery = totalDelivery + cartItems[i]["distance"] * _perKmCharge;
+        totalDelivery = totalDelivery +
+           ( cartItems[i]["distance"] == 0
+            ? 1
+            : cartItems[i]["distance"] )
+            * _perKmCharge;
       });
+    }
+    if(totalDelivery == 0){
+      totalDelivery = _perKmCharge;
     }
     totalPay = totalCart + totalDelivery;
   }

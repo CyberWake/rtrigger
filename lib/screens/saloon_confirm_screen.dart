@@ -342,11 +342,11 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-
-//rzp_test_Fs6iRWL4ppk5ng
+//test key: rzp_test_Fs6iRWL4ppk5ng
+//run key:  rzp_live_LAc1m0adUgWrmv
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_live_LAc1m0adUgWrmv',
+      'key': 'rzp_test_Fs6iRWL4ppk5ng',
       'amount': widget.price * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +
