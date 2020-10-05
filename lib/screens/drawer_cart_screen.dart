@@ -34,12 +34,13 @@ class _FoodCartState extends State<FoodCart> {
 
   @override
   void initState() {
-    getPerKmCharge();
-    getCartData();
-    auth.getProfile().whenComplete(() {
-      profile = auth.profile;
-      setState(() {
-        isLoading = false;
+    getPerKmCharge().whenComplete(() {
+      getCartData();
+      auth.getProfile().whenComplete(() {
+        profile = auth.profile;
+        setState(() {
+          isLoading = false;
+        });
       });
     });
     super.initState();
@@ -104,19 +105,19 @@ class _FoodCartState extends State<FoodCart> {
     // totalPay => Payable amount
     totalCart = 0;
     totalDelivery = 0;
+    print("Charges");
+    print(_perKmCharge);
     for (int i = 0; i < cartItems.length; i++) {
       setState(() {
         totalCart =
             totalCart + cartItems[i]["price"] * cartItems[i]["quantity"];
         totalDelivery = totalDelivery +
-           ( cartItems[i]["distance"] == 0
-            ? 1
-            : cartItems[i]["distance"] )
-            * _perKmCharge;
+            (cartItems[i]["distance"] == 0 ? 1 : cartItems[i]["distance"]) *
+                _perKmCharge;
       });
     }
-    if(totalDelivery == 0){
-      totalDelivery = _perKmCharge;
+    if (totalDelivery == 0) {
+      totalDelivery = (cartItems.length == 0 ? 0 : 1) * _perKmCharge;
     }
     totalPay = totalCart + totalDelivery;
   }
@@ -228,8 +229,11 @@ class _FoodCartState extends State<FoodCart> {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) =>
-                          PrePayment(total: totalPay, items: cartItems,drate: totalDelivery,)));
+                      builder: (context) => PrePayment(
+                            total: totalPay,
+                            items: cartItems,
+                            drate: totalDelivery,
+                          )));
             },
             //Implement Route To Payment Here
             label: Column(
