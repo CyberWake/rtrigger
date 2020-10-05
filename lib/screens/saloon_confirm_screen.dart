@@ -1,3 +1,5 @@
+import 'dart:math' as Math;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +9,6 @@ import 'package:user/models/categories_enum.dart';
 import 'package:user/models/profile.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
 import 'package:user/widgets/loading_bar.dart';
-import 'dart:math' as Math;
 
 class SaloonConfirmScreen extends StatefulWidget {
   final String name;
@@ -342,11 +343,12 @@ class _SaloonConfirmScreenState extends State<SaloonConfirmScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
+
 //test key: rzp_test_Fs6iRWL4ppk5ng
 //run key:  rzp_live_LAc1m0adUgWrmv
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.price * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +

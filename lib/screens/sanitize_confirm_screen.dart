@@ -1,3 +1,5 @@
+import 'dart:math' as Math;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +7,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user/auth/auth.dart';
 import 'package:user/models/categories_enum.dart';
 import 'package:user/models/profile.dart';
-import 'package:user/screens/prepayment_screen.dart';
 import 'package:user/widgets/appbar_subcategory_screens.dart';
-import 'dart:math' as Math;
-
-import 'package:user/widgets/loading_bar.dart';
 
 class SanitizeConfirmScreen extends StatefulWidget {
   final String uid;
@@ -182,7 +180,7 @@ class _SanitizeConfirmScreenState extends State<SanitizeConfirmScreen> {
 
   Future<void> makePayment() async {
     var options = {
-      'key': 'rzp_test_Fs6iRWL4ppk5ng',
+      'key': 'rzp_live_LAc1m0adUgWrmv',
       'amount': widget.vendorPrice * 100, //in paise so * 100
       'name': 'Rtiggers',
       'description': 'Order Payment for id - ' +

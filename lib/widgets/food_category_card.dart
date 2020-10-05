@@ -26,8 +26,19 @@ class FoodCategoryCard extends StatelessWidget {
           }));
         }
       },
-      child: Card(
-        elevation: 10,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              offset: Offset(0.0, 10.0), //(x,y)
+              blurRadius: 10.0,
+            ),
+          ],
+        ),
         child: index == 14
             ? Center(
                 child: Text(foodName,
